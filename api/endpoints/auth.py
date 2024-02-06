@@ -15,17 +15,65 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60
 fake_users_db = {
     'alice': {
         'username': 'alice',
-        'configs': {
-            'testserver': {
-                'name': 'testserver',
-                'channels': {
-                    'Server Information': [ {'name': 'Announcements'} ],
-                    'General': [ {'name': 'Chat'}, {'name': 'Photos'} ],
+        'configs': [{
+            'name': 'MyServer',
+            'id': 123055866,
+            'roles': [
+                {
+                    'name': 'role1',
+                    'id': 1000000022,
+                    'display_separately': True,
+                    'allow_mention': False,
+                    'permissions': {
+                        'roleperm1': True,
+                        'roleperm2': False
+                    }
                 },
-            }
-        },
+                {
+                    'name': 'role2',
+                    'id': 1000023022,
+                    'display_separately': False,
+                    'allow_mention': True,
+                    'permissions': {}
+                },
+                {
+                    'name': 'role3',
+                    'id': None,
+                    'display_separately': False,
+                    'allow_mention': False,
+                    'permissions': {}
+                }
+            ],
+            'categories': [
+                {
+                    'name': 'MyCategory',
+                    'id': 1000000000,
+                    'permissions': {
+                        'perm1': { 'role1': True, 'role3': False }
+                    },
+                    'text_channels': [
+                    {
+                        'name': 'MyTextChannel',
+                        'id': None,
+                        'permissions': {
+                            'perm1': { 'role2': False, 'role3': True }
+                        }
+                    }
+                    ],
+                    'voice_channels': [
+                    {
+                        'name': 'MyVoiceChannel',
+                        'id': 1111111111,
+                        'permissions': {
+                            'perm2': { 'role2': True, 'role3': False }
+                        }
+                    }
+                    ]
+                }
+            ]
+        }],
         'hashed_password': '$2a$12$AVr5uFxaUKTHn4UyqJBsGu2luHwgnVM0nhOaMQqP9Bs/DQblbrmYG',  # password1
-    },
+    }
 }
 
 pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
@@ -40,14 +88,14 @@ def verify_password(plain_password, hashed_password) -> bool:
 def get_password_hash(password) -> str:
     return pwd_context.hash(password)
 
-def get_user(db, username: str) -> models.UserInDB | None:
+def get_user_from_db(db, username: str) -> models.UserInDB | None:
     if username in db:
         user_dict = db[username]
         return models.UserInDB(**user_dict)
     return None
 
 def authenticate_user(fake_db, username: str, password: str) -> models.User | None:
-    user = get_user(fake_db, username)
+    user = get_user_from_db(fake_db, username)
     if not user:
         return None
     if not verify_password(password, user.hashed_password):
@@ -65,7 +113,13 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
     return encoded_jwt
 
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]) -> models.UserInDB:
+async def get_current_user_from_db(
+    token: Annotated[str, Depends(oauth2_scheme)]
+) -> models.UserInDB:
+    '''
+    Don't use this function directly, because it includes DB data
+    (i.e. the hashed password). Instead, use `get_current_user`.
+    '''
     unauthorized_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail='Invalid token',
@@ -80,14 +134,18 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]) -> mod
         token_data = models.TokenData(username=str(username))
     except JWTError:
         raise unauthorized_exception
-    user = get_user(fake_users_db, username=str(token_data.username))
+
+    user = get_user_from_db(fake_users_db, username=str(token_data.username))
     if user is None:
         raise unauthorized_exception
     return user
 
-async def get_current_active_user(
-    current_user: Annotated[models.User, Depends(get_current_user)]
+async def get_current_user(
+    current_user: Annotated[models.User, Depends(get_current_user_from_db)]
 ) -> models.User:
+    '''
+    Returns the current user based on the oauth token as a `models.User`.
+    '''
     return current_user
 
 async def get_token(username: str, password: str) -> models.Token:
@@ -128,8 +186,8 @@ async def signup(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> 
             detail=f'User `{username}` already exists',
         )
     hashed_password = get_password_hash(password)
-    fake_users_db[username] = {
+    fake_users_db[username] = models.UserInDB(**{
         'username': username,
         'hashed_password': hashed_password,
-    }
+    }).model_dump()
     return await get_token(username, password)

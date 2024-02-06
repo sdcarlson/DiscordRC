@@ -1,0 +1,57 @@
+{
+    "name": "MyServer",
+    "id": 123055866,
+    "roles": [
+      {
+        "name": "role1",
+        "id": 1000000022,
+        "display_separately": true,
+        "allow_mention": false,
+        "permissions": {
+          "roleperm1": true,
+          "roleperm2": false
+        }
+      },
+      {
+        "name": "role2",
+        "id": 1000023022,
+        "display_separately": false,
+        "allow_mention": true,
+        "permissions": {}
+      },
+      {
+        "name": "role3",
+        "id": null,
+        "display_separately": false,
+        "allow_mention": false,
+        "permissions": {}
+      }
+    ],
+    "categories": [
+      {
+        "name": "MyCategory",
+        "id": 1000000000,
+        "permissions": {
+          "perm1": { "role1": true, "role3": false }
+        },
+        "text_channels": [
+          {
+            "name": "MyTextChannel",
+            "id": null,
+            "permissions": {
+              "perm1": { "role2": false, "role3": true }
+            }
+          }
+        ],
+        "voice_channels": [
+          {
+            "name": "MyVoiceChannel",
+            "id": 1111111111,
+            "permissions": {
+              "perm2": { "role2": true, "role3": false }
+            }
+          }
+        ]
+      }
+    ]
+  }

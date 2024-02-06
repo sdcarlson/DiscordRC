@@ -1,20 +1,48 @@
 from pydantic import BaseModel
 
-# Pydantic models
+
+### Server Config Models #######################################################
 
 class Channel(BaseModel):
     '''
-    A single text channel. Later, we might need to store info about roles, etc.
+    A single text or voice channel. Each element of `permissions` maps a
+    permission name to a dict of roles => bool.
     '''
     name: str
+    id: int | None = None
+    permissions: dict[str, dict[str, bool]] = dict()
+
+class Category(BaseModel):
+    '''
+    A group of channels, with some permissions that the channels might inherit.
+    '''
+    name: str
+    id: int | None = None
+    permissions: dict[str, dict[str, bool]] = dict()
+    text_channels: list[Channel] = list()
+    voice_channels: list[Channel] = list()
+
+class Role(BaseModel):
+    '''
+    A role for a server. Has some settings and permissions.
+    '''
+    name: str
+    id: int | None = None
+    display_separately: bool = False
+    allow_mention: bool = False
+    permissions: dict[str, bool] = dict()
 
 class ServerConfig(BaseModel):
     '''
-    A configuration for a server. `channels` maps channel category names to
-    lists of channels.
+    A configuration for a single server.
     '''
     name: str
-    channels: dict[str, list[Channel]] = dict()
+    id: int | None = None
+    roles: list[Role] = list()
+    categories: list[Category] = list()
+
+
+### Authentication/User Models #################################################
 
 class Token(BaseModel):
     '''
@@ -28,14 +56,14 @@ class TokenData(BaseModel):
     The data to store in each jwt token. `username` is stored as `sub` in
     the token.
     '''
-    username: str | None = None
+    username: str | None
 
 class User(BaseModel):
     '''
     Data about a user. `configs` maps server names to `ServerConfig`s.
     '''
     username: str
-    configs: dict[str, ServerConfig] = dict()
+    configs: list[ServerConfig] = list()
 
 class UserInDB(User):
     '''
