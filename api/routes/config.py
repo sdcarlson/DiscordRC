@@ -9,7 +9,7 @@ router = APIRouter()
 
 ### CONFIG ENDPOINTS ###########################################################
 
-@router.get('/config/export', response_model=models.ServerConfig)
+@router.get('/export', response_model=models.ServerConfig)
 async def export_config(
     current_user: Annotated[models.User, Depends(get_current_user)],
     server_name: str
@@ -26,7 +26,7 @@ async def export_config(
         detail=f'User does not have server config `{server_name}`'
     )
 
-@router.post('/config/import')
+@router.post('/import')
 async def import_config(
     current_user: Annotated[models.User, Depends(get_current_user)],
     config: models.ServerConfig
