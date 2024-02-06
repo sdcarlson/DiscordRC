@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 
 import models
-from endpoints.auth import get_current_user
+from routes.auth import get_current_user
 
 router = APIRouter()
 

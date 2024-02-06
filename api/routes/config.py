@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 
 import models
-from endpoints.auth import get_current_user, fake_users_db
+from routes.auth import get_current_user, fake_users_db
 
 router = APIRouter()
 
