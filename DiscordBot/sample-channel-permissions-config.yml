@@ -1,0 +1,28 @@
+---
+# https://www.reddit.com/r/discordapp/comments/6kdme3/what_does_the_in_the_channel_permissions_do/
+text_channel:
+  general_permissions:
+    view_channel: true
+    manage_channel: true
+    manage_permissions: true
+    manage_webhooks: true
+  membership_permissions:
+    create_invite: true
+  text_channel_permissions:
+    send_messages: true
+    send_messages_in_threads: true
+    create_public_threads: true
+    create_private_threads: true
+    embed_links: true
+    attach_files: true
+    add_reactions: true
+    use_external_emoji: true
+    use_external_stickers: true
+    mention_all_roles: true
+    manage_messages: true
+    manage_threads: true
+    read_message_history: true
+    send_tts_messages: true
+    use_application_commands: true
+    send_voice_messages: true
+    use_activities: true
