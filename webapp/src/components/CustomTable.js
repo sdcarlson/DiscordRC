@@ -1,38 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Container, Stack, Button, Checkbox } from '@mui/material'
+import { useFormContext } from '../context/FormContext'
 import CustomTableRowDialog from './CustomTableRowDialog'
 
 const CustomTable = (props) => {
 
-  // ['name', 'display_separately', 'allow_mention', 'roleperm1', 'roleperm2']
-  const [rows, setRows] = useState([{
-    name: 'temp',
-    display_separately: 'False',
-    allow_mention: 'False',
-    roleperm1: 'True',
-    roleperm2: 'True'
-  }, {
-    name: 'temp2',
-    display_separately: 'True',
-    allow_mention: 'True',
-    roleperm1: 'True',
-    roleperm2: 'True'
-  }, {
-    name: 'temp3',
-    display_separately: 'True',
-    allow_mention: 'False',
-    roleperm1: 'False',
-    roleperm2: 'True'
-  }, {
-    name: 'temp4',
-    display_separately: 'True',
-    allow_mention: 'True',
-    roleperm1: 'True',
-    roleperm2: 'False'
-  }]) // FIXME: replace with []
+  const {
+    roleData,
+    setRoleData
+  } = useFormContext()
+
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    if (props.context === 'role')
+      setRows(roleData)
+  }, [])
+
+  useEffect(() => {
+    if (props.context === 'role')
+      setRoleData(rows);
+  }, [rows])
     
   const [checkbox, setCheckbox] = useState([])
   const [openAddDialog, setOpenAddDialog] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
 
   const handleParentCheckbox = (event) => {
     if (event.target.checked) 
@@ -58,10 +50,13 @@ const CustomTable = (props) => {
     <Container sx={{ padding: 5 }}>
       <CustomTableRowDialog rows={rows} setRows={setRows} open={openAddDialog} setOpen={setOpenAddDialog} 
         headings={props.headings} rownames={props.rownames} rowtypes={props.rowtypes} title='Add Role'/>
+      <CustomTableRowDialog rows={rows} setRows={setRows} open={openAddDialog} setOpen={setOpenAddDialog} 
+        headings={props.headings} rownames={props.rownames} rowtypes={props.rowtypes} title='Edit Role'/>
       <Stack spacing={5} direction="row" justifyContent="center">
         <Button variant="contained" style={{maxWidth: '175px', maxHeight: '40px', minWidth: '175px', minHeight: '40px'}} 
         onClick={()=>{setOpenAddDialog(true);}}>Add Row</Button>
-        <Button variant="contained" style={{maxWidth: '175px', maxHeight: '40px', minWidth: '175px', minHeight: '40px'}}>Edit Row</Button>
+        <Button variant="contained" style={{maxWidth: '175px', maxHeight: '40px', minWidth: '175px', minHeight: '40px'}} 
+        onClick={()=>{setOpenEditDialog(true);}}>Edit Row</Button>
         <Button variant="contained" style={{maxWidth: '175px', maxHeight: '40px', minWidth: '175px', minHeight: '40px'}} 
           onClick={deleteSelectedRow}>Delete Row(s)</Button>
       </Stack>
