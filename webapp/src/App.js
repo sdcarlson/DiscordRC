@@ -2,7 +2,7 @@ import React from 'react'
 import { FormProvider } from './context/FormContext'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from "@mui/material/CssBaseline";
-import Form from './Form'
+import Form from './components/Form';
 const theme = createTheme({
   palette: {
     background: {
