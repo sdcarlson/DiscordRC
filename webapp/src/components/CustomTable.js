@@ -24,7 +24,6 @@ const CustomTable = (props) => {
     
   const [checkbox, setCheckbox] = useState([])
   const [openAddDialog, setOpenAddDialog] = useState(false);
-  const [openEditDialog, setOpenEditDialog] = useState(false);
 
   const handleParentCheckbox = (event) => {
     if (event.target.checked) 
@@ -50,16 +49,6 @@ const CustomTable = (props) => {
     <Container sx={{ padding: 5 }}>
       <CustomTableRowDialog rows={rows} setRows={setRows} open={openAddDialog} setOpen={setOpenAddDialog} 
         headings={props.headings} rownames={props.rownames} rowtypes={props.rowtypes} title='Add Role'/>
-      <CustomTableRowDialog rows={rows} setRows={setRows} open={openAddDialog} setOpen={setOpenAddDialog} 
-        headings={props.headings} rownames={props.rownames} rowtypes={props.rowtypes} title='Edit Role'/>
-      <Stack spacing={5} direction="row" justifyContent="center">
-        <Button variant="contained" style={{maxWidth: '175px', maxHeight: '40px', minWidth: '175px', minHeight: '40px'}} 
-        onClick={()=>{setOpenAddDialog(true);}}>Add Row</Button>
-        <Button variant="contained" style={{maxWidth: '175px', maxHeight: '40px', minWidth: '175px', minHeight: '40px'}} 
-        onClick={()=>{setOpenEditDialog(true);}}>Edit Row</Button>
-        <Button variant="contained" style={{maxWidth: '175px', maxHeight: '40px', minWidth: '175px', minHeight: '40px'}} 
-          onClick={deleteSelectedRow}>Delete Row(s)</Button>
-      </Stack>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }}>
           <TableHead>
@@ -98,6 +87,14 @@ const CustomTable = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
+      <Container sx={{ paddingTop: 2.5 }}>
+        <Stack spacing={5} direction="row" justifyContent="center">
+          <Button variant="contained" style={{maxWidth: '175px', maxHeight: '40px', minWidth: '175px', minHeight: '40px'}} 
+          onClick={()=>{setOpenAddDialog(true);}}>Add Row</Button>
+          <Button variant="contained" style={{maxWidth: '175px', maxHeight: '40px', minWidth: '175px', minHeight: '40px'}} 
+            onClick={deleteSelectedRow}>Delete Row(s)</Button>
+        </Stack>
+      </Container>
     </Container>
   );
 }

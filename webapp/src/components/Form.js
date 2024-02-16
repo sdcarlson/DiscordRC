@@ -6,9 +6,9 @@ import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
 import CircleIcon from '@mui/icons-material/Circle';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
-import RolePage from './pages/RolePage';
-import TempPage from './pages/TempPage';
-import TempPage2 from './pages/TempPage2';
+import RolePage from '../pages/RolePage';
+import TempPage from '../pages/TempPage';
+import TempPage2 from '../pages/TempPage2';
 
 const Form = () => {
 
@@ -42,7 +42,7 @@ const Form = () => {
                         if (i == page)
                             return (<CircleIcon color="primary" fontSize="medium" />);
                         else
-                            return (<CircleOutlinedIcon color="primary" fontSize="small" />);
+                            return (<CircleOutlinedIcon color="primary" fontSize="small" onClick={()=>{setPage(i);}} />);
                     })}
                 </Stack>
                 <Stack sx={{ m: 2 }} spacing={5} direction="row" alignItems="center" justifyContent="center">
