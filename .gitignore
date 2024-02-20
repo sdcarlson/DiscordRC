@@ -2,3 +2,5 @@
 discord_bot.env
 main.py
 __pycache__
+.vscode/
+
