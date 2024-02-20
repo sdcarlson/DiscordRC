@@ -2,62 +2,44 @@ import os
 import threading
 
 import discord
-from discord.ext.commands import command, Cog, Bot, Context
+from discord.ext.commands import Bot
 import asyncio
-from typing import Optional
 
 # Discord bot token is stored in separate .env file
 
 NEW_GUILD_NAME = "new_guild"
 BOT_NAME = "RCBot"
 
-
-
-class OutsideCommunicationCog(Cog):
-    bot: Bot
-
-    def __init__(self, bot):
-        self.bot = bot
-
-    @command()
-    async def say(self, ctx: Optional[Context] = None):
-        print("SAY SAY SAY")
-        print(threading.get_ident())
-
-
 # TODO: should bot use sharding?
 class GuildCreatorBot(Bot):
-    # TODO: refactor this so it works with multiple guilds created at once
+    # TODO: refactor this so it works with multiple guilds created at once instead of assuming just one
 
+    def __init__(self, discord_interface, intents):
+        super().__init__(command_prefix="//", intents=intents)
+        self.discord_interface = discord_interface
 
     async def on_ready(self):
         print("Successfully logged in as " + str(self.user))
         print(threading.get_ident())
 
-        # if len(self.guilds) == 0:
-        #     if input("create a new guild? (input y for yes): ") == 'y':
-        #
-        #         print("creating a new guild!")
-        #         try:
-        #             await self.create_new_guild()
-        #         except discord.HTTPException:
-        #             # HTTPException will occur if guild creation fails, for example if the bot is in more than 10 guilds
-        #             pass
-        #         await self.create_new_invite()
-        #     else:
-        #         await self.close()
-        # else:
-        #     print("already created a guild.")
+        await self.leave_all_guilds()
 
-        # TODO: is the unclosed connector error OK?
-        # await self.close()
+        # This bot automatically creates a new guild when ran.
+        # TODO: should it initialize it in any basic way, or just use the other bot for that?
+        if not await self.create_new_guild():
+            await self.shut_down()
+        await self.create_new_invite()
+
+        # Connection will only be closed once user joins and ownership is handed over
 
 
     async def create_new_guild(self):
         # TODO: Bot accounts in more than 10 guilds can't create guilds
-        print("INSIDE CREATE NEW GUILD")
-        print(threading.get_ident())
-        await self.create_guild(name=NEW_GUILD_NAME)
+        try:
+            await self.create_guild(name=NEW_GUILD_NAME)
+        except discord.HTTPException:
+            # HTTPException will occur if guild creation fails, usually the bot is in more than 10 guilds
+            return False
         print("waiting for guild creation to be confirmed...")
         # Confirm that the guild has been created and is visible
         loop_count = 0
@@ -70,9 +52,10 @@ class GuildCreatorBot(Bot):
                 await asyncio.sleep(0.2)
                 loop_count += 1
         else:
-            raise LookupError("Guild not found after creation")
+            return False
         print("we have a guild")
         print("number of guilds: " + str(len(self.guilds)))
+        return True
 
 
     async def create_new_invite(self):
@@ -132,3 +115,20 @@ class GuildCreatorBot(Bot):
         await self.give_non_bot_user_owner()
         await self.leave_guild()
         print("left the guild!")
+        await self.shut_down()
+
+    # WARNING!!!! If the bot can't leave a guild due to being owner, it will delete the guild!
+    async def leave_all_guilds(self):
+        print("current number of guilds:" + str(len(self.guilds)))
+        print("Warning: this may take a while if many guilds are being deleted because of rate limits.")
+        for guild in self.guilds:
+            try:
+                await guild.leave()
+            except discord.HTTPException:
+                await guild.delete()
+        print("left all guilds")
+
+    async def shut_down(self):
+        # TODO: is the unclosed connector error OK?
+        await self.close()
+        print("closed connection")
