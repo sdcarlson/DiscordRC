@@ -60,10 +60,11 @@ class TokenData(BaseModel):
 
 class User(BaseModel):
     '''
-    Data about a user. `configs` maps server names to `ServerConfig`s.
+    Data about a user. `config_uids` maps `ServerConfigInDB.name` to
+    `ServerConfigInDB.uid`.
     '''
     username: str
-    configs: list[ServerConfig] = list()
+    config_uids: dict[str, str] = dict()
 
 class UserInDB(User):
     '''
