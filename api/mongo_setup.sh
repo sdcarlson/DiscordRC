@@ -1,3 +1,5 @@
+#!/bin/bash
+
 docker pull mongo # run this command only the first time you set up this container
 
 docker run -d \
