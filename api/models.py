@@ -41,6 +41,13 @@ class ServerConfig(BaseModel):
     roles: list[Role] = list()
     categories: list[Category] = list()
 
+class ServerConfigInDB(ServerConfig):
+    '''
+    Additional information about a server config that is hidden in the DB.
+    `owner` is the username of the `User` that owns this config.
+    '''
+    owner: str
+
 
 ### Authentication/User Models #################################################
 

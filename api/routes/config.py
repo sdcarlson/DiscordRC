@@ -53,7 +53,14 @@ async def import_config(
             {"$set": config.model_dump()}
         )
     else:
-        new_config = await db.config_collection.insert_one(config.model_dump())
+        config_in_db = models.ServerConfigInDB(
+            **config.model_dump(),
+            owner=current_user.username
+        )
+        new_config = await db.config_collection.insert_one(
+            config_in_db.model_dump()
+        )
+
         server_uid = str(new_config.inserted_id)
         current_user.config_uids.append(models.UserConfigMapping(
             name=server_name,
