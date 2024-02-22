@@ -19,7 +19,7 @@ async def export_config(
     '''
     Returns one of the user's server configs based on the server name.
     '''
-    for mapping in current_user.config_uids:
+    for mapping in current_user.servers:
         if server_name == mapping.name:
             server_in_db = await db.config_collection.find_one(
                 {'_id': ObjectId(mapping.config_uid)}
@@ -41,8 +41,7 @@ async def import_config(
     '''
     server_name = config.name
     server_uid = None
-    print(f'{current_user.config_uids=}')
-    for mapping in current_user.config_uids:
+    for mapping in current_user.servers:
         if server_name == mapping.name:
             server_uid = mapping.config_uid
             break
@@ -62,7 +61,7 @@ async def import_config(
         )
 
         server_uid = str(new_config.inserted_id)
-        current_user.config_uids.append(models.UserConfigMapping(
+        current_user.servers.append(models.UserConfigMapping(
             name=server_name,
             config_uid=server_uid
         ))
@@ -70,7 +69,7 @@ async def import_config(
         db.user_collection.find_one_and_update(
             {'username': current_user.username},
             {'$set': {
-                'config_uids': [mapping.model_dump() for mapping in current_user.config_uids]
+                'servers': [mapping.model_dump() for mapping in current_user.servers]
             }}
         )
     return 'Success'

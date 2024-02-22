@@ -74,11 +74,11 @@ class UserConfigMapping(BaseModel):
 
 class User(BaseModel):
     '''
-    Data about a user. `config_uids` maps `ServerConfigInDB.name` to
+    Data about a user. `servers` maps `ServerConfigInDB.name` to
     `ServerConfigInDB.uid`.
     '''
     username: str
-    config_uids: list[UserConfigMapping] = list()
+    servers: list[UserConfigMapping] = list()
 
 class UserInDB(User):
     '''
