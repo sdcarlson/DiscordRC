@@ -34,7 +34,7 @@ async def export_config(
 async def import_config(
     current_user: Annotated[models.User, Depends(get_current_user)],
     config: models.ServerConfig
-):
+) -> models.Response:
     '''
     Sets a server config for the current user. If the user already has
     a config with the same name, then this endpoint will update that config.
@@ -72,4 +72,4 @@ async def import_config(
                 'servers': [mapping.model_dump() for mapping in current_user.servers]
             }}
         )
-    return 'Success'
+    return models.Response(msg='Success')

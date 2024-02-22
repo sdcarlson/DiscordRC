@@ -1,5 +1,13 @@
 from pydantic import BaseModel
 
+### API Models #################################################################
+
+class Response(BaseModel):
+    '''
+    Simple response model. Note that for errors, it's better to raise
+    an HTTPException.
+    '''
+    msg: str = 'Success'
 
 ### Server Config Models #######################################################
 
