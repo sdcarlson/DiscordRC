@@ -58,13 +58,20 @@ class TokenData(BaseModel):
     '''
     username: str | None
 
+class UserConfigMapping(BaseModel):
+    '''
+    Used to map server names to config uids for a certain user.
+    '''
+    name: str
+    config_uid: str
+
 class User(BaseModel):
     '''
     Data about a user. `config_uids` maps `ServerConfigInDB.name` to
     `ServerConfigInDB.uid`.
     '''
     username: str
-    config_uids: dict[str, str] = dict()
+    config_uids: list[UserConfigMapping] = list()
 
 class UserInDB(User):
     '''

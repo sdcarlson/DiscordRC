@@ -29,7 +29,7 @@ async def get_user_from_db(username: str) -> models.UserInDB | None:
     user_dict = await db.user_collection.find_one({'username': username})
     if user_dict is None:
         return None
-    return models.UserInDB(**user_dict)
+    return models.UserInDB.model_validate(user_dict)
 
 async def authenticate_user(username: str, password: str) -> models.User | None:
     user = await get_user_from_db(username)
@@ -124,7 +124,7 @@ async def signup(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> 
         )
     hashed_password = get_password_hash(password)
     await db.user_collection.insert_one(
-        models.UserInDB(**{
+        models.UserInDB.model_validate({
             'username': username,
             'hashed_password': hashed_password,
         }).model_dump()

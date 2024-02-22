@@ -17,17 +17,18 @@ async def export_config(
     server_name: str
 ) -> models.ServerConfig:
     '''
-    Returns a server config as json.
+    Returns one of the user's server configs based on the server name.
     '''
-    if server_name not in current_user.config_uids:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f'User does not have server config `{server_name}`'
-        )
-
-    server_uid = current_user.config_uids[server_name]
-    server_in_db = await db.config_collection.find_one({'_id': ObjectId(server_uid)})
-    return server_in_db
+    for mapping in current_user.config_uids:
+        if server_name == mapping.name:
+            server_in_db = await db.config_collection.find_one(
+                {'_id': ObjectId(mapping.config_uid)}
+            )
+            return server_in_db
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail=f'User does not have server config `{server_name}`'
+    )
 
 @router.post('/import')
 async def import_config(
@@ -35,25 +36,34 @@ async def import_config(
     config: models.ServerConfig
 ):
     '''
-    Sets a server config for the current user.
+    Sets a server config for the current user. If the user already has
+    a config with the same name, then this endpoint will update that config.
     '''
     server_name = config.name
-    if server_name in current_user.config_uids:
-        server_uid = current_user.config_uids[server_name]
-        server = {
-            k: v for k, v in config.model_dump(by_alias=True).items() if v is not None
-        }
+    server_uid = None
+    print(f'{current_user.config_uids=}')
+    for mapping in current_user.config_uids:
+        if server_name == mapping.name:
+            server_uid = mapping.config_uid
+            break
+
+    if server_uid is not None:
         await db.config_collection.find_one_and_update(
             {'_id': ObjectId(server_uid)},
-            {"$set": server}
+            {"$set": config.model_dump()}
         )
     else:
         new_config = await db.config_collection.insert_one(config.model_dump())
-        server_uid = new_config.inserted_id
-        current_user.config_uids[server_name] = str(server_uid)
+        server_uid = str(new_config.inserted_id)
+        current_user.config_uids.append(models.UserConfigMapping(
+            name=server_name,
+            config_uid=server_uid
+        ))
 
         db.user_collection.find_one_and_update(
             {'username': current_user.username},
-            {'$set': {'config_uids': current_user.config_uids}}
+            {'$set': {
+                'config_uids': [mapping.model_dump() for mapping in current_user.config_uids]
+            }}
         )
     return 'Success'
