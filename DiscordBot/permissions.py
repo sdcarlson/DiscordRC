@@ -162,7 +162,7 @@ def set_role_perm(perm, role_perm_name, role_perm_val):
         case _:
             print(f"'{role_perm_name}' does not match any permission!")
 
-ch_perm_names = [
+text_ch_perm_names = [
     'add_reactions',
     'attach_files',
     'create_instant_invite',
@@ -187,7 +187,7 @@ ch_perm_names = [
     'view_channel'
 ]
 
-def set_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
+def set_text_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
     match ch_perm_name:
         case 'add_reactions':
             overwrite.add_reactions = ch_perm_val
@@ -236,5 +236,120 @@ def set_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
         case _:
             print(f"'{ch_perm_name}' does not match any permission!")
 
-vc_perm_names = [
+# Aside: At the time of writing, there is no set_voice_channel_status
+# permission available for categories in the discord.py API.
+# The pull request for the permission is being worked on here:
+# https://github.com/discord/discord-api-docs/pull/6400
+# P.S.: For some reason create_events is not supported for categories either.
+cat_perm_names = [
+    'add_reactions',
+    'attach_files',
+    'connect',
+    # 'create_events',
+    'create_instant_invite',
+    'create_private_threads',
+    'create_public_threads',
+    'deafen_members',
+    'embed_links',
+    'manage_channels',
+    'manage_events',
+    'manage_messages',
+    'manage_permissions',
+    'manage_threads',
+    'manage_webhooks',
+    'mention_everyone',
+    'move_members',
+    'mute_members',
+    'priority_speaker',
+    'read_message_history',
+    'request_to_speak',
+    'send_messages',
+    'send_messages_in_threads',
+    'send_tts_messages',
+    'send_voice_messages',
+    'speak',
+    'stream',
+    'use_application_commands',
+    'use_embedded_activities',
+    'use_external_emojis',
+    'use_external_sounds',
+    'use_external_stickers',
+    'use_soundboard',
+    'use_voice_activation',
+    'view_channel'
 ]
+
+def set_cat_perm_overwrite(overwrite, cat_perm_name, cat_perm_val):
+    match cat_perm_name:
+        case 'add_reactions':
+            overwrite.add_reactions = cat_perm_val
+        case 'attach_files':
+            overwrite.attach_files = cat_perm_val
+        case 'connect':
+            overwrite.connect = cat_perm_val
+        # case 'create_events':
+        #     overwrite.create_events = cat_perm_val
+        case 'create_instant_invite':
+            overwrite.create_instant_invite = cat_perm_val
+        case 'create_private_threads':
+            overwrite.create_private_threads = cat_perm_val
+        case 'create_public_threads':
+            overwrite.create_public_threads = cat_perm_val
+        case 'deafen_members':
+            overwrite.deafen_members = cat_perm_val
+        case 'embed_links':
+            overwrite.embed_links = cat_perm_val
+        case 'manage_channels':
+            overwrite.manage_channels = cat_perm_val
+        case 'manage_events':
+            overwrite.manage_events = cat_perm_val
+        case 'manage_messages':
+            overwrite.manage_messages = cat_perm_val
+        case 'manage_permissions':
+            overwrite.manage_permissions = cat_perm_val
+        case 'manage_threads':
+            overwrite.manage_threads = cat_perm_val
+        case 'manage_webhooks':
+            overwrite.manage_webhooks = cat_perm_val
+        case 'mention_everyone':
+            overwrite.mention_everyone = cat_perm_val
+        case 'move_members':
+            overwrite.move_members = cat_perm_val
+        case 'mute_members':
+            overwrite.mute_members = cat_perm_val
+        case 'priority_speaker':
+            overwrite.priority_speaker = cat_perm_val
+        case 'read_message_history':
+            overwrite.read_message_history = cat_perm_val
+        case 'request_to_speak':
+            overwrite.request_to_speak = cat_perm_val
+        case 'send_messages':
+            overwrite.send_messages = cat_perm_val
+        case 'send_messages_in_threads':
+            overwrite.send_messages_in_threads = cat_perm_val
+        case 'send_tts_messages':
+            overwrite.send_tts_messages = cat_perm_val
+        case 'send_voice_messages':
+            overwrite.send_voice_messages = cat_perm_val
+        case 'speak':
+            overwrite.speak = cat_perm_val
+        case 'stream':
+            overwrite.stream = cat_perm_val
+        case 'use_application_commands':
+            overwrite.use_application_commands = cat_perm_val
+        case 'use_embedded_activities':
+            overwrite.use_embedded_activities = cat_perm_val
+        case 'use_external_emojis':
+            overwrite.use_external_emojis = cat_perm_val
+        case 'use_external_sounds':
+            overwrite.use_external_sounds = cat_perm_val
+        case 'use_external_stickers':
+            overwrite.use_external_stickers = cat_perm_val
+        case 'use_soundboard':
+            overwrite.use_soundboard = cat_perm_val
+        case 'use_voice_activation':
+            overwrite.use_voice_activation = cat_perm_val
+        case 'view_channel':
+            overwrite.view_channel = cat_perm_val
+        case _:
+            print(f"'{cat_perm_name}' does not match any permission!")
