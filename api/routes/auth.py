@@ -6,75 +6,12 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
+import db
 import models
 
 SECRET_KEY = 'ac000a43df3fddd51817ea851e864b9a4b30888c27d0d47b32281ad751aec53f'
 ALGORITHM = 'HS256'
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
-
-fake_users_db = {
-    'alice': {
-        'username': 'alice',
-        'configs': [{
-            'name': 'MyServer',
-            'id': 123055866,
-            'roles': [
-                {
-                    'name': 'role1',
-                    'id': 1000000022,
-                    'display_separately': True,
-                    'allow_mention': False,
-                    'permissions': {
-                        'roleperm1': True,
-                        'roleperm2': False
-                    }
-                },
-                {
-                    'name': 'role2',
-                    'id': 1000023022,
-                    'display_separately': False,
-                    'allow_mention': True,
-                    'permissions': {}
-                },
-                {
-                    'name': 'role3',
-                    'id': None,
-                    'display_separately': False,
-                    'allow_mention': False,
-                    'permissions': {}
-                }
-            ],
-            'categories': [
-                {
-                    'name': 'MyCategory',
-                    'id': 1000000000,
-                    'permissions': {
-                        'perm1': { 'role1': True, 'role3': False }
-                    },
-                    'text_channels': [
-                    {
-                        'name': 'MyTextChannel',
-                        'id': None,
-                        'permissions': {
-                            'perm1': { 'role2': False, 'role3': True }
-                        }
-                    }
-                    ],
-                    'voice_channels': [
-                    {
-                        'name': 'MyVoiceChannel',
-                        'id': 1111111111,
-                        'permissions': {
-                            'perm2': { 'role2': True, 'role3': False }
-                        }
-                    }
-                    ]
-                }
-            ]
-        }],
-        'hashed_password': '$2a$12$AVr5uFxaUKTHn4UyqJBsGu2luHwgnVM0nhOaMQqP9Bs/DQblbrmYG',  # password1
-    }
-}
 
 pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='auth/login')
@@ -88,15 +25,15 @@ def verify_password(plain_password, hashed_password) -> bool:
 def get_password_hash(password) -> str:
     return pwd_context.hash(password)
 
-def get_user_from_db(db, username: str) -> models.UserInDB | None:
-    if username in db:
-        user_dict = db[username]
-        return models.UserInDB(**user_dict)
-    return None
+async def get_user_from_db(username: str) -> models.UserInDB | None:
+    user_dict = await db.user_collection.find_one({'username': username})
+    if user_dict is None:
+        return None
+    return models.UserInDB.model_validate(user_dict)
 
-def authenticate_user(fake_db, username: str, password: str) -> models.User | None:
-    user = get_user_from_db(fake_db, username)
-    if not user:
+async def authenticate_user(username: str, password: str) -> models.User | None:
+    user = await get_user_from_db(username)
+    if user is None:
         return None
     if not verify_password(password, user.hashed_password):
         return None
@@ -135,7 +72,7 @@ async def get_current_user_from_db(
     except JWTError:
         raise unauthorized_exception
 
-    user = get_user_from_db(fake_users_db, username=str(token_data.username))
+    user = await get_user_from_db(username=str(token_data.username))
     if user is None:
         raise unauthorized_exception
     return user
@@ -149,7 +86,7 @@ async def get_current_user(
     return current_user
 
 async def get_token(username: str, password: str) -> models.Token:
-    user = authenticate_user(fake_users_db, username, password)
+    user = await authenticate_user(username, password)
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -180,14 +117,16 @@ async def signup(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> 
     If signup is successful, we return a bearer token.
     '''
     username, password = form_data.username, form_data.password
-    if username in fake_users_db:
+    if await get_user_from_db(username) is not None:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f'User `{username}` already exists',
         )
     hashed_password = get_password_hash(password)
-    fake_users_db[username] = models.UserInDB(**{
-        'username': username,
-        'hashed_password': hashed_password,
-    }).model_dump()
+    await db.user_collection.insert_one(
+        models.UserInDB.model_validate({
+            'username': username,
+            'hashed_password': hashed_password,
+        }).model_dump()
+    )
     return await get_token(username, password)

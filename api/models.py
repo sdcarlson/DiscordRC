@@ -1,5 +1,13 @@
 from pydantic import BaseModel
 
+### API Models #################################################################
+
+class Response(BaseModel):
+    '''
+    Simple response model. Note that for errors, it's better to raise
+    an HTTPException.
+    '''
+    msg: str = 'Success'
 
 ### Server Config Models #######################################################
 
@@ -41,6 +49,13 @@ class ServerConfig(BaseModel):
     roles: list[Role] = list()
     categories: list[Category] = list()
 
+class ServerConfigInDB(ServerConfig):
+    '''
+    Additional information about a server config that is hidden in the DB.
+    `owner` is the username of the `User` that owns this config.
+    '''
+    owner: str
+
 
 ### Authentication/User Models #################################################
 
@@ -58,12 +73,20 @@ class TokenData(BaseModel):
     '''
     username: str | None
 
+class UserConfigMapping(BaseModel):
+    '''
+    Used to map server names to config uids for a certain user.
+    '''
+    name: str
+    config_uid: str
+
 class User(BaseModel):
     '''
-    Data about a user. `configs` maps server names to `ServerConfig`s.
+    Data about a user. `servers` maps `ServerConfigInDB.name` to
+    `ServerConfigInDB.uid`.
     '''
     username: str
-    configs: list[ServerConfig] = list()
+    servers: list[UserConfigMapping] = list()
 
 class UserInDB(User):
     '''
