@@ -4,14 +4,14 @@
     "roles": [
         {
             "name": "Admin",
-            "id": 1207953448742690896,
+            "id": 1207978246843670558,
             "permissions": {
                 "administrator": true
             }
         },
         {
             "name": "Moderator",
-            "id": 1207953451582230578,
+            "id": 1207978248995086407,
             "permissions": {
                 "add_reactions": true,
                 "administrator": false,
@@ -69,7 +69,7 @@
         },
         {
             "name": "Member",
-            "id": 1207953453150773319,
+            "id": 1207978251797008384,
             "permissions": {
                 "add_reactions": true,
                 "administrator": false,
@@ -127,7 +127,7 @@
         },
         {
             "name": "Muted",
-            "id": 1207953454983806986,
+            "id": 1207978253986570281,
             "permissions": {
                 "add_reactions": false,
                 "administrator": false,
@@ -185,7 +185,7 @@
         },
         {
             "name": "Partially Muted",
-            "id": 1207953456690630716,
+            "id": 1207978255798370335,
             "permissions": {
                 "add_reactions": true,
                 "administrator": false,
@@ -247,7 +247,7 @@
             "text_channels": [
                 {
                     "name": "general",
-                    "id": 1207953458720677889,
+                    "id": 1207978258109562920,
                     "permissions": {
                         "Moderator": {
                             "mention_everyone": false,

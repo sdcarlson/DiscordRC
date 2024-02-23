@@ -244,6 +244,9 @@
   ],
   "categories": [
     {
+      "name": "general",
+      "id": null,
+      "permissions": {},
       "text_channels": [
         {
           "name": "general",

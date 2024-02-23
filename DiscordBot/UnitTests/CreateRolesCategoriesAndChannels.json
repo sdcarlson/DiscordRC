@@ -244,6 +244,32 @@
   ],
   "categories": [
     {
+      "name": null,
+      "id": null,
+      "permissions": null,
+      "text_channels": [
+        {
+          "name": "random",
+          "id": null,
+          "permissions": {
+            "Moderator": {
+              "mention_everyone": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "general",
+      "id": null,
+      "permissions": {
+          "Partially Muted": {
+            "send_messages": false,
+            "send_messages_in_threads": false,
+            "stream": false,
+            "speak": false
+          }
+      },
       "text_channels": [
         {
           "name": "general",
@@ -253,10 +279,6 @@
               "mention_everyone": false,
               "use_external_emojis": false,
               "use_external_stickers": false
-            },
-            "Partially Muted": {
-              "send_messages": false,
-              "send_messages_in_threads": false
             }
           }
         }
