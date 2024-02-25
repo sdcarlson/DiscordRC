@@ -236,6 +236,34 @@ def set_text_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
         case _:
             print(f"'{ch_perm_name}' does not match any permission!")
 
+voice_ch_perm_names = [
+    'add_reactions',
+    'attach_files',
+    'create_instant_invite',
+    'create_private_threads',
+    'create_public_threads',
+    'embed_links',
+    'manage_channels',
+    'manage_messages',
+    'manage_permissions',
+    'manage_threads',
+    'manage_webhooks',
+    'mention_everyone',
+    'read_message_history',
+    'send_messages',
+    'send_messages_in_threads',
+    'send_tts_messages',
+    'send_voice_messages',
+    'use_application_commands',
+    'use_embedded_activities',
+    'use_external_emojis',
+    'use_external_stickers',
+    'view_channel'
+]
+
+def set_voice_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
+    pass
+
 # Aside: At the time of writing, there is no set_voice_channel_status
 # permission available for categories in the discord.py API.
 # The pull request for the permission is being worked on here:

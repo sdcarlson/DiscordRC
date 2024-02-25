@@ -1,12 +1,14 @@
 import pdb
+import pprint
 import os
 from dotenv import load_dotenv
 import json
 import discord
 from discord.ext import commands
 from permissions import role_perm_names, set_role_perm, \
+                        cat_perm_names, set_cat_perm_overwrite, \
                         text_ch_perm_names, set_text_ch_perm_overwrite, \
-                        cat_perm_names, set_cat_perm_overwrite
+                        voice_ch_perm_names, set_voice_ch_perm_overwrite
 
 bot = commands.Bot(command_prefix='.', intents=discord.Intents.all())
 
@@ -77,6 +79,45 @@ async def update_text_channel(ctx, ch_config, role_ids, cat_id):
             await ch.set_permissions(role, overwrite=overwrite)
     return ch_config
 
+@bot.command(name='update_voice_channel')
+async def update_voice_channel(ctx, ch_config, role_ids, cat_id):
+    '''
+    Create a voice channel with properties and permissions specified by
+    the `voice_channel` and `role_configs` dictionaries.
+    '''
+    cat = None
+    if cat_id:
+        cat = discord.utils.get(ctx.guild.categories, id=cat_id)
+
+    ch_id = ch_config['id']
+    name = ch_config['name']
+    ch = None
+    if ch_id == None:
+        if cat:
+            ch = await ctx.guild.create_voice_channel(name, category=cat)
+        else:
+            ch = await ctx.guild.create_voice_channel(name)
+        ch_id = ch.id
+        ch_config['id'] = ch_id
+    else:
+        ch = discord.utils.get(ctx.guild.channels, id=ch_id)
+
+    def set_ch_perms_for_role(overwrite, role, ch_perms_for_role):
+        for ch_perm_name in voice_ch_perm_names:
+            ch_perm_val = None
+            if ch_perm_name in ch_perms_for_role:
+                ch_perm_val = ch_perms_for_role[ch_perm_name]
+            set_voice_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val)
+
+    for role_id in role_ids:
+        role = discord.utils.get(ctx.guild.roles, id=role_id) 
+        overwrite = discord.PermissionOverwrite()
+        ch_perms = ch_config['permissions']
+        if role.name in ch_perms:
+            set_ch_perms_for_role(overwrite, role, ch_perms[role.name])
+            await ch.set_permissions(role, overwrite=overwrite)
+    return ch_config
+
 @bot.command(name='update_category')
 async def update_category(ctx, cat_config, role_ids):
     cat_id = cat_config['id']
@@ -107,37 +148,23 @@ async def update_category(ctx, cat_config, role_ids):
             await cat.set_permissions(role, overwrite=overwrite)
     return cat_config
 
-@bot.command(name='create_voice_channel')
-async def create_voice_channel(ctx, vc_perms, roles):
-    id = voice_channel['id']
-    name = voice_channel['name']
-    if id == None:
-        vc = await ctx.guild.create_voice_channel(name)
-        id = vc.id
-    else:
-        vc = discord.utils.get(ctx.guild.channels, id=id)
-
-    role_names = [role['name'] for role in roles]
-    for role_name in role_names:
-        overwrite = discord.PermissionOverwrite()
-        for vc_perm_name in vc_perm_names:
-            vc_perm_val = None
-            if vc_perm_name in vc_perms:
-                vc_perm_val = vc_perms[vc_perm_name]
-            set_vc_perm_overwrite(overwrite, vc_perm_name, vc_perm_val)
-        await vc.set_permissions(role, overwrite=overwrite)
-
 @bot.command(name='update_server')
 async def update_server(ctx, config):
     for i, role_config in enumerate(config['roles']):
         config['roles'][i] = await update_role(ctx, role_config)
     role_ids = [role_config['id'] for role_config in config['roles']]
     for i, cat_config in enumerate(config['categories']):
+        pprint.pprint(cat_config)
         config['categories'][i] = await update_category(ctx, cat_config, role_ids)
         cat_id = config['categories'][i]['id']
         for j, text_ch_config in enumerate(cat_config['text_channels']):
             config['categories'][i]['text_channels'][j] = \
                 await update_text_channel(ctx, text_ch_config, role_ids, cat_id)
+        pprint.pprint('voice channels')
+        pprint.pprint(cat_config['voice_channels'])
+        for j, voice_ch_config in enumerate(cat_config['voice_channels']):
+            config['categories'][i]['voice_channels'][j] = \
+                await update_voice_channel(ctx, voice_ch_config, role_ids, cat_id)
     return config
 
 def convert_json(json_file_path):
@@ -220,12 +247,14 @@ async def delete_tracked_entities(ctx):
     await delete_tracked_roles(ctx, config['roles'])
     await delete_tracked_text_channels(ctx, config['categories'])
 
+config_file_path = './UnitTests/VoiceChannel.json'
+
 @bot.command(name='test')
-async def test(ctx):
-    config_file_path = './UnitTests/CreateRolesCategoriesAndChannels.json'
+async def test(ctx, config_file_path=config_file_path):
     config = convert_json(config_file_path)
     config = await update_server(ctx, config)
-    new_config_file_path = './UnitTests/CreateRolesCategoriesAndChannelsV2.json'
+    new_config_file_path = config_file_path[:-5] + 'V2.json'
+    # new_config_file_path = './UnitTests/CreateRolesCategoriesAndChannelsV2.json'
     fp = open(new_config_file_path, 'w')
     json_config = json.dump(config, fp, indent=4)
 
