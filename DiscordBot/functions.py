@@ -157,6 +157,7 @@ async def update_category(ctx, cat_config, role_ids):
 
 @bot.command(name='update_server')
 async def update_server(ctx, config):
+    # await ctx.guild.edit(community=config['community'])
     for i, role_config in enumerate(config['roles']):
         config['roles'][i] = await update_role(ctx, role_config)
     role_ids = [role_config['id'] for role_config in config['roles']]
@@ -170,6 +171,36 @@ async def update_server(ctx, config):
             config['categories'][i]['voice_based_channels'][j] = \
                 await update_channel(ctx, ch_config, role_ids, cat_id)
     return config
+
+@bot.command(name='process_json_file')
+async def process_json_file(ctx):
+    # Check if there are attachments in the message
+    if ctx.message.attachments:
+        # Get the first attached file
+        attached_file = ctx.message.attachments[0]
+
+        # Check if the attached file is a JSON file
+        if attached_file.filename.endswith('.json'):
+            # Download the file
+            file_content = await attached_file.read()
+
+            # Decode JSON content
+            try:
+                json_data = json.loads(file_content)
+
+                # Process the JSON data
+                # Example: Send a formatted version back to the user
+                formatted_data = json.dumps(json_data, indent=2)
+                await ctx.send(f'Processed JSON:\n```\n{formatted_data}\n```')
+
+            except json.JSONDecodeError as e:
+                await ctx.send(f'Error decoding JSON: {str(e)}')
+
+        else:
+            await ctx.send('Please attach a JSON file.')
+
+    else:
+        await ctx.send('No file attached.')
 
 def convert_json(json_file_path):
     config = None

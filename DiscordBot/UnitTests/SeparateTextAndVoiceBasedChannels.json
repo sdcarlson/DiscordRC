@@ -1,6 +1,7 @@
 {
   "name": "kevwjin's Server",
   "id": null,
+  "community": true,
   "roles": [
     { 
       "name": "Admin",

@@ -1,17 +1,18 @@
 {
     "name": "kevwjin's Server",
     "id": null,
+    "community": true,
     "roles": [
         {
             "name": "Admin",
-            "id": 1211485676957343754,
+            "id": 1211609223671058433,
             "permissions": {
                 "administrator": true
             }
         },
         {
             "name": "Moderator",
-            "id": 1211485678807031819,
+            "id": 1211609226582036500,
             "permissions": {
                 "add_reactions": true,
                 "administrator": false,
@@ -69,7 +70,7 @@
         },
         {
             "name": "Member",
-            "id": 1211485680782544927,
+            "id": 1211609228763074560,
             "permissions": {
                 "add_reactions": true,
                 "administrator": false,
@@ -127,7 +128,7 @@
         },
         {
             "name": "Muted",
-            "id": 1211485683286282302,
+            "id": 1211609231543762945,
             "permissions": {
                 "add_reactions": false,
                 "administrator": false,
@@ -185,7 +186,7 @@
         },
         {
             "name": "Partially Muted",
-            "id": 1211485685836685332,
+            "id": 1211609233724805181,
             "permissions": {
                 "add_reactions": true,
                 "administrator": false,
@@ -250,7 +251,7 @@
             "text_based_channels": [
                 {
                     "name": "random",
-                    "id": 1211485689212964935,
+                    "id": 1211609236224868393,
                     "type": "TEXT",
                     "permissions": {
                         "Moderator": {
@@ -260,13 +261,13 @@
                 },
                 {
                     "name": "dup",
-                    "id": 1211485691981078589,
+                    "id": 1211609238351257620,
                     "type": "TEXT",
                     "permissions": {}
                 },
                 {
                     "name": "dup",
-                    "id": 1211485693491159121,
+                    "id": 1211609238921547789,
                     "type": "TEXT",
                     "permissions": {}
                 }
@@ -274,7 +275,7 @@
             "voice_based_channels": [
                 {
                     "name": "general",
-                    "id": 1211485694925602887,
+                    "id": 1211609241291591690,
                     "type": "VOICE",
                     "permissions": {
                         "Partially Muted": {
@@ -284,7 +285,7 @@
                 },
                 {
                     "name": "general",
-                    "id": 1211485696741867620,
+                    "id": 1211609244802097182,
                     "type": "STAGE",
                     "permissions": {
                         "Partially Muted": {
@@ -297,7 +298,7 @@
         },
         {
             "name": "general",
-            "id": 1211485698729975908,
+            "id": 1211609246655848448,
             "type": "TEXT",
             "permissions": {
                 "Partially Muted": {
@@ -310,7 +311,7 @@
             "text_based_channels": [
                 {
                     "name": "general",
-                    "id": 1211485701632299029,
+                    "id": 1211609249558560778,
                     "type": "TEXT",
                     "permissions": {
                         "Moderator": {
@@ -322,7 +323,7 @@
                 },
                 {
                     "name": "for",
-                    "id": 1211485705235206214,
+                    "id": 1211609252070957146,
                     "type": "FORUM",
                     "permissions": {
                         "Moderator": {
@@ -333,13 +334,13 @@
                 },
                 {
                     "name": "dup",
-                    "id": 1211485707575627776,
+                    "id": 1211609254096666653,
                     "type": "TEXT",
                     "permissions": {}
                 },
                 {
                     "name": "dup",
-                    "id": 1211485708909416528,
+                    "id": 1211609256030113802,
                     "type": "TEXT",
                     "permissions": {}
                 }
@@ -347,7 +348,7 @@
             "voice_based_channels": [
                 {
                     "name": "general",
-                    "id": 1211485709941088356,
+                    "id": 1211609257233874976,
                     "type": "VOICE",
                     "permissions": {
                         "Partially Muted": {
