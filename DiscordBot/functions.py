@@ -9,7 +9,11 @@ from permissions import Channel, set_ch_type
 from permissions import role_perm_names, set_role_perm, \
                         cat_perm_names, set_cat_perm_overwrite, \
                         text_ch_perm_names, set_text_ch_perm_overwrite, \
-                        voice_ch_perm_names, set_voice_ch_perm_overwrite
+                        voice_ch_perm_names, set_voice_ch_perm_overwrite, \
+                        forum_ch_perm_names, set_forum_ch_perm_overwrite, \
+                        ancmt_ch_perm_names, set_ancmt_ch_perm_overwrite, \
+                        stage_ch_perm_names, set_stage_ch_perm_overwrite
+
 
 bot = commands.Bot(command_prefix='.', intents=discord.Intents.all())
 
@@ -40,88 +44,6 @@ async def update_role(ctx, role_config):
         set_role_perm(permissions, role_perm_name, role_perm_val)
     await role.edit(permissions=permissions)
     return role_config
-
-@bot.command(name='update_text_based_channels')
-async def update_text_based_channels(ctx):
-    pass
-
-@bot.command(name='update_text_channel')
-async def update_text_channel(ctx, ch_config, role_ids, cat_id):
-    '''
-    Create a text channel with properties and permissions specified by
-    the `text_channel` and `role_configs` dictionaries.
-    '''
-    cat = None
-    if cat_id:
-        cat = discord.utils.get(ctx.guild.categories, id=cat_id)
-
-    ch_id = ch_config['id']
-    name = ch_config['name']
-    ch = None
-    if ch_id == None:
-        if cat:
-            ch = await ctx.guild.create_text_channel(name, category=cat)
-        else:
-            ch = await ctx.guild.create_text_channel(name)
-        ch_id = ch.id
-        ch_config['id'] = ch_id
-    else:
-        ch = discord.utils.get(ctx.guild.channels, id=ch_id)
-
-    def set_ch_perms_for_role(overwrite, role, ch_perms_for_role):
-        for ch_perm_name in text_ch_perm_names:
-            ch_perm_val = None
-            if ch_perm_name in ch_perms_for_role:
-                ch_perm_val = ch_perms_for_role[ch_perm_name]
-            set_text_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val)
-
-    for role_id in role_ids:
-        role = discord.utils.get(ctx.guild.roles, id=role_id) 
-        overwrite = discord.PermissionOverwrite()
-        ch_perms = ch_config['permissions']
-        if role.name in ch_perms:
-            set_ch_perms_for_role(overwrite, role, ch_perms[role.name])
-            await ch.set_permissions(role, overwrite=overwrite)
-    return ch_config
-
-@bot.command(name='update_forum_channel')
-async def update_forum_channel(ctx, ch_config, role_ids, cat_id):
-    '''
-    Create a forum channel with properties and permissions specified by
-    the `forum_channel` and `role_configs` dictionaries.
-    '''
-    cat = None
-    if cat_id:
-        cat = discord.utils.get(ctx.guild.categories, id=cat_id)
-
-    ch_id = ch_config['id']
-    name = ch_config['name']
-    ch = None
-    if ch_id == None:
-        if cat:
-            ch = await ctx.guild.create_forum_channel(name, category=cat)
-        else:
-            ch = await ctx.guild.create_forum_channel(name)
-        ch_id = ch.id
-        ch_config['id'] = ch_id
-    else:
-        ch = discord.utils.get(ctx.guild.channels, id=ch_id)
-
-    def set_ch_perms_for_role(overwrite, role, ch_perms_for_role):
-        for ch_perm_name in forum_ch_perm_names:
-            ch_perm_val = None
-            if ch_perm_name in ch_perms_for_role:
-                ch_perm_val = ch_perms_for_role[ch_perm_name]
-            set_text_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val)
-
-    for role_id in role_ids:
-        role = discord.utils.get(ctx.guild.roles, id=role_id) 
-        overwrite = discord.PermissionOverwrite()
-        ch_perms = ch_config['permissions']
-        if role.name in ch_perms:
-            set_ch_perms_for_role(overwrite, role, ch_perms[role.name])
-            await ch.set_permissions(role, overwrite=overwrite)
-    return ch_config
 
 @bot.command(name='update_channel')
 async def update_channel(ctx, ch_config, role_ids, cat_id):
@@ -193,49 +115,6 @@ async def update_channel(ctx, ch_config, role_ids, cat_id):
             if ch_perm_name in ch_perms_for_role:
                 ch_perm_val = ch_perms_for_role[ch_perm_name]
             ch_perm_overwriter(overwrite, ch_perm_name, ch_perm_val)
-
-    for role_id in role_ids:
-        role = discord.utils.get(ctx.guild.roles, id=role_id) 
-        overwrite = discord.PermissionOverwrite()
-        ch_perms = ch_config['permissions']
-        if role.name in ch_perms:
-            set_ch_perms_for_role(overwrite, role, ch_perms[role.name])
-            await ch.set_permissions(role, overwrite=overwrite)
-    return ch_config
-
-@bot.command(name='update_voice_based_channels')
-async def update_voice_based_channels(ctx, ch_config, role_ids, cat_id):
-    pass
-
-@bot.command(name='update_voice_channel')
-async def update_voice_channel(ctx, ch_config, role_ids, cat_id):
-    '''
-    Create a voice channel with properties and permissions specified by
-    the `voice_channel` and `role_configs` dictionaries.
-    '''
-    cat = None
-    if cat_id:
-        cat = discord.utils.get(ctx.guild.categories, id=cat_id)
-
-    ch_id = ch_config['id']
-    name = ch_config['name']
-    ch = None
-    if ch_id == None:
-        if cat:
-            ch = await ctx.guild.create_voice_channel(name, category=cat)
-        else:
-            ch = await ctx.guild.create_voice_channel(name)
-        ch_id = ch.id
-        ch_config['id'] = ch_id
-    else:
-        ch = discord.utils.get(ctx.guild.channels, id=ch_id)
-
-    def set_ch_perms_for_role(overwrite, role, ch_perms_for_role):
-        for ch_perm_name in voice_ch_perm_names:
-            ch_perm_val = None
-            if ch_perm_name in ch_perms_for_role:
-                ch_perm_val = ch_perms_for_role[ch_perm_name]
-            set_voice_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val)
 
     for role_id in role_ids:
         role = discord.utils.get(ctx.guild.roles, id=role_id) 

@@ -283,6 +283,17 @@
               "stream": false
             }
           }
+        },
+        {
+          "name": "general",
+          "id": null,
+          "type": "STAGE",
+          "permissions": {
+            "Partially Muted": {
+              "add_reactions": false,
+              "attach_files": false
+            }
+          }
         }
       ]
     },
@@ -308,6 +319,17 @@
               "mention_everyone": false,
               "use_external_emojis": false,
               "use_external_stickers": false
+            }
+          }
+        },
+        {
+          "name": "for",
+          "id": null,
+          "type": "FORUM",
+          "permissions": {
+            "Moderator": {
+              "mention_everyone": false,
+              "read_message_history": true
             }
           }
         },

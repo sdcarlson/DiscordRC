@@ -2,7 +2,8 @@
 # permission available for categories and voice channels in the discord.py API.
 # The pull request for the permission is being worked on here:
 # https://github.com/discord/discord-api-docs/pull/6400
-# P.S.: create_events is not supported for voice channels and categories either.
+# P.S.: create_events is not supported for voice channels, stage channels
+# and categories either.
 
 # Channel Ordering:
 # Note that forum, announcement, and stage channels are options only for community channels.
@@ -89,7 +90,7 @@ role_perm_names = [
     'value',
     'view_audit_log',
     'view_channel',
-    'view_guild_insights',
+    'view_guild_insights'
 ]
 
 def set_role_perm(perm, role_perm_name, role_perm_val):
@@ -372,23 +373,226 @@ def set_voice_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
         case _:
             print(f"'{ch_perm_name}' does not match any voice channel permission!")
 
+# Aside: There are no permissions to manage and create posts in discord.py.
+# Note that in Discord itself, there are separate permissions for
+# managing and creating posts, and managing and creating messages.
+# There is also no 'read_post_history' permission, but I believe
+# this is equivalent to 'read_message_history' in discord.py,
+# as there is no separate permission for reading message history in Discord.
 forum_ch_perm_names = [
+    'add_reactions',
+    'attach_files',
+    'create_instant_invite',
+    'embed_links',
+    'manage_channels',
+    'manage_messages',
+    'manage_permissions',
+    'manage_webhooks',
+    'mention_everyone',
+    'read_message_history',
+    'send_messages',
+    'send_messages_in_threads',
+    'send_tts_messages',
+    'send_voice_messages',
+    'use_application_commands',
+    'use_embedded_activities',
+    'use_external_emojis',
+    'use_external_stickers',
+    'view_channel',
 ]
 
 def set_forum_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
-    pass
+    match ch_perm_name:
+        case 'add_reactions':
+            overwrite.add_reactions = ch_perm_val
+        case 'attach_files':
+            overwrite.attach_files = ch_perm_val
+        case 'create_instant_invite':
+            overwrite.create_instant_invite = ch_perm_val
+        case 'embed_links':
+            overwrite.embed_links = ch_perm_val
+        case 'manage_channels':
+            overwrite.manage_channels = ch_perm_val
+        case 'manage_messages':
+            overwrite.manage_messages = ch_perm_val
+        case 'manage_permissions':
+            overwrite.manage_permissions = ch_perm_val
+        case 'manage_webhooks':
+            overwrite.manage_webhooks = ch_perm_val
+        case 'mention_everyone':
+            overwrite.mention_everyone = ch_perm_val
+        case 'read_message_history':
+            overwrite.read_message_history = ch_perm_val
+        case 'send_messages':
+            overwrite.send_messages = ch_perm_val
+        case 'send_messages_in_threads':
+            overwrite.send_messages_in_threads = ch_perm_val
+        case 'send_tts_messages':
+            overwrite.send_tts_messages = ch_perm_val
+        case 'send_voice_messages':
+            overwrite.send_voice_messages = ch_perm_val
+        case 'use_application_commands':
+            overwrite.use_application_commands = ch_perm_val
+        case 'use_embedded_activities':
+            overwrite.use_embedded_activities = ch_perm_val
+        case 'use_external_emojis':
+            overwrite.use_external_emojis = ch_perm_val
+        case 'use_external_stickers':
+            overwrite.use_external_stickers = ch_perm_val
+        case 'view_channel':
+            overwrite.view_channel = ch_perm_val
+        case _:
+            print(f"'{forum_perm_name}' does not match any forum channel permission!")
 
 ancmt_ch_perm_names = [
+    'add_reactions',
+    'attach_files',
+    'create_instant_invite',
+    'create_public_threads',
+    'embed_links',
+    'manage_channels',
+    'manage_messages',
+    'manage_threads',
+    'manage_webhooks',
+    'mention_everyone',
+    'read_message_history',
+    'send_messages',
+    'send_messages_in_threads',
+    'send_tts_messages',
+    'send_voice_messages',
+    'use_application_commands',
+    'use_embedded_activities',
+    'use_external_emojis',
+    'use_external_stickers',
+    'view_channel',
 ]
 
 def set_ancmt_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
-    pass
+    match ch_perm_name:
+        case 'add_reactions':
+            overwrite.add_reactions = ch_perm_val
+        case 'attach_files':
+            overwrite.attach_files = ch_perm_val
+        case 'create_instant_invite':
+            overwrite.create_instant_invite = ch_perm_val
+        case 'create_public_threads':
+            overwrite.create_public_threads = ch_perm_val
+        case 'embed_links':
+            overwrite.embed_links = ch_perm_val
+        case 'manage_channels':
+            overwrite.manage_channels = ch_perm_val
+        case 'manage_messages':
+            overwrite.manage_messages = ch_perm_val
+        case 'manage_threads':
+            overwrite.manage_threads = ch_perm_val
+        case 'manage_webhooks':
+            overwrite.manage_webhooks = ch_perm_val
+        case 'mention_everyone':
+            overwrite.mention_everyone = ch_perm_val
+        case 'read_message_history':
+            overwrite.read_message_history = ch_perm_val
+        case 'send_messages':
+            overwrite.send_messages = ch_perm_val
+        case 'send_messages_in_threads':
+            overwrite.send_messages_in_threads = ch_perm_val
+        case 'send_tts_messages':
+            overwrite.send_tts_messages = ch_perm_val
+        case 'send_voice_messages':
+            overwrite.send_voice_messages = ch_perm_val
+        case 'use_application_commands':
+            overwrite.use_application_commands = ch_perm_val
+        case 'use_embedded_activities':
+            overwrite.use_embedded_activities = ch_perm_val
+        case 'use_external_emojis':
+            overwrite.use_external_emojis = ch_perm_val
+        case 'use_external_stickers':
+            overwrite.use_external_stickers = ch_perm_val
+        case 'view_channel':
+            overwrite.view_channel = ch_perm_val
+        case _:
+            print(f"'{ch_perm_name}' does not match any announcement channel permission!")
 
+# Aside: The request_to_speak permission is not yet made available by Discord.
+# Moreover, the 'mention @everyone when a Stage starts' permission is not yet
+# supported by discord.py.
 stage_ch_perm_names = [
+        'add_reactions',
+        'attach_files',
+        # 'create_events',
+        'connect',
+        'create_instant_invite',
+        'embed_links',
+        'manage_channels',
+        'manage_events',
+        'manage_messages',
+        'manage_permissions',
+        'mention_everyone',
+        'move_members',
+        'mute_members',
+        'read_message_history',
+        # 'request_to_speak',
+        'send_messages',
+        'send_tts_messages',
+        'send_voice_messages',
+        'stream',
+        'use_application_commands',
+        'use_external_emojis',
+        'use_external_stickers',
+        'view_channel',
 ]
 
 def set_stage_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
-    pass
+    match ch_perm_name:
+        case 'add_reactions':
+            overwrite.add_reactions = ch_perm_val
+        case 'add_reactions':
+            overwrite.add_reactions = ch_perm_val
+        case 'attach_files':
+            overwrite.attach_files = ch_perm_val
+        # case 'create_events':
+        #     overwrite.create_events = ch_perm_val
+        case 'connect':
+            overwrite.connect = ch_perm_val
+        case 'create_instant_invite':
+            overwrite.create_instant_invite = ch_perm_val
+        case 'embed_links':
+            overwrite.embed_links = ch_perm_val
+        case 'manage_channels':
+            overwrite.manage_channels = ch_perm_val
+        case 'manage_events':
+            overwrite.manage_events = ch_perm_val
+        case 'manage_messages':
+            overwrite.manage_messages = ch_perm_val
+        case 'manage_permissions':
+            overwrite.manage_permissions = ch_perm_val
+        case 'mention_everyone':
+            overwrite.mention_everyone = ch_perm_val
+        case 'move_members':
+            overwrite.move_members = ch_perm_val
+        case 'mute_members':
+            overwrite.mute_members = ch_perm_val
+        case 'read_message_history':
+            overwrite.read_message_history = ch_perm_val
+        # case 'request_to_speak':
+        #   overwrite.request_to_speak = ch_perm_val
+        case 'send_messages':
+            overwrite.send_messages = ch_perm_val
+        case 'send_tts_messages':
+            overwrite.send_tts_messages = ch_perm_val
+        case 'send_voice_messages':
+            overwrite.send_voice_messages = ch_perm_val
+        case 'stream':
+            overwrite.stream = ch_perm_val
+        case 'use_application_commands':
+            overwrite.use_application_commands = ch_perm_val
+        case 'use_external_emojis':
+            overwrite.use_external_emojis = ch_perm_val
+        case 'use_external_stickers':
+            overwrite.use_external_stickers = ch_perm_val
+        case 'view_channel':
+            overwrite.view_channel = ch_perm_val
+        case _:
+            print(f"'{ch_perm_name}' does not match any stage channel permission!")
 
 cat_perm_names = [
     'add_reactions',

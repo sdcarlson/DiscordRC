@@ -4,14 +4,14 @@
     "roles": [
         {
             "name": "Admin",
-            "id": 1211465030365749288,
+            "id": 1211485676957343754,
             "permissions": {
                 "administrator": true
             }
         },
         {
             "name": "Moderator",
-            "id": 1211465032374685736,
+            "id": 1211485678807031819,
             "permissions": {
                 "add_reactions": true,
                 "administrator": false,
@@ -69,7 +69,7 @@
         },
         {
             "name": "Member",
-            "id": 1211465034673422336,
+            "id": 1211485680782544927,
             "permissions": {
                 "add_reactions": true,
                 "administrator": false,
@@ -127,7 +127,7 @@
         },
         {
             "name": "Muted",
-            "id": 1211465036334370876,
+            "id": 1211485683286282302,
             "permissions": {
                 "add_reactions": false,
                 "administrator": false,
@@ -185,7 +185,7 @@
         },
         {
             "name": "Partially Muted",
-            "id": 1211465038389448747,
+            "id": 1211485685836685332,
             "permissions": {
                 "add_reactions": true,
                 "administrator": false,
@@ -250,7 +250,7 @@
             "text_based_channels": [
                 {
                     "name": "random",
-                    "id": 1211465041094774795,
+                    "id": 1211485689212964935,
                     "type": "TEXT",
                     "permissions": {
                         "Moderator": {
@@ -260,13 +260,13 @@
                 },
                 {
                     "name": "dup",
-                    "id": 1211465047595946044,
+                    "id": 1211485691981078589,
                     "type": "TEXT",
                     "permissions": {}
                 },
                 {
                     "name": "dup",
-                    "id": 1211465049248370708,
+                    "id": 1211485693491159121,
                     "type": "TEXT",
                     "permissions": {}
                 }
@@ -274,11 +274,22 @@
             "voice_based_channels": [
                 {
                     "name": "general",
-                    "id": 1211465050234163213,
+                    "id": 1211485694925602887,
                     "type": "VOICE",
                     "permissions": {
                         "Partially Muted": {
                             "stream": false
+                        }
+                    }
+                },
+                {
+                    "name": "general",
+                    "id": 1211485696741867620,
+                    "type": "STAGE",
+                    "permissions": {
+                        "Partially Muted": {
+                            "add_reactions": false,
+                            "attach_files": false
                         }
                     }
                 }
@@ -286,7 +297,7 @@
         },
         {
             "name": "general",
-            "id": 1211465053782548541,
+            "id": 1211485698729975908,
             "type": "TEXT",
             "permissions": {
                 "Partially Muted": {
@@ -299,7 +310,7 @@
             "text_based_channels": [
                 {
                     "name": "general",
-                    "id": 1211465056303456337,
+                    "id": 1211485701632299029,
                     "type": "TEXT",
                     "permissions": {
                         "Moderator": {
@@ -310,14 +321,25 @@
                     }
                 },
                 {
+                    "name": "for",
+                    "id": 1211485705235206214,
+                    "type": "FORUM",
+                    "permissions": {
+                        "Moderator": {
+                            "mention_everyone": false,
+                            "read_message_history": true
+                        }
+                    }
+                },
+                {
                     "name": "dup",
-                    "id": 1211465059541192775,
+                    "id": 1211485707575627776,
                     "type": "TEXT",
                     "permissions": {}
                 },
                 {
                     "name": "dup",
-                    "id": 1211465061265051689,
+                    "id": 1211485708909416528,
                     "type": "TEXT",
                     "permissions": {}
                 }
@@ -325,7 +347,7 @@
             "voice_based_channels": [
                 {
                     "name": "general",
-                    "id": 1211465062481526795,
+                    "id": 1211485709941088356,
                     "type": "VOICE",
                     "permissions": {
                         "Partially Muted": {
