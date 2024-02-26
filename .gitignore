@@ -1,1 +1,5 @@
 .DS_Store
+discord_bot.env
+__pycache__
+.vscode/
+
