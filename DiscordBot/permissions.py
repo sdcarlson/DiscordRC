@@ -4,6 +4,38 @@
 # https://github.com/discord/discord-api-docs/pull/6400
 # P.S.: create_events is not supported for voice channels and categories either.
 
+# Channel Ordering:
+# Note that forum, announcement, and stage channels are options only for community channels.
+# Text-based channels such as text, forum, and announcement channels can swap orders.
+# Voice-based channels such as voice and stage channels can swap orders.
+# However, text-based and voice-based channels cannot swap orders;
+# moreover, voice-based channels must be ordered below text-based channels
+# in each category and when not in a category.
+
+from enum import Enum
+
+class Channel(Enum):
+    TEXT = 1
+    VOICE = 2
+    FORUM = 3
+    ANCMT = 4
+    STAGE = 5
+
+def set_ch_type(s):
+    match s:
+        case 'TEXT':
+            return Channel.TEXT
+        case 'VOICE':
+            return Channel.VOICE
+        case 'FORUM':
+            return Channel.FORUM
+        case 'ANCMT':
+            return Channel.ANCMT
+        case 'STAGE':
+            return Channel.STAGE
+        case _:
+            print(f"'{s}' does not match any channel type!")
+
 role_perm_names = [
     'add_reactions',
     'administrator',
@@ -169,7 +201,7 @@ def set_role_perm(perm, role_perm_name, role_perm_val):
         case 'view_guild_insights':
             perm.update(view_guild_insights=role_perm_val)
         case _:
-            print(f"'{role_perm_name}' does not match any permission!")
+            print(f"'{role_perm_name}' does not match any role permission!")
 
 text_ch_perm_names = [
     'add_reactions',
@@ -243,7 +275,7 @@ def set_text_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
         case 'view_channel':
             overwrite.view_channel = ch_perm_val
         case _:
-            print(f"'{ch_perm_name}' does not match any permission!")
+            print(f"'{ch_perm_name}' does not match any text channel permission!")
 
 voice_ch_perm_names = [
     'add_reactions',
@@ -338,7 +370,25 @@ def set_voice_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
         case 'view_channel':
             overwrite.view_channel = ch_perm_val
         case _:
-            print(f"'{ch_perm_name}' does not match any permission!")
+            print(f"'{ch_perm_name}' does not match any voice channel permission!")
+
+forum_ch_perm_names = [
+]
+
+def set_forum_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
+    pass
+
+ancmt_ch_perm_names = [
+]
+
+def set_ancmt_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
+    pass
+
+stage_ch_perm_names = [
+]
+
+def set_stage_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
+    pass
 
 cat_perm_names = [
     'add_reactions',
@@ -451,4 +501,4 @@ def set_cat_perm_overwrite(overwrite, cat_perm_name, cat_perm_val):
         case 'view_channel':
             overwrite.view_channel = cat_perm_val
         case _:
-            print(f"'{cat_perm_name}' does not match any permission!")
+            print(f"'{cat_perm_name}' does not match any category permission!")
