@@ -3,7 +3,7 @@ import asyncio
 import discord
 import os
 from GuildCreatorBot import GuildCreatorBot
-from GuildManagerBot import GuildManagerBot
+from functions import GuildConfigurationCommands
 import threading
 
 # Note: for discord bot code to work (on Mac at least), need certifi or use Install Certificates command in python
@@ -19,7 +19,7 @@ class DiscordInterface:
         self.active_threads = []
 
 
-    async def create_guild(self):
+    async def create_guild(self, json_file_path):
         print("creating a new guild!")
         print(threading.get_ident())
 
@@ -27,7 +27,9 @@ class DiscordInterface:
         bot_intents = discord.Intents.default()
         # TODO: bots in 100 or more servers need verification for member intent
         bot_intents.members = True
-        Bot = GuildCreatorBot(self, bot_intents)
+        Bot = GuildCreatorBot(self, bot_intents, json_file_path)
+        # Adds the bot configuration functions to the bot
+        await Bot.add_cog(GuildConfigurationCommands(Bot))
         self.active_bots.append(Bot)
 
         # Run the GuildCreatorBot in a separate thread.

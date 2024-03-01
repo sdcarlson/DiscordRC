@@ -14,19 +14,24 @@ BOT_NAME = "RCBot"
 class GuildCreatorBot(Bot):
     # TODO: refactor this so it works with multiple guilds created at once instead of assuming just one
 
-    def __init__(self, discord_interface, intents):
+    def __init__(self, discord_interface, intents, json_file_path):
         super().__init__(command_prefix="//", intents=intents)
         self.discord_interface = discord_interface
+        self.json_file_path = json_file_path
+        self.guild_configuration_cog = None
         self.created_guild_id = None
 
     async def on_ready(self):
         print("Successfully logged in as " + str(self.user))
         print(threading.get_ident())
 
+        self.guild_configuration_cog = self.get_cog("GuildConfigurationCommands")
+
         # This bot automatically creates a new guild when ran.
         # TODO: should it initialize it in any basic way, or just use the other bot for that?
         if not await self.create_new_guild():
             await self.shut_down()
+        await self.configure_guild()
         await self.create_new_invite()
 
         # Connection will only be closed once user joins and ownership is handed over
@@ -57,6 +62,9 @@ class GuildCreatorBot(Bot):
         print("number of guilds: " + str(len(self.guilds)))
         return True
 
+    async def configure_guild(self):
+        # TODO
+        pass
 
     async def create_new_invite(self):
         # TODO: what if someone deletes the general channel?
