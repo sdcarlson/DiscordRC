@@ -1,3 +1,7 @@
+'''
+This file contains the Pydantic data models for Users, server configs, etc.
+'''
+
 from pydantic import BaseModel
 
 ### API Models #################################################################

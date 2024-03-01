@@ -1,11 +1,15 @@
+'''
+This file contains the `/config` endpoints, which handle importing and
+exporting server template configurations.
+'''
+
 from typing import Annotated
 
 from bson import ObjectId
 from fastapi import APIRouter, Depends, HTTPException, status
 
-import db
-import models
-from routes.auth import get_current_user
+from api import db, models
+from api.routes.auth import get_current_user
 
 router = APIRouter()
 
