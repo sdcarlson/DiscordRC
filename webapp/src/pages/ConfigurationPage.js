@@ -7,7 +7,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ConfigurationPageRolePermissions from './ConfigurationPageRolePermissions';
 
 const roleRowNames=['display_separately', 'allow_mention', 'roleperm1', 'roleperm2']; 
-const roleRowTypes=['toggleButton', 'toggleButton', 'toggleButton', 'toggleButton'];
+const roleRowTypes=['slider', 'slider', 'toggleButton', 'toggleButton'];
 
 const ConfigurationPage = () => {
 
@@ -27,7 +27,7 @@ const ConfigurationPage = () => {
 
     const roleBox = useRef(null);
     const channelBox = useRef(null);
-    
+
     useEffect(() => {
         setRoleRows(roleData)
         setChannelRows(channelData)
@@ -243,7 +243,7 @@ const ConfigurationPage = () => {
                 </Box>
             </Box>
             {roleSelected !== null &&
-                <ConfigurationPageRolePermissions id={roleSelected} rowNames={roleRowNames} rowTypes={roleRowTypes}/>
+                <ConfigurationPageRolePermissions id={roleSelected} rowNames={roleRowNames} rowTypes={roleRowTypes} setRoleRows={setRoleRows}/>
             }
             {channelSelected !== null &&
                 <></>
