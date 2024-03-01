@@ -17,12 +17,11 @@ class GuildCreatorBot(Bot):
     def __init__(self, discord_interface, intents):
         super().__init__(command_prefix="//", intents=intents)
         self.discord_interface = discord_interface
+        self.created_guild_id = None
 
     async def on_ready(self):
         print("Successfully logged in as " + str(self.user))
         print(threading.get_ident())
-
-        await self.leave_all_guilds()
 
         # This bot automatically creates a new guild when ran.
         # TODO: should it initialize it in any basic way, or just use the other bot for that?
@@ -36,7 +35,8 @@ class GuildCreatorBot(Bot):
     async def create_new_guild(self):
         # TODO: Bot accounts in more than 10 guilds can't create guilds
         try:
-            await self.create_guild(name=NEW_GUILD_NAME)
+            guild = await self.create_guild(name=NEW_GUILD_NAME)
+            self.created_guild_id = guild.id
         except discord.HTTPException:
             # HTTPException will occur if guild creation fails, usually the bot is in more than 10 guilds
             return False
@@ -73,49 +73,40 @@ class GuildCreatorBot(Bot):
         invite = await channel_to_invite_to.create_invite()
         print("Invite link: " + str(invite))
 
-    async def give_non_bot_user_owner(self):
+    async def give_non_bot_user_owner(self, member):
         created_guild = await self.get_created_guild()
-        member = None
-        async for member in created_guild.fetch_members():
-            if not member.name.startswith(BOT_NAME):
-                break
-        if member is None:
-            raise LookupError("no non-bot member found")
-
         print(member)
         print(member.guild_permissions)
-
         print("making this member owner...")
         new_guild = await created_guild.edit(owner=member)
         print(member.guild_permissions)
 
     async def leave_guild(self):
-        guild = None
-        for guild in self.guilds:
-            if guild.name == NEW_GUILD_NAME:
-                break
-        if guild is None:
-            raise LookupError("guild not found")
-
+        guild = await self.get_created_guild()
         await guild.leave()
 
     async def get_created_guild(self):
+        if self.created_guild_id is None:
+            raise LookupError("created guild does not exist yet!")
         guild = None
         for guild in self.guilds:
-            if guild.name == NEW_GUILD_NAME:
+            if guild.id == self.created_guild_id:
                 break
         if guild is None:
-            raise LookupError("created guild not found")
+            raise LookupError("No guild with id of created guild found!")
         return guild
 
     # Overriding event functions
     # TODO: avoid calling this twice
-    async def on_member_join(self, _member):
-        print("member joined, making them owner!")
-        await self.give_non_bot_user_owner()
-        await self.leave_guild()
-        print("left the guild!")
-        await self.shut_down()
+    async def on_member_join(self, member):
+        # Member object is only associated with one guild, so this will not trigger if a member joins some
+        # other guild the bot is part of
+        if member.guild.id == self.created_guild_id:
+            print("member joined, making them owner!")
+            await self.give_non_bot_user_owner(member)
+            await self.leave_guild()
+            print("left the guild!")
+            await self.shut_down()
 
     # WARNING!!!! If the bot can't leave a guild due to being owner, it will delete the guild!
     async def leave_all_guilds(self):
@@ -129,6 +120,6 @@ class GuildCreatorBot(Bot):
         print("left all guilds")
 
     async def shut_down(self):
-        # TODO: is the unclosed connector error OK?
+        # TODO: unclosed connector error
         await self.close()
         print("closed connection")

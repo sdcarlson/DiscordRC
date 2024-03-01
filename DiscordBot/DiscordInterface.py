@@ -20,28 +20,27 @@ class DiscordInterface:
 
 
     async def create_guild(self):
-        if input("create a new guild? (input y for yes): ") == 'y':
-                print("creating a new guild!")
-                print(threading.get_ident())
+        print("creating a new guild!")
+        print(threading.get_ident())
 
-                # Set up the GuildCreatorBot
-                bot_intents = discord.Intents.default()
-                # TODO: bots in 100 or more servers need verification for member intent
-                bot_intents.members = True
-                Bot = GuildCreatorBot(self, bot_intents)
-                self.active_bots.append(Bot)
+        # Set up the GuildCreatorBot
+        bot_intents = discord.Intents.default()
+        # TODO: bots in 100 or more servers need verification for member intent
+        bot_intents.members = True
+        Bot = GuildCreatorBot(self, bot_intents)
+        self.active_bots.append(Bot)
 
-                # Run the GuildCreatorBot in a separate thread.
-                # Separate thread is used because bot.run is blocking.
-                # Based on: https://stackoverflow.com/questions/66335984/can-i-control-a-discord-py-bot-using-external-means
-                bot_thread = threading.Thread(target=Bot.run, args=[os.environ['DISCORD_TOKEN']])
-                # TODO: eventually make this true
-                bot_thread.daemon = False  # bot_thread will stop program from closing
-                self.active_threads.append(bot_thread)
-                bot_thread.start()
+        # Run the GuildCreatorBot in a separate thread.
+        # Separate thread is used because bot.run is blocking.
+        # Based on: https://stackoverflow.com/questions/66335984/can-i-control-a-discord-py-bot-using-external-means
+        bot_thread = threading.Thread(target=Bot.run, args=[os.environ['DISCORD_TOKEN']])
+        # TODO: eventually make this true
+        bot_thread.daemon = False  # bot_thread will stop program from closing
+        self.active_threads.append(bot_thread)
+        bot_thread.start()
 
-                print("This is apparently the main thread")
-                print(threading.get_ident())
+        print("This is apparently the main thread")
+        print(threading.get_ident())
 
 
     def apply_changes_to_guild(self, some_way_of_designating_guilds, json_file_or_something):
