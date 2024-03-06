@@ -87,8 +87,8 @@ async def get_current_user_from_db(
         if username is None:
             raise unauthorized_exception
         token_data = models.TokenData(username=str(username))
-    except JWTError:
-        raise unauthorized_exception
+    except JWTError as jwt_exc:
+        raise unauthorized_exception from jwt_exc
 
     user = await get_user_from_db(username=str(token_data.username))
     if user is None:
