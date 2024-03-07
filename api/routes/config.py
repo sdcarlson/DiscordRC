@@ -5,7 +5,6 @@ exporting server template configurations.
 
 from typing import Annotated
 
-from bson import ObjectId
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from api import db, models
