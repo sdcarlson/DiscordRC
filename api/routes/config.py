@@ -22,15 +22,20 @@ async def export_config(
     '''
     Returns one of the user's server configs based on the server name.
     '''
+    exc = HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail=f'User does not have server config `{server_name}`'
+    )
+
     if server_name not in current_user.servers:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f'User does not have server config `{server_name}`'
-        )
+        raise exc
 
     server_in_db = await db.config_collection.find_one(
         {'name': server_name, 'owner': current_user.username}
     )
+
+    if server_in_db is None:
+        raise exc
     return server_in_db
 
 @router.post('/import')
@@ -57,7 +62,7 @@ async def import_config(
         )
         await db.config_collection.insert_one(new_config.model_dump())
 
-        db.user_collection.find_one_and_update(
+        await db.user_collection.find_one_and_update(
             {'username': current_user.username},
             {'$set': {
                 'servers': current_user.servers + [server_name]
