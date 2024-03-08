@@ -1,4 +1,6 @@
 import asyncio
+import os
+
 from DiscordInterface import DiscordInterface
 
 async def main():

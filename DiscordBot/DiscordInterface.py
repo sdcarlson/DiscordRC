@@ -21,7 +21,6 @@ class DiscordInterface:
 
     async def create_guild(self, json_file_path):
         print("creating a new guild!")
-        print(threading.get_ident())
 
         # Set up the GuildCreatorBot
         bot_intents = discord.Intents.default()
@@ -40,9 +39,6 @@ class DiscordInterface:
         bot_thread.daemon = False  # bot_thread will stop program from closing
         self.active_threads.append(bot_thread)
         bot_thread.start()
-
-        print("This is apparently the main thread")
-        print(threading.get_ident())
 
 
     def apply_changes_to_guild(self, some_way_of_designating_guilds, json_file_or_something):

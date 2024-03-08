@@ -23,7 +23,6 @@ class GuildCreatorBot(Bot):
 
     async def on_ready(self):
         print("Successfully logged in as " + str(self.user))
-        print(threading.get_ident())
 
         self.guild_configuration_cog = self.get_cog("GuildConfigurationCommands")
 
@@ -63,8 +62,16 @@ class GuildCreatorBot(Bot):
         return True
 
     async def configure_guild(self):
-        # TODO
-        pass
+        # Since the commands of guild_configuration_cog require a ctx but for this function's
+        # purposes only need ctx.guild, we do this:
+        ctx = type('guild_ctx',(object,),{"guild": await self.get_created_guild()})()
+        # TODO: supply config through discord interface
+        config = self.guild_configuration_cog.convert_json('./DiscordRC/DiscordBot/UnitTests/SeparateTextAndVoiceBasedChannels.json')
+        print("config")
+        try:
+            await self.guild_configuration_cog.update_server(ctx, config)
+        except:
+            print("error in guild configuration!")
 
     async def create_new_invite(self):
         # TODO: what if someone deletes the general channel?
@@ -84,10 +91,8 @@ class GuildCreatorBot(Bot):
     async def give_non_bot_user_owner(self, member):
         created_guild = await self.get_created_guild()
         print(member)
-        print(member.guild_permissions)
         print("making this member owner...")
         new_guild = await created_guild.edit(owner=member)
-        print(member.guild_permissions)
 
     async def leave_guild(self):
         guild = await self.get_created_guild()
