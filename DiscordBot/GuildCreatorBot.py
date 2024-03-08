@@ -129,5 +129,5 @@ class GuildCreatorBot(Bot):
     async def shut_down(self):
         # TODO: unclosed connector error
         await self.close()
-        self.discord_interface.thread_done(self)
         print("closed connection")
+        self.discord_interface.thread_done(self)

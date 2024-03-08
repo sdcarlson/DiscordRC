@@ -46,8 +46,6 @@ class DiscordInterface:
     def thread_done(self, bot):
         # Once the bot_thread is done, it calls this to clean up
         bot_thread = self.active_threads[id(bot)]
-        bot_thread.join()
-        print("Joined back up")
         self.active_bots.remove(bot)
         self.active_threads.pop(id(bot))
 
