@@ -10,12 +10,16 @@ async def main():
         for i in range(num_guilds):
             json_file_path = input("which JSON file path to use for guild number " + str(i) + "? ")
             # ./DiscordRC/DiscordBot/UnitTests/NoCommunityTest.json
-            guild_config_dict = convert_json(json_file_path)
-            await discord_interface.create_guild(guild_config_dict)
+            if json_file_path == "":
+                invite_string = await discord_interface.create_guild(None)
+            else:
+                guild_config_dict = convert_json(json_file_path)
+                invite_string = await discord_interface.create_guild(guild_config_dict)
+            print("Invite link: " + invite_string)
 
-        # TODO: this waits until discord interface is done
-        for thread in discord_interface.active_threads:
-            thread.join()
+    # Allow the bot to finish up
+    while(True):
+        await asyncio.sleep(0.1);
 
 def convert_json(json_file_path):
     config = None

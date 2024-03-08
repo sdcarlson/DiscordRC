@@ -1,19 +1,11 @@
-import os
-import threading
-
 import discord
 from discord.ext.commands import Bot
 import asyncio
 
-# Discord bot token is stored in separate .env file
-
 NEW_GUILD_NAME = "new_guild"
 BOT_NAME = "RCBot"
 
-# TODO: should bot use sharding?
 class GuildCreatorBot(Bot):
-    # TODO: refactor this so it works with multiple guilds created at once instead of assuming just one
-
     def __init__(self, discord_interface, intents, guild_config_dict):
         # TODO: note that guild_config_dict may be None for no config
         super().__init__(command_prefix="//", intents=intents)
@@ -26,7 +18,6 @@ class GuildCreatorBot(Bot):
         print("Successfully logged in as " + str(self.user))
 
         self.guild_configuration_cog = self.get_cog("GuildConfigurationCommands")
-
         # This bot automatically creates a new guild when ran.
         # TODO: should it initialize it in any basic way, or just use the other bot for that?
         if not await self.create_new_guild():
@@ -87,7 +78,11 @@ class GuildCreatorBot(Bot):
             raise LookupError("general channel not found")
 
         invite = await channel_to_invite_to.create_invite()
-        print("Invite link: " + str(invite))
+        self.give_discord_interface_output(str(invite))
+
+    def give_discord_interface_output(self, output):
+        self.discord_interface.bot_outputs[id(self)] = output
+        self.discord_interface.bot_output_events[id(self)].set()
 
     async def give_non_bot_user_owner(self, member):
         created_guild = await self.get_created_guild()
@@ -116,10 +111,10 @@ class GuildCreatorBot(Bot):
         # Member object is only associated with one guild, so this will not trigger if a member joins some
         # other guild the bot is part of
         if member.guild.id == self.created_guild_id:
-            print("member joined, making them owner!")
+            print("Member joined, making them owner!")
             await self.give_non_bot_user_owner(member)
             await self.leave_guild()
-            print("left the guild!")
+            print("Left the guild!")
             await self.shut_down()
 
     # WARNING!!!! If the bot can't leave a guild due to being owner, it will delete the guild!
@@ -136,4 +131,5 @@ class GuildCreatorBot(Bot):
     async def shut_down(self):
         # TODO: unclosed connector error
         await self.close()
+        self.discord_interface.thread_done(self)
         print("closed connection")
