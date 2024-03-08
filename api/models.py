@@ -22,7 +22,7 @@ class Channel(BaseModel):
     '''
     name: str
     id: int | None = None
-    permissions: dict[str, dict[str, bool]] = dict()
+    permissions: dict[str, dict[str, bool]] = {}
 
 class Category(BaseModel):
     '''
@@ -30,9 +30,9 @@ class Category(BaseModel):
     '''
     name: str
     id: int | None = None
-    permissions: dict[str, dict[str, bool]] = dict()
-    text_channels: list[Channel] = list()
-    voice_channels: list[Channel] = list()
+    permissions: dict[str, dict[str, bool]] = {}
+    text_channels: list[Channel] = []
+    voice_channels: list[Channel] = []
 
 class Role(BaseModel):
     '''
@@ -42,7 +42,7 @@ class Role(BaseModel):
     id: int | None = None
     display_separately: bool = False
     allow_mention: bool = False
-    permissions: dict[str, bool] = dict()
+    permissions: dict[str, bool] = {}
 
 class ServerConfig(BaseModel):
     '''
@@ -50,8 +50,8 @@ class ServerConfig(BaseModel):
     '''
     name: str
     id: int | None = None
-    roles: list[Role] = list()
-    categories: list[Category] = list()
+    roles: list[Role] = []
+    categories: list[Category] = []
 
 class ServerConfigInDB(ServerConfig):
     '''
@@ -82,7 +82,7 @@ class User(BaseModel):
     Data about a user. `servers` is a list of server names.
     '''
     username: str
-    servers: list[str] = list()
+    servers: list[str] = []
 
 class UserInDB(User):
     '''
