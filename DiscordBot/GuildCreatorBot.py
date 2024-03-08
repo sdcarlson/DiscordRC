@@ -7,7 +7,7 @@ BOT_NAME = "RCBot"
 
 class GuildCreatorBot(Bot):
     def __init__(self, discord_interface, intents, guild_config_dict):
-        # TODO: note that guild_config_dict may be None for no config
+        # TODO: note that guild_config_dict may be None for no config in comments
         super().__init__(command_prefix="//", intents=intents)
         self.discord_interface = discord_interface # Reference to the DiscordInterface which started the Bot
         self.guild_config_dict = guild_config_dict # Object containing config information for the guild.
@@ -19,7 +19,6 @@ class GuildCreatorBot(Bot):
 
         self.guild_configuration_cog = self.get_cog("GuildConfigurationCommands")
         # This bot automatically creates a new guild when ran.
-        # TODO: should it initialize it in any basic way, or just use the other bot for that?
         if not await self.create_new_guild():
             await self.shut_down()
         if self.guild_config_dict is not None:
@@ -105,9 +104,8 @@ class GuildCreatorBot(Bot):
             raise LookupError("No guild with id of created guild found!")
         return guild
 
-    # Overriding event functions
-    # TODO: avoid calling this twice
     async def on_member_join(self, member):
+        # Overrides an event functions which triggers when a new member joins a guild.
         # Member object is only associated with one guild, so this will not trigger if a member joins some
         # other guild the bot is part of
         if member.guild.id == self.created_guild_id:
