@@ -159,6 +159,7 @@ class GuildConfigurationCommands(commands.Cog):
 
     @commands.command(name='update_server')
     async def update_server(self, ctx, config):
+        await ctx.guild.edit(name = config['name'])
         # await ctx.guild.edit(community=config['community'])
         for i, role_config in enumerate(config['roles']):
             config['roles'][i] = await self.update_role(ctx, role_config)

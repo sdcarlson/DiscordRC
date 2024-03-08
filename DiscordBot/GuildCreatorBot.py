@@ -14,12 +14,13 @@ BOT_NAME = "RCBot"
 class GuildCreatorBot(Bot):
     # TODO: refactor this so it works with multiple guilds created at once instead of assuming just one
 
-    def __init__(self, discord_interface, intents, json_file_path):
+    def __init__(self, discord_interface, intents, guild_config_dict):
+        # TODO: note that guild_config_dict may be None for no config
         super().__init__(command_prefix="//", intents=intents)
-        self.discord_interface = discord_interface
-        self.json_file_path = json_file_path
-        self.guild_configuration_cog = None
-        self.created_guild_id = None
+        self.discord_interface = discord_interface # Reference to the DiscordInterface which started the Bot
+        self.guild_config_dict = guild_config_dict # Object containing config information for the guild.
+        self.guild_configuration_cog = None # Cog containing the commands and methods for guild configuration.
+        self.created_guild_id = None # Discord guild ID of the guild created by this bot
 
     async def on_ready(self):
         print("Successfully logged in as " + str(self.user))
@@ -30,19 +31,21 @@ class GuildCreatorBot(Bot):
         # TODO: should it initialize it in any basic way, or just use the other bot for that?
         if not await self.create_new_guild():
             await self.shut_down()
-        await self.configure_guild()
+        if self.guild_config_dict is not None:
+            await self.configure_guild()
         await self.create_new_invite()
 
         # Connection will only be closed once user joins and ownership is handed over
 
 
     async def create_new_guild(self):
-        # TODO: Bot accounts in more than 10 guilds can't create guilds
         try:
             guild = await self.create_guild(name=NEW_GUILD_NAME)
             self.created_guild_id = guild.id
         except discord.HTTPException:
-            # HTTPException will occur if guild creation fails, usually the bot is in more than 10 guilds
+            # HTTPException will occur if guild creation fails, usually the bot is in 10 guilds.
+            # This is the maximum number it can be in while still being allowed to create guilds.
+            print("Guild creation failed. Check that the bot is not in 10 guilds.")
             return False
         print("Waiting for guild creation to be confirmed...")
         # Confirm that the guild has been created and is visible
@@ -52,26 +55,24 @@ class GuildCreatorBot(Bot):
                 created_guild = await self.get_created_guild()
                 break
             except LookupError:
-                print("FAIL")
+                print("Failed to find guild...")
                 await asyncio.sleep(0.2)
                 loop_count += 1
         else:
+            print("Guild creation failed.")
             return False
         print("Guild successfully created.")
-        print("number of guilds: " + str(len(self.guilds)))
+        print("Total guilds joined: " + str(len(self.guilds)))
+        if len(self.guilds) >= 9:
+            print("Warning: GuildCreatorBot will not work if it has joined more than 10 guilds.")
         return True
 
     async def configure_guild(self):
         # Since the commands of guild_configuration_cog require a ctx but for this function's
         # purposes only need ctx.guild, we do this:
         ctx = type('guild_ctx',(object,),{"guild": await self.get_created_guild()})()
-        # TODO: supply config through discord interface
-        config = self.guild_configuration_cog.convert_json(self.json_file_path)
-        print("Configuring server...")
-        try:
-            await self.guild_configuration_cog.update_server(ctx, config)
-        except:
-            print("error in guild configuration!")
+        print("Configuring guild...")
+        await self.guild_configuration_cog.update_server(ctx, self.guild_config_dict)
 
     async def create_new_invite(self):
         # TODO: what if someone deletes the general channel?

@@ -19,14 +19,13 @@ class DiscordInterface:
         self.active_threads = []
 
 
-    async def create_guild(self, json_file_path):
-        print("creating a new guild!")
-
+    async def create_guild(self, guild_config_dict):
+        print("Creating a new guild!")
         # Set up the GuildCreatorBot
         bot_intents = discord.Intents.default()
         # TODO: bots in 100 or more servers need verification for member intent
         bot_intents.members = True
-        Bot = GuildCreatorBot(self, bot_intents, json_file_path)
+        Bot = GuildCreatorBot(self, bot_intents, guild_config_dict)
         # Adds the bot configuration functions to the bot
         await Bot.add_cog(GuildConfigurationCommands(Bot))
         self.active_bots.append(Bot)
