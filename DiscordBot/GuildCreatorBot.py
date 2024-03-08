@@ -44,7 +44,7 @@ class GuildCreatorBot(Bot):
         except discord.HTTPException:
             # HTTPException will occur if guild creation fails, usually the bot is in more than 10 guilds
             return False
-        print("waiting for guild creation to be confirmed...")
+        print("Waiting for guild creation to be confirmed...")
         # Confirm that the guild has been created and is visible
         loop_count = 0
         while loop_count < 100:
@@ -57,7 +57,7 @@ class GuildCreatorBot(Bot):
                 loop_count += 1
         else:
             return False
-        print("we have a guild")
+        print("Guild successfully created.")
         print("number of guilds: " + str(len(self.guilds)))
         return True
 
@@ -66,8 +66,8 @@ class GuildCreatorBot(Bot):
         # purposes only need ctx.guild, we do this:
         ctx = type('guild_ctx',(object,),{"guild": await self.get_created_guild()})()
         # TODO: supply config through discord interface
-        config = self.guild_configuration_cog.convert_json('./DiscordRC/DiscordBot/UnitTests/SeparateTextAndVoiceBasedChannels.json')
-        print("config")
+        config = self.guild_configuration_cog.convert_json(self.json_file_path)
+        print("Configuring server...")
         try:
             await self.guild_configuration_cog.update_server(ctx, config)
         except:

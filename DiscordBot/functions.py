@@ -159,7 +159,6 @@ class GuildConfigurationCommands(commands.Cog):
 
     @commands.command(name='update_server')
     async def update_server(self, ctx, config):
-        print("in update server")
         # await ctx.guild.edit(community=config['community'])
         for i, role_config in enumerate(config['roles']):
             config['roles'][i] = await self.update_role(ctx, role_config)
@@ -173,7 +172,6 @@ class GuildConfigurationCommands(commands.Cog):
             for j, ch_config in enumerate(cat_config['voice_based_channels']):
                 config['categories'][i]['voice_based_channels'][j] = \
                     await self.update_channel(ctx, ch_config, role_ids, cat_id)
-        print("done updating")
         return config
 
     @commands.command(name='process_json_file')

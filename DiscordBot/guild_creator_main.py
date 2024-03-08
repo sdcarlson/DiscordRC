@@ -15,6 +15,7 @@ async def main():
         for thread in discord_interface.active_threads:
             thread.join()
 
+# './DiscordRC/DiscordBot/UnitTests/NoCommunityTest.json'
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
