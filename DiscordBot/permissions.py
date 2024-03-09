@@ -13,14 +13,28 @@
 # moreover, voice-based channels must be ordered below text-based channels
 # in each category and when not in a category.
 
-from enum import Enum
+# Permission Aliases:
+# Each line below is a pair of permissions names with the same underlying boolean value,
+# so the permission names are aliases of each other:
+# (view_channel, read_messages)
+# (use_external_emojis, external_emojis)
+# (manage_permissions, manage_roles)
+# (manage_emojis, manage_emojis_and_stickers)
+# (use_external_stickers, external_stickers)
+# We keep both aliases because the different names make more sense under different contexts.
+# For instance, "read_messages" makes more sense for a role,
+# whereas "view_channel" makes more sense for a channel.
 
-class Channel(Enum):
-    TEXT = 1
-    VOICE = 2
-    FORUM = 3
-    ANCMT = 4
-    STAGE = 5
+from enum import StrEnum, auto
+
+class Channel(StrEnum):
+    TEXT = auto()
+    VOICE = auto()
+    FORUM = auto()
+    ANNOUNCEMENT = auto()
+    STAGE = auto()
+    RULES = auto()
+    UPDATES = auto()
 
 def set_ch_type(s):
     match s:
@@ -30,10 +44,14 @@ def set_ch_type(s):
             return Channel.VOICE
         case 'FORUM':
             return Channel.FORUM
-        case 'ANCMT':
-            return Channel.ANCMT
+        case 'ANNOUNCEMENT':
+            return Channel.ANNOUNCEMENT
         case 'STAGE':
             return Channel.STAGE
+        case 'RULES':
+            return Channel.RULES
+        case 'UPDATES':
+            return Channel.UPDATES
         case _:
             print(f"'{s}' does not match any channel type!")
 
@@ -87,7 +105,6 @@ role_perm_names = [
     'use_external_stickers',
     'use_soundboard',
     'use_voice_activation',
-    'value',
     'view_audit_log',
     'view_channel',
     'view_guild_insights'
@@ -193,8 +210,6 @@ def set_role_perm(perm, role_perm_name, role_perm_val):
             perm.update(use_soundboard=role_perm_val)
         case 'use_voice_activation':
             perm.update(use_voice_activation=role_perm_val)
-        case 'value':
-            perm.update(value=role_perm_val)
         case 'view_audit_log':
             perm.update(view_audit_log=role_perm_val)
         case 'view_channel':
@@ -444,7 +459,7 @@ def set_forum_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
         case _:
             print(f"'{forum_perm_name}' does not match any forum channel permission!")
 
-ancmt_ch_perm_names = [
+announcement_ch_perm_names = [
     'add_reactions',
     'attach_files',
     'create_instant_invite',
@@ -467,7 +482,7 @@ ancmt_ch_perm_names = [
     'view_channel',
 ]
 
-def set_ancmt_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
+def set_announcement_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
     match ch_perm_name:
         case 'add_reactions':
             overwrite.add_reactions = ch_perm_val
@@ -512,33 +527,181 @@ def set_ancmt_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
         case _:
             print(f"'{ch_perm_name}' does not match any announcement channel permission!")
 
+rules_ch_perm_names = [
+    'add_reactions',
+    'attach_files',
+    'create_instant_invite',
+    'create_private_threads',
+    'create_public_threads',
+    'embed_links',
+    'manage_channels',
+    'manage_messages',
+    'manage_permissions',
+    'manage_threads',
+    'manage_webhooks',
+    'mention_everyone',
+    'read_message_history',
+    'send_messages',
+    'send_messages_in_threads',
+    'send_tts_messages',
+    'send_voice_messages',
+    'use_application_commands',
+    'use_embedded_activities',
+    'use_external_emojis',
+    'use_external_stickers',
+    'view_channel'
+]
+
+def set_rules_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
+    match ch_perm_name:
+        case 'add_reactions':
+            overwrite.add_reactions = ch_perm_val
+        case 'attach_files':
+            overwrite.attach_files = ch_perm_val
+        case 'create_instant_invite':
+            overwrite.create_instant_invite = ch_perm_val
+        case 'create_private_threads':
+            overwrite.create_private_threads = ch_perm_val
+        case 'create_public_threads':
+            overwrite.create_public_threads = ch_perm_val
+        case 'embed_links':
+            overwrite.embed_links = ch_perm_val
+        case 'manage_channels':
+            overwrite.manage_channels = ch_perm_val
+        case 'manage_messages':
+            overwrite.manage_messages = ch_perm_val
+        case 'manage_permissions':
+            overwrite.manage_permissions = ch_perm_val
+        case 'manage_threads':
+            overwrite.manage_threads = ch_perm_val
+        case 'manage_webhooks':
+            overwrite.manage_webhooks = ch_perm_val
+        case 'mention_everyone':
+            overwrite.mention_everyone = ch_perm_val
+        case 'read_message_history':
+            overwrite.read_message_history = ch_perm_val
+        case 'send_messages':
+            overwrite.send_messages = ch_perm_val
+        case 'send_messages_in_threads':
+            overwrite.send_messages_in_threads = ch_perm_val
+        case 'send_tts_messages':
+            overwrite.send_tts_messages = ch_perm_val
+        case 'send_voice_messages':
+            overwrite.send_voice_messages = ch_perm_val
+        case 'use_application_commands':
+            overwrite.use_application_commands = ch_perm_val
+        case 'use_embedded_activities':
+            overwrite.use_embedded_activities = ch_perm_val
+        case 'use_external_emojis':
+            overwrite.use_external_emojis = ch_perm_val
+        case 'use_external_stickers':
+            overwrite.use_external_stickers = ch_perm_val
+        case 'view_channel':
+            overwrite.view_channel = ch_perm_val
+        case _:
+            print(f"'{ch_perm_name}' does not match any rules channel permission!")
+
+updates_ch_perm_names = [
+    'add_reactions',
+    'attach_files',
+    'create_instant_invite',
+    'create_private_threads',
+    'create_public_threads',
+    'embed_links',
+    'manage_channels',
+    'manage_messages',
+    'manage_permissions',
+    'manage_threads',
+    'manage_webhooks',
+    'mention_everyone',
+    'read_message_history',
+    'send_messages',
+    'send_messages_in_threads',
+    'send_tts_messages',
+    'send_voice_messages',
+    'use_application_commands',
+    'use_embedded_activities',
+    'use_external_emojis',
+    'use_external_stickers',
+    'view_channel'
+]
+
+def set_updates_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
+    match ch_perm_name:
+        case 'add_reactions':
+            overwrite.add_reactions = ch_perm_val
+        case 'attach_files':
+            overwrite.attach_files = ch_perm_val
+        case 'create_instant_invite':
+            overwrite.create_instant_invite = ch_perm_val
+        case 'create_private_threads':
+            overwrite.create_private_threads = ch_perm_val
+        case 'create_public_threads':
+            overwrite.create_public_threads = ch_perm_val
+        case 'embed_links':
+            overwrite.embed_links = ch_perm_val
+        case 'manage_channels':
+            overwrite.manage_channels = ch_perm_val
+        case 'manage_messages':
+            overwrite.manage_messages = ch_perm_val
+        case 'manage_permissions':
+            overwrite.manage_permissions = ch_perm_val
+        case 'manage_threads':
+            overwrite.manage_threads = ch_perm_val
+        case 'manage_webhooks':
+            overwrite.manage_webhooks = ch_perm_val
+        case 'mention_everyone':
+            overwrite.mention_everyone = ch_perm_val
+        case 'read_message_history':
+            overwrite.read_message_history = ch_perm_val
+        case 'send_messages':
+            overwrite.send_messages = ch_perm_val
+        case 'send_messages_in_threads':
+            overwrite.send_messages_in_threads = ch_perm_val
+        case 'send_tts_messages':
+            overwrite.send_tts_messages = ch_perm_val
+        case 'send_voice_messages':
+            overwrite.send_voice_messages = ch_perm_val
+        case 'use_application_commands':
+            overwrite.use_application_commands = ch_perm_val
+        case 'use_embedded_activities':
+            overwrite.use_embedded_activities = ch_perm_val
+        case 'use_external_emojis':
+            overwrite.use_external_emojis = ch_perm_val
+        case 'use_external_stickers':
+            overwrite.use_external_stickers = ch_perm_val
+        case 'view_channel':
+            overwrite.view_channel = ch_perm_val
+        case _:
+            print(f"'{ch_perm_name}' does not match any updates channel permission!")
+
 # Aside: The request_to_speak permission is not yet made available by Discord.
 # Moreover, the 'mention @everyone when a Stage starts' permission is not yet
 # supported by discord.py.
 stage_ch_perm_names = [
-        'add_reactions',
-        'attach_files',
-        # 'create_events',
-        'connect',
-        'create_instant_invite',
-        'embed_links',
-        'manage_channels',
-        'manage_events',
-        'manage_messages',
-        'manage_permissions',
-        'mention_everyone',
-        'move_members',
-        'mute_members',
-        'read_message_history',
-        # 'request_to_speak',
-        'send_messages',
-        'send_tts_messages',
-        'send_voice_messages',
-        'stream',
-        'use_application_commands',
-        'use_external_emojis',
-        'use_external_stickers',
-        'view_channel',
+    'add_reactions',
+    'attach_files',
+    # 'create_events',
+    'connect',
+    'create_instant_invite',
+    'embed_links',
+    'manage_channels',
+    'manage_events',
+    'manage_messages',
+    'manage_permissions',
+    'mention_everyone',
+    'move_members',
+    'mute_members',
+    'read_message_history',
+    # 'request_to_speak',
+    'send_messages',
+    'send_tts_messages',
+    'send_voice_messages',
+    'stream',
+    'use_application_commands',
+    'use_external_emojis',
+    'use_external_stickers',
+    'view_channel',
 ]
 
 def set_stage_ch_perm_overwrite(overwrite, ch_perm_name, ch_perm_val):
