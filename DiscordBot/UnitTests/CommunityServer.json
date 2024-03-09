@@ -1,0 +1,355 @@
+{
+  "name": "Server",
+  "id": null,
+  "community": true,
+  "roles": [
+    { 
+      "name": "Administrator",
+      "id": null,
+      "permissions": [
+        "administrator"
+      ]
+    },
+    {
+      "name": "Moderator",
+      "id": null,
+      "permissions": [
+        "add_reactions",
+        "attach_files",
+        "ban_members",
+        "change_nickname",
+        "connect",
+        "create_instant_invite",
+        "create_private_threads",
+        "create_public_threads",
+        "deafen_members",
+        "embed_links",
+        "kick_members",
+        "manage_channels",
+        "manage_events",
+        "manage_messages",
+        "manage_nicknames",
+        "manage_threads",
+        "mention_everyone",
+        "moderate_members",
+        "move_members",
+        "mute_members",
+        "read_message_history",
+        "read_messages",
+        "request_to_speak",
+        "send_messages",
+        "send_messages_in_threads",
+        "send_tts_messages",
+        "send_voice_messages",
+        "speak",
+        "stream",
+        "use_application_commands",
+        "use_embedded_activities",
+        "use_soundboard",
+        "use_voice_activation",
+        "view_audit_log",
+        "view_guild_insights"
+      ]
+    },
+    {
+      "name": "Helper",
+      "id": null,
+      "permissions": [
+        "add_reactions",
+        "attach_files",
+        "change_nickname",
+        "connect",
+        "create_instant_invite",
+        "create_private_threads",
+        "create_public_threads",
+        "deafen_members",
+        "embed_links",
+        "manage_messages",
+        "moderate_members",
+        "move_members",
+        "mute_members",
+        "read_message_history",
+        "read_messages",
+        "request_to_speak",
+        "send_messages",
+        "send_messages_in_threads",
+        "send_tts_messages",
+        "send_voice_messages",
+        "speak",
+        "stream",
+        "use_application_commands",
+        "use_soundboard",
+        "use_voice_activation",
+        "view_audit_log"
+      ]
+    },
+    {
+      "name": "Booster",
+      "id": null,
+      "permissions": [
+        "add_reactions",
+        "change_nickname",
+        "connect",
+        "create_instant_invite",
+        "create_private_threads",
+        "create_public_threads",
+        "read_message_history",
+        "read_messages",
+        "send_messages",
+        "send_messages_in_threads",
+        "send_tts_messages",
+        "send_voice_messages",
+        "speak",
+        "use_application_commands",
+        "use_soundboard",
+        "use_voice_activation"
+      ]
+    },
+    {
+      "name": "Member",
+      "id": null,
+      "permissions": [
+        "add_reactions",
+        "connect",
+        "create_instant_invite",
+        "create_private_threads",
+        "create_public_threads",
+        "read_message_history",
+        "read_messages",
+        "send_messages",
+        "send_messages_in_threads",
+        "send_tts_messages",
+        "send_voice_messages",
+        "speak",
+        "use_application_commands",
+        "use_voice_activation"
+      ]
+    },
+    {
+      "name": "Newcomer",
+      "id": null,
+      "permissions": [
+        "add_reactions",
+        "connect",
+        "read_messages",
+        "send_messages",
+        "send_messages_in_threads",
+        "send_tts_messages",
+        "send_voice_messages",
+        "speak",
+        "use_application_commands",
+        "use_voice_activation"
+      ]
+    },
+    {
+      "name": "Muted",
+      "id": null,
+      "permissions": [
+        "connect",
+        "read_messages",
+        "use_application_commands",
+        "use_voice_activation"
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "name": null,
+      "id": null,
+      "permissions": null,
+      "text_based_channels": [
+        {
+          "name": "Rules",
+          "id": null,
+          "type": "RULES",
+          "permissions": {
+          }
+        },
+        {
+          "name": "Updates",
+          "id": null,
+          "type": "UPDATES",
+          "permissions": {
+          }
+        },
+        {
+          "name": "Suggestions",
+          "id": null,
+          "type": "FORUM",
+          "permissions": {
+          }
+        }
+      ],
+      "voice_based_channels": [
+        {
+          "name": "general",
+          "id": null,
+          "type": "VOICE",
+          "permissions": {
+            "Partially Muted": {
+              "stream": false
+            }
+          }
+        },
+        {
+          "name": "general",
+          "id": null,
+          "type": "STAGE",
+          "permissions": {
+            "Partially Muted": {
+              "add_reactions": false,
+              "attach_files": false
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Information",
+      "id": null,
+      "permissions": {
+        "Helper": {
+          "attach_files": false,
+          "create_private_threads": false,
+          "create_public_threads": false,
+          "embed_links": false,
+          "manage_messages": false,
+          "send_messages": false,
+          "send_messages_in_threads": false,
+          "send_tts_messages": false,
+          "send_voice_messages": false,
+          "use_application_commands": false
+        },
+        "Booster": {
+          "send_messages": false,
+          "send_messages_in_threads": false,
+          "send_tts_messages": false,
+          "send_voice_messages": false,
+          "use_application_commands": false
+        },
+        "Member": {
+          "send_messages": false,
+          "send_messages_in_threads": false,
+          "send_tts_messages": false,
+          "send_voice_messages": false,
+          "use_application_commands": false
+        },
+        "Newcomer": {
+          "send_messages": false,
+          "send_messages_in_threads": false,
+          "send_tts_messages": false,
+          "send_voice_messages": false,
+          "use_application_commands": false
+        },
+        "Muted": {
+          "use_application_commands": false
+        }
+      },
+      "text_based_channels": [
+        {
+          "name": "general",
+          "id": null,
+          "type": "TEXT",
+          "permissions": {
+            "Moderator": {
+              "mention_everyone": false,
+              "use_external_emojis": false,
+              "use_external_stickers": false
+            }
+          }
+        },
+        {
+          "name": "for",
+          "id": null,
+          "type": "FORUM",
+          "permissions": {
+            "Moderator": {
+              "mention_everyone": false,
+              "read_message_history": true
+            }
+          }
+        },
+        {
+          "name": "dup",
+          "id": null,
+          "type": "TEXT",
+          "permissions": {
+          }
+        },
+        {
+          "name": "dup",
+          "id": null,
+          "type": "TEXT",
+          "permissions": {
+          }
+        }
+      ],
+      "voice_based_channels": [
+        {
+          "name": "general",
+          "id": null,
+          "type": "VOICE",
+          "permissions": {
+          }
+        }
+      ]
+    },
+    {
+      "name": "general",
+      "id": null,
+      "permissions": {
+      },
+      "text_based_channels": [
+        {
+          "name": "general",
+          "id": null,
+          "type": "TEXT",
+          "permissions": {
+            "Moderator": {
+              "mention_everyone": false,
+              "use_external_emojis": false,
+              "use_external_stickers": false
+            }
+          }
+        },
+        {
+          "name": "for",
+          "id": null,
+          "type": "FORUM",
+          "permissions": {
+            "Moderator": {
+              "mention_everyone": false,
+              "read_message_history": true
+            }
+          }
+        },
+        {
+          "name": "dup",
+          "id": null,
+          "type": "TEXT",
+          "permissions": {
+          }
+        },
+        {
+          "name": "dup",
+          "id": null,
+          "type": "TEXT",
+          "permissions": {
+          }
+        }
+      ],
+      "voice_based_channels": [
+        {
+          "name": "general",
+          "id": null,
+          "type": "VOICE",
+          "permissions": {
+            "Partially Muted": {
+              "stream": false
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
