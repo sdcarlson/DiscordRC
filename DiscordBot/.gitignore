@@ -2,3 +2,4 @@ __pycache__/
 .env
 UmlDiagrams/
 *.txt
+*V2.json
