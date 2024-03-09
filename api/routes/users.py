@@ -1,9 +1,13 @@
+'''
+This file contains the `/users` endpoints, which give information about users.
+'''
+
 from typing import Annotated
 
 from fastapi import APIRouter, Depends
 
-import models
-from routes.auth import get_current_user
+from api import models
+from api.routes.auth import get_current_user
 
 router = APIRouter()
 
