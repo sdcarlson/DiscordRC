@@ -5,9 +5,14 @@ import { v4 as uuid } from 'uuid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ConfigurationPageRolePermissions from './ConfigurationPageRolePermissions';
+import ConfigurationPageChannelPermissions from './ConfigurationPageChannelPermissions';
+import { VolumeUp, NotificationImportant, FormatColorText } from '@mui/icons-material';
 
 const roleRowNames=['display_separately', 'allow_mention', 'roleperm1', 'roleperm2']; 
 const roleRowTypes=['slider', 'slider', 'toggleButton', 'toggleButton'];
+
+const channelRowNames=['age_restriction', 'view_channel']; 
+const channelRowTypes=['slider', 'toggleButton'];
 
 const ConfigurationPage = () => {
 
@@ -76,6 +81,7 @@ const ConfigurationPage = () => {
         const id = uuid()
         setChannelRows([...channelRows, {
             id: id,
+            type: 'text',
             name: 'New Channel',
             permissions: {},
         }], 
@@ -229,12 +235,21 @@ const ConfigurationPage = () => {
                                     exclusive
                                     onChange={handleChannelToggleButtonSelection}
                                     fullWidth
-                                    alignItems="center" justifyContent="center" 
                                 >
                                     
                                     {channelRows.map((channel) => {
-                                        // TODO: add symbols e.g. voice text has similar to on discord, announce is a speaker etc.
-                                        return <ToggleButton value={channel.id} color="secondary" sx={{minWidth: '80%', maxWidth: '80%', border: 0}}>{channel.name}</ToggleButton>
+                                        let icon = null
+                                        if (channel.type === 'voice') 
+                                            icon = <VolumeUp />
+                                        else if (channel.type === 'text')
+                                            icon = <FormatColorText />
+                                        else if (channel.type === 'announce')
+                                            icon = <NotificationImportant />
+
+                                        return <ToggleButton value={channel.id} color="secondary" sx={{minWidth: '80%', maxWidth: '80%', border: 0, display:'flex', position: 'relative'}}>
+                                            <Box sx={{left: 0, marginLeft: 5, position: 'absolute'}}>{icon}</Box>
+                                            <Box sx={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>{channel.name}</Box>
+                                        </ToggleButton>
                                     })}
                                 </ToggleButtonGroup>
                             </Stack>
@@ -242,13 +257,43 @@ const ConfigurationPage = () => {
                     </Box>
                 </Box>
             </Box>
-            {roleSelected !== null &&
-                <ConfigurationPageRolePermissions id={roleSelected} rowNames={roleRowNames} rowTypes={roleRowTypes} setRoleRows={setRoleRows}/>
-            }
-            {channelSelected !== null &&
-                <></>
-            }
-            
+            <Box sx={{
+                width: '65%',
+                height: '100%',
+                display: 'flex',
+                'flex-flow': 'column',
+                border: 1,
+                borderColor: 'primary.main',
+                float: 'right'
+            }}>
+                {roleSelected !== null &&
+                    <ConfigurationPageRolePermissions id={roleSelected} rowNames={roleRowNames} rowTypes={roleRowTypes} setRoleRows={setRoleRows}/>
+                }
+                {channelSelected !== null &&
+                    <ConfigurationPageChannelPermissions id={channelSelected} rowNames={channelRowNames} rowTypes={channelRowTypes} setChannelRows={setChannelRows}/>
+                } 
+                {channelSelected === null && roleSelected === null &&
+                    <Box sx={{
+                        flex: '1 1 auto',
+                        overflow: 'auto',
+                        margin: '5',
+                    }}/>
+                }
+                <Box sx={{                    
+                    borderTop: 2,
+                    borderColor: 'primary.main'
+                }}>
+                    <Stack sx={{
+                        marginTop: '10',
+                        marginBottom: '15',
+                        marginRight: '30',
+                        justifyContent: "flex-end",
+                    }} spacing={5} direction="row">
+                        <Button variant="contained"> Prev </Button> 
+                        <Button variant="contained"> Next </Button>
+                    </Stack>
+                </Box>
+            </Box>
         </Container>
     );
 }

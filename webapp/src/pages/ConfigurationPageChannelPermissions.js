@@ -4,8 +4,10 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Switch from '@mui/material/Switch';
 import Stack from '@mui/material/Stack';
-import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Typography from '@mui/material/Typography';
@@ -19,71 +21,83 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 
-const ConfigurationPageRolePermissions = (props) => {
+const ConfigurationPageChannelPermissions = (props) => {
 
     const displayedText = {
-        'display_separately':'Display role members separately from online members', 
-        'allow_mention':'Allow anyone to @mention this role', 
-        'roleperm1':'temp role text', 
-        'roleperm2':'temp role text 2'
+        'age_restriction':'Age-Restricted Channel', 
+        'view_channel':'Allow everyone to view this channel by default', 
+    }
+
+    const channelTypeText = {
+        'announce': 'Announcement Channel',
+        'voice': 'Voice Channel',
+        'text': 'Text Channel'
     }
 
     const {
         roleData,
+        channelData,
     } = useFormContext()
     
-    const [role, setRole] = useState({})
-    const [values, setValues] = useState({})
-    const [roleDataId, setRoleDataId] = useState(-1)
+    const [channel, setChannel] = useState({});
+    const [values, setValues] = useState({});
+    const [channelDataId, setChannelDataId] = useState(-1);
+    const [roleSelected, setRoleSelected] = useState(null);
 
-    const [dialogNameValue, setDialogNameValue] = React.useState(null)
+    const [dialogNameValue, setDialogNameValue] = React.useState(null);
+    const [dialogTypeValue, setDialogTypeValue] = React.useState(null);
     const [openNameDialog, setOpenNameDialog] = React.useState(false);
 
     useEffect(() => {
-        for (let i = 0; i < roleData.length; i++) {
-            if (roleData[i].id === props.id) {
-                setRole(roleData[i])
-                setRoleDataId(i)
+        for (let i = 0; i < channelData.length; i++) {
+            if (channelData[i].id === props.id) {
+                setChannel(channelData[i])
+                setChannelDataId(i)
             }
         }
-    }, [props.id, roleData])
+    }, [props.id, channelData])
 
     useEffect(() => {
-        if (!role || Object.keys(role).length === 0) {
+        if (!channel || Object.keys(channel).length === 0) {
             return;
         }
         let build = {}
         for (let i = 0; i < props.rowNames.length; i++) {
-            if (props.rowNames[i] in role.permissions) {
-                build[props.rowNames[i]] = role.permissions[props.rowNames[i]]
+            if (props.rowNames[i] in channel.permissions) {
+                build[props.rowNames[i]] = channel.permissions[props.rowNames[i]]
             } else {
                 build[props.rowNames[i]] = 'Inherit'
             }
         }
         setValues(build)
-        setDialogNameValue(role.name)
-    }, [role])
+        setDialogTypeValue(channel.type)
+        setDialogNameValue(channel.name)
+    }, [channel])
 
 
     const handleToggleButtonChange = (event, newOption) => {
         if (!newOption)
             return
         const r = props.rowNames[event.currentTarget.getAttribute('rownum')]
-        let tempRoleData = [...roleData]
-        tempRoleData[roleDataId] = {...tempRoleData[roleDataId]}
-        tempRoleData[roleDataId].permissions[r] = newOption
-        props.setRoleRows(tempRoleData)
+        let tempChannelData = [...channelData]
+        tempChannelData[channelDataId] = {...tempChannelData[channelDataId]}
+        tempChannelData[channelDataId].permissions[r] = newOption
+        props.setChannelRows(tempChannelData)
     };
+    
+    const handleRoleToggleButtonSelection = (event, nextRole) => {
+        setRoleSelected(nextRole)
+    }
 
     const handleSwitchChange = (event, newOption) => {
         const r = props.rowNames[event.target.getAttribute('rownum')]
-        let tempRoleData = [...roleData]
-        tempRoleData[roleDataId] = {...tempRoleData[roleDataId]}
+        let tempChannelData = [...channelData]
+        tempChannelData[channelDataId] = {...tempChannelData[channelDataId]}
         if (newOption === true)
-            tempRoleData[roleDataId].permissions[r] = 'True'
+            tempChannelData[channelDataId].permissions[r] = 'True'
         else
-            tempRoleData[roleDataId].permissions[r] = 'False'
-        props.setRoleRows(tempRoleData)
+            tempChannelData[channelDataId].permissions[r] = 'False'
+        props.setChannelRows(tempChannelData)
     }
 
     const handleCloseNameDialog = () => {
@@ -100,7 +114,7 @@ const ConfigurationPageRolePermissions = (props) => {
                 justifyContent: "center"
             }}>
                 <Stack spacing={5} direction="row" alignItems="center" justifyContent="center">
-                    <Typography>Role Name: {role.name} </Typography>  
+                    <Typography>Channel Name: {channel.name} &nbsp;&nbsp;&nbsp;&nbsp; Channel Type: {channelTypeText[channel.type]} </Typography>  
                     <Button onClick={()=>{setOpenNameDialog(true)}} variant="contained">Modify<EditIcon/></Button>
                 </Stack>
             </Box>
@@ -110,7 +124,44 @@ const ConfigurationPageRolePermissions = (props) => {
                 overflow: 'auto',
                 margin: '5',
             }}>
-               {props.rowTypes.map((rowtype, i) => {
+                <Typography variant="h6"> Role-Specific Permissions for Channel: </Typography>
+                <ToggleButtonGroup
+                    sx={{
+                        width: '100%',
+                        display: "flex", 
+                        flexDirection: "row",
+                        flexFlow: "row wrap",
+                        gridTemplateRows: "auto auto auto auto",
+                        gridGap: "0px",
+                        margin: 0
+                    }}
+                    value={roleSelected}
+                    exclusive
+                    onChange={handleRoleToggleButtonSelection}
+                    fullWidth
+                >
+                    {roleData.map((role, i) => {
+                        // potential color?
+                        return <ToggleButton value={role.id} color="secondary" 
+                            sx={{minWidth: '25%', 
+                                maxWidth: '25%', 
+                                display:'flex', 
+                                position: 'relative',
+                                border: 0,
+                                padding: 0,
+                        }} className={'MuiToggleButtonGroup-middleButton'}>
+                            <Box sx={{
+                                flex: 1, 
+                                border: 1,
+                                borderColor: 'primary.main',
+                                flexDirection: 'row', 
+                                justifyContent: 'center',
+                                padding: 1
+                            }}>{role.name}</Box>
+                        </ToggleButton>
+                    })}
+                </ToggleButtonGroup>
+               {roleSelected === null && props.rowTypes.map((rowtype, i) => {
                    if (rowtype === 'slider') {
                         return (
                         <Box sx={{
@@ -155,6 +206,7 @@ const ConfigurationPageRolePermissions = (props) => {
                         </Box>
                     )}
                 })}
+                {roleSelected !== null && <></>}
             </Box>
             <Dialog
                 open={openNameDialog}
@@ -171,19 +223,29 @@ const ConfigurationPageRolePermissions = (props) => {
                         label="Name"
                         fullWidth
                         variant="standard"
-                        defaultValue={role.name}
+                        defaultValue={channel.name}
                         onChange={(event)=>{setDialogNameValue(event.target.value)}}
                     />
+                    Channel Type:
+                    <RadioGroup
+                        defaultValue={channel.type}
+                        onChange={(event)=>{setDialogTypeValue(event.target.value)}}
+                    >
+                        <FormControlLabel value="text" control={<Radio />} label="Text Channel" />
+                        <FormControlLabel value="voice" control={<Radio />} label="Voice Channel" />
+                        <FormControlLabel value="announce" control={<Radio />} label="Announcement Channel" />
+                    </RadioGroup>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseNameDialog}>Cancel</Button>
                     <Button onClick={()=>{
-                        let tempRoleData = [...roleData]
-                        tempRoleData[roleDataId] = {...tempRoleData[roleDataId]}
-                        tempRoleData[roleDataId].name = dialogNameValue
-                        props.setRoleRows(tempRoleData)
+                        let tempChannelData = [...channelData]
+                        tempChannelData[channelDataId] = {...tempChannelData[channelDataId]}
+                        tempChannelData[channelDataId].name = dialogNameValue
+                        tempChannelData[channelDataId].type = dialogTypeValue
+                        props.setChannelRows(tempChannelData)
                         handleCloseNameDialog()
-                    }}>Set Name</Button>
+                    }}>Make Changes</Button>
                 </DialogActions>
             </Dialog>
         </>
@@ -212,4 +274,4 @@ export const MuiSwitchLarge = styled(Switch)(({ theme }) => ({
     },
   }));
 
-export default ConfigurationPageRolePermissions;
+export default ConfigurationPageChannelPermissions;
