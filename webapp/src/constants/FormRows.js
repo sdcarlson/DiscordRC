@@ -1,4 +1,4 @@
-const roleRowNames = [
+export const roleRowNames = [
     'add_reactions',
     'administrator',
     'attach_files',
@@ -51,7 +51,7 @@ const roleRowNames = [
 // If we add settings other than permissions, we may need to use toggleButton,
 // e.g.,
 // const roleRowTypes = ['slider', 'slider', 'toggleButton', 'toggleButton'];
-const roleRowTypes = [
+export const roleRowTypes = [
     'slider',
     'slider',
     'slider',
@@ -101,7 +101,7 @@ const roleRowTypes = [
     'slider'
 ];
 
-const textChannelRowNames = [
+export const textChannelRowNames = [
     'add_reactions',
     'attach_files',
     'create_instant_invite',
@@ -126,7 +126,7 @@ const textChannelRowNames = [
     'view_channel'
 ]; 
 
-const textChannelRowTypes = [
+export const textChannelRowTypes = [
     'toggleButton',
     'toggleButton',
     'toggleButton',
@@ -151,11 +151,11 @@ const textChannelRowTypes = [
     'toggleButton'
 ];
 
-const voiceChannelRowNames = [
+export const voiceChannelRowNames = [
     'add_reactions',
     'attach_files',
     'connect',
-    # 'create_events',
+    'create_events',
     'create_instant_invite',
     'deafen_members',
     'embed_links',
@@ -183,7 +183,77 @@ const voiceChannelRowNames = [
     'view_channel'
 ];
 
-const voiceChannelRowTypes = [
+export const voiceChannelRowTypes = [
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton'
+];
+
+export const categoryChannelRowNames = [
+    'add_reactions',
+    'attach_files',
+    'connect',
+    'create_instant_invite',
+    'create_private_threads',
+    'create_public_threads',
+    'deafen_members',
+    'embed_links',
+    'manage_channels',
+    'manage_events',
+    'manage_messages',
+    'manage_permissions',
+    'manage_threads',
+    'manage_webhooks',
+    'mention_everyone',
+    'move_members',
+    'mute_members',
+    'priority_speaker',
+    'read_message_history',
+    'request_to_speak',
+    'send_messages',
+    'send_messages_in_threads',
+    'send_tts_messages',
+    'send_voice_messages',
+    'speak',
+    'stream',
+    'use_application_commands',
+    'use_embedded_activities',
+    'use_external_emojis',
+    'use_external_sounds',
+    'use_external_stickers',
+    'use_soundboard',
+    'use_voice_activation',
+    'view_channel'
+];
+
+
+export const categoryChannelRowTypes = [
     'toggleButton',
     'toggleButton',
     'toggleButton',

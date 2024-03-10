@@ -8,12 +8,7 @@ import ConfigurationPageRolePermissions from './ConfigurationPageRolePermissions
 import ConfigurationPageChannelPermissions from './ConfigurationPageChannelPermissions';
 import { VolumeUp, FormatColorText, North, South, ViewList } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
-
-const roleRowNames=['display_separately', 'allow_mention', 'roleperm1', 'roleperm2']; 
-const roleRowTypes=['slider', 'slider', 'toggleButton', 'toggleButton'];
-
-const channelRowNames=['age_restriction', 'view_channel']; 
-const channelRowTypes=['slider', 'toggleButton'];
+import { ConvertJson } from '../utils/ConvertJson';
 
 const ConfigurationPage = () => {
 
@@ -325,9 +320,9 @@ const ConfigurationPage = () => {
                                         let icon = null
                                         if (channel.type === 'category') {
                                             return <ToggleButton value={channel.id} color="secondary" sx={{minWidth: '80%', maxWidth: '80%', border: 0, display:'flex', position: 'relative'}}>
-                                            <Box sx={{left: 0, marginLeft: 2.5, position: 'absolute'}}>{channel.name}</Box>
-                                            <Box sx={{right: 0, marginRight: 5, position: 'absolute'}}><ViewList /></Box>
-                                            <Box sx={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end', fontWeight: 'bold'}}>Category</Box>
+                                            <Box sx={{left: 0, marginLeft: 2.5, position: 'absolute'}}><ViewList /></Box>
+                                            <Box sx={{right: 0, marginRight: 2.5, position: 'absolute'}}><ViewList /></Box>
+                                            <Box sx={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end', fontWeight: 'bold'}}>{channel.name}</Box>
                                             </ToggleButton>
                                         }
 
@@ -357,10 +352,10 @@ const ConfigurationPage = () => {
                 float: 'right'
             }}>
                 {roleSelected !== null &&
-                    <ConfigurationPageRolePermissions id={roleSelected} rowNames={roleRowNames} rowTypes={roleRowTypes} setRoleRows={setRoleRows}/>
+                    <ConfigurationPageRolePermissions id={roleSelected} setRoleRows={setRoleRows}/>
                 }
                 {channelSelected !== null &&
-                    <ConfigurationPageChannelPermissions id={channelSelected} rowNames={channelRowNames} rowTypes={channelRowTypes} setChannelRows={setChannelRows}/>
+                    <ConfigurationPageChannelPermissions id={channelSelected} setChannelRows={setChannelRows}/>
                 } 
                 {channelSelected === null && roleSelected === null &&
                     <Box sx={{
@@ -380,7 +375,10 @@ const ConfigurationPage = () => {
                         justifyContent: "flex-end",
                     }} spacing={5} direction="row">
                         <Button variant="contained"> Prev </Button> 
-                        <Button variant="contained"> Next </Button>
+                        <Button variant="contained" onClick={() => {
+                            // TODO: Go to next page which then has button with convert
+                            ConvertJson(roleData, channelData)
+                        }}> Next </Button>
                     </Stack>
                 </Box>
             </Box>

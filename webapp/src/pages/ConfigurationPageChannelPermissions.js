@@ -21,101 +21,10 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 import ConfigurationChannelRoleSpecificPermissions from './ConfigurationChannelRoleSpecificPermissions';
+import { textDisplayedText, categoryDisplayedText, voiceDisplayedText } from '../constants/DisplayedText';
+import { categoryChannelRowTypes, categoryChannelRowNames, textChannelRowNames, textChannelRowTypes, voiceChannelRowNames, voiceChannelRowTypes } from '../constants/FormRows';
 
 const ConfigurationPageChannelPermissions = (props) => {
-
-    const textDisplayedText = {
-        'add_reactions': "User can add reactions to messages.",
-        'attach_files': "User can send files in their messages.",
-        'create_instant_invite': "User can create instant invites.",
-        'create_private_threads': "User can create private threads.",
-        'create_public_threads': "User can create public threads.",
-        'embed_links': "User’s messages will automatically be embedded by Discord.",
-        'manage_channels': "User can edit, delete, or create channels in the server.",
-        'manage_messages': "User can delete or pin messages in a text channel.",
-        'manage_permissions': "User can create or edit roles less than their role’s position.",
-        'manage_threads': "User can manage threads.",
-        'manage_webhooks': "User can create, edit, or delete webhooks.",
-        'mention_everyone': "User’s @everyone or @here will mention everyone in the text channel.",
-        'read_message_history': "User can read a text channel’s previous messages.",
-        'send_messages': "User can send messages from all or specific text channels.",
-        'send_messages_in_threads': "User can send messages in threads.",
-        'send_tts_messages': "User can send TTS messages from all or specific text channels.",
-        'send_voice_messages': "User can send voice messages.",
-        'use_application_commands': "User can use slash commands.",
-        'use_embedded_activities': "User can launch an embedded application in a Voice channel.",
-        'use_external_emojis': "User can use emojis from other servers.",
-        'use_external_stickers': "User can use stickers from other servers.",
-        'view_channel': "User can read messages from all or specific text channels."
-    }
-
-    const voiceDisplayedText = {
-        'add_reactions': "User can add reactions to messages.",
-        'attach_files': "User can send files in their messages.",
-        'connect': "User can connect to a voice channel.",
-        'create_instant_invite': "User can create instant invites.",
-        'deafen_members': "User can deafen other users.",
-        'embed_links': "User’s messages will automatically be embedded by Discord.",
-        'manage_channels': "User can edit, delete, or create channels in the server.",
-        'manage_events': "User can manage server events.",
-        'manage_messages': "User can delete or pin messages in a text channel.",
-        'manage_permissions': "User can create or edit roles less than their role’s position.",
-        'mention_everyone': "User’s @everyone or @here will mention everyone in the text channel.",
-        'move_members': "User can move users between other voice.",
-        'mute_members': "User can mute other users.",
-        'priority_speaker': "User’s @everyone or @here will mention everyone in the text channel.",
-        'read_message_history': "User can read a text channel’s previous messages.",
-        'send_messages': "User can send messages from all or specific text channels.",
-        'send_tts_messages': "User can send TTS messages from all or specific text channels.",
-        'send_voice_messages': "User can send voice messages.",
-        'speak': "User can speak in a voice channel.",
-        'stream': "User can stream in a voice channel.",
-        'use_application_commands': "User can use slash commands.",
-        'use_embedded_activities': "User can launch an embedded application in a Voice channel.",
-        'use_external_emojis': "User can use emojis from other servers.",
-        'use_external_sounds': "User can use sounds from other servers.",
-        'external_stickers': "User can use stickers from other servers.",
-        'use_soundboard': "User can use the soundboard.",
-        'use_voice_activation': "User can use voice activation in voice channels.",
-        'view_channel': "User can read messages from all or specific text channels.",
-    }
-
-    const categoryDisplayedText = {
-        'add_reactions': "User can add reactions to messages.",
-        'attach_files': "User can send files in their messages.",
-        'connect': "User can connect to a voice channel.",
-        'create_instant_invite': "User can create instant invites.",
-        'create_private_threads': "User can create private threads.",
-        'create_public_threads': "User can create public threads.",
-        'deafen_members': "User can deafen other users.",
-        'embed_links': "User’s messages will automatically be embedded by Discord.",
-        'manage_channels': "User can edit, delete, or create channels in the server.",
-        'manage_events': "User can manage server events.",
-        'manage_messages': "User can delete or pin messages in a text channel.",
-        'manage_permissions': "User can create or edit roles less than their role’s position.",
-        'manage_threads': "User can manage threads.",
-        'manage_webhooks': "User can create, edit, or delete webhooks.",
-        'mention_everyone': "User’s @everyone or @here will mention everyone in the text channel.",
-        'move_members': "User can move users between other voice.",
-        'mute_members': "User can mute other users.",
-        'priority_speaker': "User’s @everyone or @here will mention everyone in the text channel.",
-        'read_message_history': "User can read a text channel’s previous messages.",
-        'request_to_speak': "User can request to speak in a stage channel.",
-        'send_messages': "User can send messages from all or specific text channels.",
-        'send_messages_in_threads': "User can send messages in threads.",
-        'send_tts_messages': "User can send TTS messages from all or specific text channels.",
-        'send_voice_messages': "User can send voice messages.",
-        'speak': "User can speak in a voice channel.",
-        'stream': "User can stream in a voice channel.",
-        'use_application_commands': "User can use slash commands.",
-        'use_embedded_activities': "User can launch an embedded application in a Voice channel.",
-        'use_external_emojis': "User can use emojis from other servers.",
-        'use_external_sounds': "User can use sounds from other servers.",
-        'use_external_stickers': "User can use stickers from other guilds.",
-        'use_soundboard': "User can use the soundboard.",
-        'use_voice_activation': "User can use voice activation in voice channels.",
-        'view_channel': "User can read messages from all or specific text channels."
-    }
 
     const channelTypeText = {
         'category': 'Category',
@@ -137,37 +46,60 @@ const ConfigurationPageChannelPermissions = (props) => {
     const [dialogTypeValue, setDialogTypeValue] = React.useState(null);
     const [openNameDialog, setOpenNameDialog] = React.useState(false);
 
+    const [rowNames, setRowNames] = React.useState([]);
+    const [rowTypes, setRowTypes] = React.useState([]);
+    const [displayedText, setDisplayedText] = React.useState({});
+
     useEffect(() => {
         for (let i = 0; i < channelData.length; i++) {
             if (channelData[i].id === props.id) {
+                switch (channelData[i].type) {
+                    case 'category':
+                        setRowNames(categoryChannelRowNames)
+                        setRowTypes(categoryChannelRowTypes)
+                        setDisplayedText(categoryDisplayedText)
+                        break;
+                    case 'voice':
+                        setRowNames(voiceChannelRowNames)
+                        setRowTypes(voiceChannelRowTypes)
+                        setDisplayedText(voiceDisplayedText)
+                        break;
+                    case 'text':
+                        setRowNames(textChannelRowNames)
+                        setRowTypes(textChannelRowTypes)
+                        setDisplayedText(textDisplayedText)
+                        break;
+                }
                 setChannel(channelData[i])
                 setChannelDataId(i)
+                break;
             }
         }
     }, [props.id, channelData])
 
     useEffect(() => {
-        if (!channel || Object.keys(channel).length === 0) {
+        if (!channel || Object.keys(channel).length === 0 || rowTypes.length === 0  
+            || rowNames.length === 0 || Object.keys(displayedText).length === 0) {
             return;
         }
         let build = {}
-        for (let i = 0; i < props.rowNames.length; i++) {
-            if (props.rowNames[i] in channel.permissions['@everyone']) {
-                build[props.rowNames[i]] = channel.permissions['@everyone'][props.rowNames[i]]
+        for (let i = 0; i < rowNames.length; i++) {
+            if (rowNames[i] in channel.permissions['@everyone']) {
+                build[rowNames[i]] = channel.permissions['@everyone'][rowNames[i]]
             } else {
-                build[props.rowNames[i]] = 'Inherit'
+                build[rowNames[i]] = 'Inherit'
             }
         }
         setValues(build)
         setDialogTypeValue(channel.type)
         setDialogNameValue(channel.name)
-    }, [channel])
+    }, [channel, rowTypes, rowNames, displayedText])
 
 
     const handleToggleButtonChange = (event, newOption) => {
         if (!newOption)
             return
-        const r = props.rowNames[event.currentTarget.getAttribute('rownum')]
+        const r = rowNames[event.currentTarget.getAttribute('rownum')]
         let tempChannelData = [...channelData]
         tempChannelData[channelDataId] = {...tempChannelData[channelDataId]}
         tempChannelData[channelDataId].permissions['@everyone'][r] = newOption
@@ -179,7 +111,7 @@ const ConfigurationPageChannelPermissions = (props) => {
     }
 
     const handleSwitchChange = (event, newOption) => {
-        const r = props.rowNames[event.target.getAttribute('rownum')]
+        const r = rowNames[event.target.getAttribute('rownum')]
         let tempChannelData = [...channelData]
         tempChannelData[channelDataId] = {...tempChannelData[channelDataId]}
         if (newOption === true)
@@ -232,8 +164,9 @@ const ConfigurationPageChannelPermissions = (props) => {
                     {roleData.map((role, i) => {
                         // potential color?
                         return <ToggleButton value={role.id} color="secondary" 
-                            sx={{minWidth: '25%', 
-                                maxWidth: '25%', 
+                            sx={{minWidth: '24%', 
+                                maxWidth: '24%', 
+                                margin: '1%',
                                 display:'flex', 
                                 position: 'relative',
                                 border: 0,
@@ -250,7 +183,7 @@ const ConfigurationPageChannelPermissions = (props) => {
                         </ToggleButton>
                     })}
                 </ToggleButtonGroup>
-               {roleSelected === null && props.rowTypes.map((rowtype, i) => {
+               {roleSelected === null && rowTypes.map((rowtype, i) => {
                    if (rowtype === 'slider') {
                         return (
                         <Box sx={{
@@ -261,8 +194,8 @@ const ConfigurationPageChannelPermissions = (props) => {
                             paddingRight: '20',
                             paddingTop: '20'
                         }}>
-                            <Typography>{displayedText[props.rowNames[i]]}</Typography>
-                            <MuiSwitchLarge sx={{marginRight: 5}} checked={values[props.rowNames[i]] === 'True'} onChange={handleSwitchChange} inputProps={{'rownum':i}} />
+                            <Typography>{displayedText[rowNames[i]]}</Typography>
+                            <MuiSwitchLarge sx={{marginRight: 5}} checked={values[rowNames[i]] === 'True'} onChange={handleSwitchChange} inputProps={{'rownum':i}} />
                         </Box>
                         )
                     } else if (rowtype === 'toggleButton') {
@@ -275,10 +208,10 @@ const ConfigurationPageChannelPermissions = (props) => {
                             paddingRight: '20',
                             paddingTop: '20'
                         }}>
-                            <Typography>{displayedText[props.rowNames[i]]}</Typography>
+                            <Typography>{displayedText[rowNames[i]]}</Typography>
                             <ToggleButtonGroup 
                                 exclusive='true'
-                                value={values[props.rowNames[i]]}
+                                value={values[rowNames[i]]}
                                 onChange={handleToggleButtonChange}
                                 rownum={i}
                             >
@@ -295,7 +228,7 @@ const ConfigurationPageChannelPermissions = (props) => {
                         </Box>
                     )}
                 })}
-                {roleSelected !== null && <ConfigurationChannelRoleSpecificPermissions setChannelRows={props.setChannelRows} rowNames={props.rowNames} rowTypes={props.rowTypes} channelId={props.id} roleId={roleSelected} />}
+                {roleSelected !== null && <ConfigurationChannelRoleSpecificPermissions setChannelRows={props.setChannelRows} channelId={props.id} roleId={roleSelected} />}
             </Box>
             <Dialog
                 open={openNameDialog}

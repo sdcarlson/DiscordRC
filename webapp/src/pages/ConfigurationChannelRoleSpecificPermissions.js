@@ -9,13 +9,11 @@ import Typography from '@mui/material/Typography';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
+import { textDisplayedText, categoryDisplayedText, voiceDisplayedText } from '../constants/DisplayedText';
+import { categoryChannelRowTypes, categoryChannelRowNames, textChannelRowNames, textChannelRowTypes, voiceChannelRowNames, voiceChannelRowTypes } from '../constants/FormRows';
+
 
 const ConfigurationChannelRoleSpecificPermissions = (props) => {
-
-    const displayedText = {
-        'age_restriction':'Age-Restricted Channel', 
-        'view_channel':'Allow everyone to view this channel by default', 
-    }
 
     const {
         roleData,
@@ -27,9 +25,30 @@ const ConfigurationChannelRoleSpecificPermissions = (props) => {
     const [channelDataId, setChannelDataId] = useState(-1);
     const [roleDataId, setRoleDataId] = useState(null);
 
+    const [rowNames, setRowNames] = React.useState([]);
+    const [rowTypes, setRowTypes] = React.useState([]);
+    const [displayedText, setDisplayedText] = React.useState({});
+
     useEffect(() => {
         for (let i = 0; i < channelData.length; i++) {
             if (channelData[i].id === props.channelId) {
+                switch (channelData[i].type) {
+                    case 'category':
+                        setRowNames(categoryChannelRowNames)
+                        setRowTypes(categoryChannelRowTypes)
+                        setDisplayedText(categoryDisplayedText)
+                        break;
+                    case 'voice':
+                        setRowNames(voiceChannelRowNames)
+                        setRowTypes(voiceChannelRowTypes)
+                        setDisplayedText(voiceDisplayedText)
+                        break;
+                    case 'text':
+                        setRowNames(textChannelRowNames)
+                        setRowTypes(textChannelRowTypes)
+                        setDisplayedText(textDisplayedText)
+                        break;
+                }
                 setChannel(channelData[i])
                 setChannelDataId(i)
             }
@@ -45,28 +64,29 @@ const ConfigurationChannelRoleSpecificPermissions = (props) => {
     }, [props.roleId, roleData])
 
     useEffect(() => {
-        if (!channel || Object.keys(channel).length === 0) {
+        if (!channel || Object.keys(channel).length === 0 || rowTypes.length === 0  
+            || rowNames.length === 0 || Object.keys(displayedText).length === 0) {
             return;
         }
         let build = {}
-        for (let i = 0; i < props.rowNames.length; i++) {
+        for (let i = 0; i < rowNames.length; i++) {
             if (!(roleData[roleDataId].id in channel.permissions)) {
                 channel.permissions[roleData[roleDataId].id] = {}
             }
-            if (props.rowNames[i] in channel.permissions[roleData[roleDataId].id]) {
-                build[props.rowNames[i]] = channel.permissions[roleData[roleDataId].id][props.rowNames[i]]
+            if (rowNames[i] in channel.permissions[roleData[roleDataId].id]) {
+                build[rowNames[i]] = channel.permissions[roleData[roleDataId].id][rowNames[i]]
             } else {
-                build[props.rowNames[i]] = 'Inherit'
+                build[rowNames[i]] = 'Inherit'
             }
         }
         setValues(build)
-    }, [channel, roleDataId])
+    }, [channel, roleDataId, rowTypes, rowNames, displayedText])
 
 
     const handleToggleButtonChange = (event, newOption) => {
         if (!newOption)
             return
-        const r = props.rowNames[event.currentTarget.getAttribute('rownum')]
+        const r = rowNames[event.currentTarget.getAttribute('rownum')]
         let tempChannelData = [...channelData]
         tempChannelData[channelDataId] = {...tempChannelData[channelDataId]}
         tempChannelData[channelDataId].permissions[roleData[roleDataId].id][r] = newOption
@@ -74,7 +94,7 @@ const ConfigurationChannelRoleSpecificPermissions = (props) => {
     };
 
     const handleSwitchChange = (event, newOption) => {
-        const r = props.rowNames[event.target.getAttribute('rownum')]
+        const r = rowNames[event.target.getAttribute('rownum')]
         let tempChannelData = [...channelData]
         tempChannelData[channelDataId] = {...tempChannelData[channelDataId]}
         if (newOption === true)
@@ -92,7 +112,7 @@ const ConfigurationChannelRoleSpecificPermissions = (props) => {
                 margin: '5',
             }}>
                 <Typography variant="h6">Role-Specific Permissions for {(roleDataId !== null) && roleData[roleDataId].name}</Typography>
-                {props.rowTypes.map((rowtype, i) => {
+                {rowTypes.map((rowtype, i) => {
                    if (rowtype === 'slider') {
                         return (
                         <Box sx={{
@@ -103,8 +123,8 @@ const ConfigurationChannelRoleSpecificPermissions = (props) => {
                             paddingRight: '20',
                             paddingTop: '20'
                         }}>
-                            <Typography>{displayedText[props.rowNames[i]]}</Typography>
-                            <MuiSwitchLarge sx={{marginRight: 5}} checked={values[props.rowNames[i]] === 'True'} onChange={handleSwitchChange} inputProps={{'rownum':i}} />
+                            <Typography>{displayedText[rowNames[i]]}</Typography>
+                            <MuiSwitchLarge sx={{marginRight: 5}} checked={values[rowNames[i]] === 'True'} onChange={handleSwitchChange} inputProps={{'rownum':i}} />
                         </Box>
                         )
                     } else if (rowtype === 'toggleButton') {
@@ -117,10 +137,10 @@ const ConfigurationChannelRoleSpecificPermissions = (props) => {
                             paddingRight: '20',
                             paddingTop: '20'
                         }}>
-                            <Typography>{displayedText[props.rowNames[i]]}</Typography>
+                            <Typography>{displayedText[rowNames[i]]}</Typography>
                             <ToggleButtonGroup 
                                 exclusive='true'
-                                value={values[props.rowNames[i]]}
+                                value={values[rowNames[i]]}
                                 onChange={handleToggleButtonChange}
                                 rownum={i}
                             >
