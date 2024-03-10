@@ -1,4 +1,3 @@
-
 const roleRowNames = [
     'add_reactions',
     'administrator',
@@ -54,7 +53,7 @@ const roleRowNames = [
 // const roleRowTypes = ['slider', 'slider', 'toggleButton', 'toggleButton'];
 const roleRowTypes = [
     'slider',
-    'aslider',
+    'slider',
     'slider',
     'slider',
     'slider',
@@ -102,13 +101,109 @@ const roleRowTypes = [
     'slider'
 ];
 
-const channelRowNames = [
-  'age_restriction',
-  'view_channel'
+const textChannelRowNames = [
+    'add_reactions',
+    'attach_files',
+    'create_instant_invite',
+    'create_private_threads',
+    'create_public_threads',
+    'embed_links',
+    'manage_channels',
+    'manage_messages',
+    'manage_permissions',
+    'manage_threads',
+    'manage_webhooks',
+    'mention_everyone',
+    'read_message_history',
+    'send_messages',
+    'send_messages_in_threads',
+    'send_tts_messages',
+    'send_voice_messages',
+    'use_application_commands',
+    'use_embedded_activities',
+    'use_external_emojis',
+    'use_external_stickers',
+    'view_channel'
 ]; 
 
-const channelRowTypes = [
-  'toggleButton',
-  'toggleButton'
+const textChannelRowTypes = [
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton'
 ];
 
+const voiceChannelRowNames = [
+    'add_reactions',
+    'attach_files',
+    'connect',
+    # 'create_events',
+    'create_instant_invite',
+    'deafen_members',
+    'embed_links',
+    'manage_channels',
+    'manage_events',
+    'manage_messages',
+    'manage_permissions',
+    'mention_everyone',
+    'move_members',
+    'mute_members',
+    'priority_speaker',
+    'read_message_history',
+    'send_messages',
+    'send_tts_messages',
+    'send_voice_messages',
+    'speak',
+    'stream',
+    'use_application_commands',
+    'use_embedded_activities',
+    'use_external_emojis',
+    'use_external_sounds',
+    'use_external_stickers',
+    'use_soundboard',
+    'use_voice_activation',
+    'view_channel'
+];
+
+const voiceChannelRowTypes = [
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton'
+];
