@@ -53,7 +53,7 @@ const Form = () => {
                             return (<Button variant="contained" disabled>Prev</Button>)
                     })()}
                     {(() => {
-                        if (page != totalPages)
+                        if (page != totalPages-1)
                             return (<Button variant="contained" onClick={()=>{setPage(page+1);}}>Next</Button>);
                         else
                             return (<Button variant="contained" disabled>Next</Button>)

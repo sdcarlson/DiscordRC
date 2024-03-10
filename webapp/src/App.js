@@ -3,16 +3,19 @@ import { FormProvider } from './context/FormContext'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from "@mui/material/CssBaseline";
 import Form from './components/Form';
+import ConfigurationPage from './pages/ConfigurationPage';
 const theme = createTheme({
   palette: {
     background: {
-      default: "#7289DA",
+      default: "#FFFFFF",
       form: "#FFFFFF",
     },
     primary: {
         main: '#7289DA',
-        dark: '#424549',
     },
+    secondary: {
+      main: '#0000FF',
+    }
   },
   typography: {
     fontFamily: [
@@ -28,7 +31,7 @@ const App = () => {
     <FormProvider>
       <ThemeProvider theme={theme}> 
         <CssBaseline />
-        <Form />
+        <ConfigurationPage />
       </ThemeProvider>
     </FormProvider>
   )
