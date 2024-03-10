@@ -162,7 +162,7 @@ class GuildConfigurationCommands(commands.Cog):
     
         ch_id = ch_config['id']
         ch_name = ch_config['name']
-        ch_type = set_ch_type(ch_config['type'])
+        ch_type = set_ch_type(ch_config['channel_type'])
             
         ch_creator = self._set_ch_creator(ctx, cat, ch_id, ch_name, ch_type)
         ch = None
@@ -252,7 +252,7 @@ class GuildConfigurationCommands(commands.Cog):
             self.updates_ch_pos += pos_update if not updates_ch != None else 0
             pos_update = len(cat_config['text_based_channels'])
             for j, ch_config in enumerate(cat_config['text_based_channels']):
-                ch_type = set_ch_type(ch_config['type'])
+                ch_type = set_ch_type(ch_config['channel_type'])
                 if rules_ch != None and updates_ch != None:
                     break
                 elif ch_type == Channel.RULES:

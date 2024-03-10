@@ -161,21 +161,21 @@
         {
           "name": "Rules",
           "id": null,
-          "type": "TEXT",
+          "channel_type": "TEXT",
           "permissions": {
           }
         },
         {
           "name": "Updates",
           "id": null,
-          "type": "TEXT",
+          "channel_type": "TEXT",
           "permissions": {
           }
         },
         {
           "name": "Suggestions",
           "id": null,
-          "type": "TEXT",
+          "channel_type": "TEXT",
           "permissions": {
           }
         }
@@ -184,7 +184,7 @@
         {
           "name": "general",
           "id": null,
-          "type": "VOICE",
+          "channel_type": "VOICE",
           "permissions": {
             "Partially Muted": {
               "stream": false
@@ -194,7 +194,7 @@
         {
           "name": "general",
           "id": null,
-          "type": "VOICE",
+          "channel_type": "VOICE",
           "permissions": {
             "Partially Muted": {
               "add_reactions": false,
@@ -249,7 +249,7 @@
         {
           "name": "general",
           "id": null,
-          "type": "TEXT",
+          "channel_type": "TEXT",
           "permissions": {
             "Moderator": {
               "mention_everyone": false,
@@ -261,7 +261,7 @@
         {
           "name": "for",
           "id": null,
-          "type": "TEXT",
+          "channel_type": "TEXT",
           "permissions": {
             "Moderator": {
               "mention_everyone": false,
@@ -272,14 +272,14 @@
         {
           "name": "dup",
           "id": null,
-          "type": "TEXT",
+          "channel_type": "TEXT",
           "permissions": {
           }
         },
         {
           "name": "dup",
           "id": null,
-          "type": "TEXT",
+          "channel_type": "TEXT",
           "permissions": {
           }
         }
@@ -288,7 +288,7 @@
         {
           "name": "general",
           "id": null,
-          "type": "VOICE",
+          "channel_type": "VOICE",
           "permissions": {
           }
         }
@@ -303,7 +303,7 @@
         {
           "name": "general",
           "id": null,
-          "type": "TEXT",
+          "channel_type": "TEXT",
           "permissions": {
             "Moderator": {
               "mention_everyone": false,
@@ -315,7 +315,7 @@
         {
           "name": "for",
           "id": null,
-          "type": "TEXT",
+          "channel_type": "TEXT",
           "permissions": {
             "Moderator": {
               "mention_everyone": false,
@@ -326,14 +326,14 @@
         {
           "name": "dup",
           "id": null,
-          "type": "TEXT",
+          "channel_type": "TEXT",
           "permissions": {
           }
         },
         {
           "name": "dup",
           "id": null,
-          "type": "TEXT",
+          "channel_type": "TEXT",
           "permissions": {
           }
         }
@@ -342,7 +342,7 @@
         {
           "name": "general",
           "id": null,
-          "type": "VOICE",
+          "channel_type": "VOICE",
           "permissions": {
             "Partially Muted": {
               "stream": false
