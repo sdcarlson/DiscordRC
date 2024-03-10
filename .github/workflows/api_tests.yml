@@ -21,7 +21,6 @@ jobs:
         python-version: '3.11'
     - name: Set up venv
       run: |
-        cd api
         python -m venv api/venv
     - name: Install dependencies
       run: |
