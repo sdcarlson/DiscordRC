@@ -4,6 +4,13 @@ import asyncio
 
 NEW_GUILD_NAME = "new_guild"
 BOT_NAME = "RCBot"
+ADMIN_PERMISSIONS = {
+      "name": "Administrator",
+      "id": None,
+      "permissions": [
+        "administrator"
+      ]
+    }
 
 class GuildCreatorBot(Bot):
     """
@@ -59,9 +66,12 @@ class GuildCreatorBot(Bot):
         # This bot automatically creates a new guild when ran.
         if not await self.create_new_guild():
             await self.shut_down()
-        if self.guild_config_dict is not None:
+        if self.guild_config_dict is None:
+            await self.create_new_invite()  # If no config given, just send the invite.
+        elif not self.guild_config_dict['community']:  # If not a community server, no need for user to manually verify.
             await self.configure_guild()
-        await self.create_new_invite()
+        else:  # It is a community server, manual verification needed!
+            await self.create_new_invite()
 
         # Connection will only be closed once user joins and ownership is handed over
 
@@ -190,8 +200,33 @@ class GuildCreatorBot(Bot):
         # A Member object is only associated with one guild, so member.guild.id can only correspond to
         # the guild the member just joined.
         if member.guild.id == self.created_guild_id:
-            print("Member joined, making them owner!")
-            await self.give_non_bot_user_owner(member)
+            if self.guild_config_dict is None or not self.guild_config_dict['community']:
+                print("Member joined, making them owner!")
+                await self.give_non_bot_user_owner(member)
+                await self.leave_guild()
+                print("Left the guild!")
+                await self.shut_down()
+            else:
+                print("Waiting for guild to be made community before configuring...")
+                await self.make_self_admin()
+                await self.give_non_bot_user_owner(member)
+                # TODO: send message in Discord explaining what to do
+
+    # TODO: add comments
+    async def make_self_admin(self):
+        # Since the commands of guild_configuration_cog require a ctx but for this function's
+        # purposes only need ctx.guild, we do this:
+        print("before...")
+        created_guild = await self.get_created_guild()
+        ctx = type('guild_ctx', (object,), {"guild": created_guild})()
+        await self.guild_configuration_cog.update_role(ctx, ADMIN_PERMISSIONS)
+        admin_role = discord.utils.get(created_guild.roles, name=ADMIN_PERMISSIONS["name"])
+        await created_guild.me.add_roles(admin_role)
+        print("Made self admin.")
+
+    async def on_guild_update(self, before, after):
+        if after.id == self.created_guild_id and "COMMUNITY" in after.features:
+            await self.configure_guild()
             await self.leave_guild()
             print("Left the guild!")
             await self.shut_down()
