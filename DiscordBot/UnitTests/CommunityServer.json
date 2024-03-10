@@ -158,27 +158,6 @@
       "id": null,
       "permissions": null,
       "text_based_channels": [
-        {
-          "name": "Rules",
-          "id": null,
-          "type": "RULES",
-          "permissions": {
-          }
-        },
-        {
-          "name": "Updates",
-          "id": null,
-          "type": "UPDATES",
-          "permissions": {
-          }
-        },
-        {
-          "name": "Suggestions",
-          "id": null,
-          "type": "FORUM",
-          "permissions": {
-          }
-        }
       ],
       "voice_based_channels": [
         {
@@ -186,7 +165,7 @@
           "id": null,
           "type": "VOICE",
           "permissions": {
-            "Partially Muted": {
+            "Muted": {
               "stream": false
             }
           }
@@ -196,7 +175,7 @@
           "id": null,
           "type": "STAGE",
           "permissions": {
-            "Partially Muted": {
+            "Muted": {
               "add_reactions": false,
               "attach_files": false
             }
@@ -247,6 +226,20 @@
       },
       "text_based_channels": [
         {
+          "name": "Updates",
+          "id": null,
+          "type": "UPDATES",
+          "permissions": {
+          }
+        },
+        {
+          "name": "Suggestions",
+          "id": null,
+          "type": "FORUM",
+          "permissions": {
+          }
+        },
+        {
           "name": "general",
           "id": null,
           "type": "TEXT",
@@ -256,6 +249,13 @@
               "use_external_emojis": false,
               "use_external_stickers": false
             }
+          }
+        },
+        {
+          "name": "Rules",
+          "id": null,
+          "type": "RULES",
+          "permissions": {
           }
         },
         {
