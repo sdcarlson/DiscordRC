@@ -23,9 +23,60 @@ import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 
 const ConfigurationPageChannelPermissions = (props) => {
 
-    const displayedText = {
-        'age_restriction':'Age-Restricted Channel', 
-        'view_channel':'Allow everyone to view this channel by default', 
+    const textDisplayedText = {
+        'add_reactions': "User can add reactions to messages.",
+        'attach_files': "User can send files in their messages.",
+        'create_instant_invite': "User can create instant invites.",
+        'create_private_threads': "User can create private threads.",
+        'create_public_threads': "User can create public threads.",
+        'embed_links': "User’s messages will automatically be embedded by Discord.",
+        'manage_channels': "User can edit, delete, or create channels in the guild.",
+        'manage_messages': "User can delete or pin messages in a text channel.",
+        'manage_permissions': "User can create or edit roles less than their role’s position.",
+        'manage_threads': "User can manage threads.",
+        'manage_webhooks': "User can create, edit, or delete webhooks.",
+        'mention_everyone': "User’s @everyone or @here will mention everyone in the text channel.",
+        'read_message_history': "User can read a text channel’s previous messages.",
+        'send_messages': "User can send messages from all or specific text channels.",
+        'send_messages_in_threads': "User can send messages in threads.",
+        'send_tts_messages': "User can send TTS messages from all or specific text channels.",
+        'send_voice_messages': "User can send voice messages.",
+        'use_application_commands': "User can use slash commands.",
+        'use_embedded_activities': "User can launch an embedded application in a Voice channel.",
+        'use_external_emojis': "User can use emojis from other guilds.",
+        'use_external_stickers': "User can use stickers from other guilds.",
+        'view_channel': "User can read messages from all or specific text channels."
+    }
+
+    const voiceDisplayedText = {
+        'add_reactions': "User can add reactions to messages.",
+        'attach_files': "User can send files in their messages.",
+        'connect': "User can connect to a voice channel.",
+        'create_instant_invite': "User can create instant invites.",
+        'deafen_members': "User can deafen other users.",
+        'embed_links': "User’s messages will automatically be embedded by Discord.",
+        'manage_channels': "User can edit, delete, or create channels in the guild.",
+        'manage_events': "User can manage guild events.",
+        'manage_messages': "User can delete or pin messages in a text channel.",
+        'manage_permissions': "User can create or edit roles less than their role’s position.",
+        'mention_everyone': "User’s @everyone or @here will mention everyone in the text channel.",
+        'move_members': "User can move users between other voice.",
+        'mute_members': "User can mute other users.",
+        'priority_speaker': "User’s @everyone or @here will mention everyone in the text channel.",
+        'read_message_history': "User can read a text channel’s previous messages.",
+        'send_messages': "User can send messages from all or specific text channels.",
+        'send_tts_messages': "User can send TTS messages from all or specific text channels.",
+        'send_voice_messages': "User can send voice messages.",
+        'speak': "User can speak in a voice channel.",
+        'stream': "User can stream in a voice channel.",
+        'use_application_commands': "User can use slash commands.",
+        'use_embedded_activities': "User can launch an embedded application in a Voice channel.",
+        'use_external_emojis': "User can use emojis from other guilds.",
+        'use_external_sounds': "User can use sounds from other guilds.",
+        'external_stickers': "User can use stickers from other guilds.",
+        'use_soundboard': "User can use the soundboard.",
+        'use_voice_activation': "User can use voice activation in voice channels.",
+        'view_channel': "User can read messages from all or specific text channels.",
     }
 
     const channelTypeText = {
