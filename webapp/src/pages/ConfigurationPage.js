@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Box, Container, Stack, Button, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Box, Container, Stack, Button, ButtonGroup, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useFormContext } from '../context/FormContext';
 import { v4 as uuid } from 'uuid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ConfigurationPageRolePermissions from './ConfigurationPageRolePermissions';
-
-const roleRowNames=['display_separately', 'allow_mention', 'roleperm1', 'roleperm2']; 
-const roleRowTypes=['slider', 'slider', 'toggleButton', 'toggleButton'];
+import ConfigurationPageChannelPermissions from './ConfigurationPageChannelPermissions';
+import { VolumeUp, FormatColorText, North, South, ViewList } from '@mui/icons-material';
+import IconButton from '@mui/material/IconButton';
+import { ConvertJson } from '../utils/ConvertJson';
 
 const ConfigurationPage = () => {
 
@@ -76,13 +77,17 @@ const ConfigurationPage = () => {
         const id = uuid()
         setChannelRows([...channelRows, {
             id: id,
+            type: 'text',
             name: 'New Channel',
-            permissions: {},
+            permissions: {
+                '@everyone': {}
+            },
         }], 
         )
         setChannelSelected(id)
         setRoleSelected(null)
         setAddedChannel(addedChannel + 1)
+        console.log(channelRows)
     }
 
     const handleDeleteRole = () => {
@@ -118,10 +123,74 @@ const ConfigurationPage = () => {
             }
         }
     }
+    
+    const handleRoleUp = () => {
+        let row = -1
+        for (let i = 0; i < roleData.length; i++) {
+            if (roleData[i].id === roleSelected) {
+                row = i
+            }
+        }
+        if (row !== null && row !== 0) {
+            let tempRoleData = [...roleData]
+            let tempRole = tempRoleData[row - 1]
+            tempRoleData[row - 1] = tempRoleData[row]
+            tempRoleData[row] = tempRole
+            setRoleRows(tempRoleData);
+        }
+    }
+
+    const handleRoleDown = () => {
+        let row = -1
+        for (let i = 0; i < roleData.length; i++) {
+            if (roleData[i].id === roleSelected) {
+                row = i
+            }
+        }
+        if (row !== null && row !== roleData.length-1) {
+            let tempRoleData = [...roleData]
+            let tempRole = tempRoleData[row + 1]
+            tempRoleData[row + 1] = tempRoleData[row]
+            tempRoleData[row] = tempRole
+            setRoleRows(tempRoleData);
+        }
+    }
+
+    const handleChannelUp = () => {
+        let row = -1
+        for (let i = 0; i < channelData.length; i++) {
+            if (channelData[i].id === channelSelected) {
+                row = i
+            }
+        }
+        if (row !== null && row !== 0) {
+            let tempChannelData = [...channelData]
+            let tempChannel = tempChannelData[row - 1]
+            tempChannelData[row - 1] = tempChannelData[row]
+            tempChannelData[row] = tempChannel
+            setChannelRows(tempChannelData);
+        }
+    }
+
+    const handleChannelDown = () => {
+        let row = -1
+        for (let i = 0; i < channelData.length; i++) {
+            if (channelData[i].id === channelSelected) {
+                row = i
+            }
+        }
+        if (row !== null && row !== channelData.length-1) {
+            let tempChannelData = [...channelData]
+            let tempChannel = tempChannelData[row + 1]
+            tempChannelData[row + 1] = tempChannelData[row]
+            tempChannelData[row] = tempChannel
+            setChannelRows(tempChannelData);
+        }
+    }
 
     return (
         <Container disableGutters={true} maxWidth={false} sx={{ display: 'flex', height:'100%', 'flex-wrap': 'wrap' }}>
-            <Box sx = {{ dispaly: 'flex', height: '100%', width: '35%', 'flex-direction': 'column'}}>
+            <Box sx = {{ display: 'flex', height: '100%', width: '35%', 'flex-direction': 'column'}}>
                 <Box sx={{
                     width: '100%',
                     height: '50%',
@@ -138,6 +207,14 @@ const ConfigurationPage = () => {
                         justifyContent: "center",
                     }}>
                         <Stack spacing={5} direction="row" justifyContent="center">
+                            <Box>
+                                <IconButton onClick={handleRoleUp} size="large">
+                                    <North color='primary'/>
+                                </IconButton>
+                                <IconButton onClick={handleRoleDown} size="large">
+                                    <South color='primary' />
+                                </IconButton>
+                            </Box>
                             <Button variant="contained" style={{maxWidth: '175px', maxHeight: '40px', minWidth: '175px', minHeight: '40px'}} 
                             onClick={handleAddRole}><b>Add Role&nbsp;&nbsp;</b><AddCircleIcon/></Button>
                             <Button variant="contained" style={{maxWidth: '175px', maxHeight: '40px', minWidth: '175px', minHeight: '40px'}} 
@@ -197,6 +274,14 @@ const ConfigurationPage = () => {
                         justifyContent: "center",
                     }}>
                         <Stack spacing={5} direction="row" justifyContent="center">
+                            <Box>
+                                <IconButton onClick={handleChannelUp} size="large">
+                                    <North color='primary'/>
+                                </IconButton>
+                                <IconButton onClick={handleChannelDown} size="large">
+                                    <South color='primary' />
+                                </IconButton>
+                            </Box>
                             <Button variant="contained" style={{maxWidth: '175px', maxHeight: '40px', minWidth: '175px', minHeight: '40px'}} 
                             onClick={handleAddChannel}><b>Add Channel&nbsp;&nbsp;</b><AddCircleIcon/></Button>
                             <Button variant="contained" style={{maxWidth: '175px', maxHeight: '40px', minWidth: '175px', minHeight: '40px'}} 
@@ -229,12 +314,27 @@ const ConfigurationPage = () => {
                                     exclusive
                                     onChange={handleChannelToggleButtonSelection}
                                     fullWidth
-                                    alignItems="center" justifyContent="center" 
                                 >
                                     
                                     {channelRows.map((channel) => {
-                                        // TODO: add symbols e.g. voice text has similar to on discord, announce is a speaker etc.
-                                        return <ToggleButton value={channel.id} color="secondary" sx={{minWidth: '80%', maxWidth: '80%', border: 0}}>{channel.name}</ToggleButton>
+                                        let icon = null
+                                        if (channel.type === 'category') {
+                                            return <ToggleButton value={channel.id} color="secondary" sx={{minWidth: '80%', maxWidth: '80%', border: 0, display:'flex', position: 'relative'}}>
+                                            <Box sx={{left: 0, marginLeft: 2.5, position: 'absolute'}}><ViewList /></Box>
+                                            <Box sx={{right: 0, marginRight: 2.5, position: 'absolute'}}><ViewList /></Box>
+                                            <Box sx={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end', fontWeight: 'bold'}}>{channel.name}</Box>
+                                            </ToggleButton>
+                                        }
+
+                                        if (channel.type === 'voice') 
+                                            icon = <VolumeUp />
+                                        else if (channel.type === 'text')
+                                            icon = <FormatColorText />
+
+                                        return <ToggleButton value={channel.id} color="secondary" sx={{minWidth: '80%', maxWidth: '80%', border: 0, display:'flex', position: 'relative'}}>
+                                            <Box sx={{left: 0, marginLeft: 5, position: 'absolute'}}>{icon}</Box>
+                                            <Box sx={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>{channel.name}</Box>
+                                        </ToggleButton>
                                     })}
                                 </ToggleButtonGroup>
                             </Stack>
@@ -242,13 +342,46 @@ const ConfigurationPage = () => {
                     </Box>
                 </Box>
             </Box>
-            {roleSelected !== null &&
-                <ConfigurationPageRolePermissions id={roleSelected} rowNames={roleRowNames} rowTypes={roleRowTypes} setRoleRows={setRoleRows}/>
-            }
-            {channelSelected !== null &&
-                <></>
-            }
-            
+            <Box sx={{
+                width: '65%',
+                height: '100%',
+                display: 'flex',
+                'flex-flow': 'column',
+                border: 1,
+                borderColor: 'primary.main',
+                float: 'right'
+            }}>
+                {roleSelected !== null &&
+                    <ConfigurationPageRolePermissions id={roleSelected} setRoleRows={setRoleRows}/>
+                }
+                {channelSelected !== null &&
+                    <ConfigurationPageChannelPermissions id={channelSelected} setChannelRows={setChannelRows}/>
+                } 
+                {channelSelected === null && roleSelected === null &&
+                    <Box sx={{
+                        flex: '1 1 auto',
+                        overflow: 'auto',
+                        margin: '5',
+                    }}/>
+                }
+                <Box sx={{                    
+                    borderTop: 2,
+                    borderColor: 'primary.main'
+                }}>
+                    <Stack sx={{
+                        marginTop: '10',
+                        marginBottom: '15',
+                        marginRight: '30',
+                        justifyContent: "flex-end",
+                    }} spacing={5} direction="row">
+                        <Button variant="contained"> Prev </Button> 
+                        <Button variant="contained" onClick={() => {
+                            // TODO: Go to next page which then has button with convert
+                            ConvertJson(roleData, channelData)
+                        }}> Next </Button>
+                    </Stack>
+                </Box>
+            </Box>
         </Container>
     );
 }

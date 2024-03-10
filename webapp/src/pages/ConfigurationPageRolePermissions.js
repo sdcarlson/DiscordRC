@@ -18,19 +18,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
+import { roleDisplayedText } from '../constants/DisplayedText';
+import { roleRowNames, roleRowTypes } from '../constants/FormRows';
 
 const ConfigurationPageRolePermissions = (props) => {
 
-    const displayedText = {
-        'display_separately':'Display role members separately from online members', 
-        'allow_mention':'Allow anyone to @mention this role', 
-        'roleperm1':'temp role text', 
-        'roleperm2':'temp role text 2'
-    }
-
     const {
         roleData,
-        setRoleData,
     } = useFormContext()
     
     const [role, setRole] = useState({})
@@ -54,21 +48,22 @@ const ConfigurationPageRolePermissions = (props) => {
             return;
         }
         let build = {}
-        for (let i = 0; i < props.rowNames.length; i++) {
-            if (props.rowNames[i] in role.permissions) {
-                build[props.rowNames[i]] = role.permissions[props.rowNames[i]]
+        for (let i = 0; i < roleRowNames.length; i++) {
+            if (roleRowNames[i] in role.permissions) {
+                build[roleRowNames[i]] = role.permissions[roleRowNames[i]]
             } else {
-                build[props.rowNames[i]] = 'Inherit'
+                build[roleRowNames[i]] = 'Inherit'
             }
         }
         setValues(build)
+        setDialogNameValue(role.name)
     }, [role])
 
 
     const handleToggleButtonChange = (event, newOption) => {
         if (!newOption)
             return
-        const r = props.rowNames[event.currentTarget.getAttribute('rownum')]
+        const r = roleRowNames[event.currentTarget.getAttribute('rownum')]
         let tempRoleData = [...roleData]
         tempRoleData[roleDataId] = {...tempRoleData[roleDataId]}
         tempRoleData[roleDataId].permissions[r] = newOption
@@ -76,7 +71,7 @@ const ConfigurationPageRolePermissions = (props) => {
     };
 
     const handleSwitchChange = (event, newOption) => {
-        const r = props.rowNames[event.target.getAttribute('rownum')]
+        const r = roleRowNames[event.target.getAttribute('rownum')]
         let tempRoleData = [...roleData]
         tempRoleData[roleDataId] = {...tempRoleData[roleDataId]}
         if (newOption === true)
@@ -91,15 +86,7 @@ const ConfigurationPageRolePermissions = (props) => {
     };
     
     return (
-        <Box sx={{
-            width: '65%',
-            height: '100%',
-            display: 'flex',
-            'flex-flow': 'column',
-            border: 1,
-            borderColor: 'primary.main',
-            float: 'right'
-        }}>
+        <>
             <Box sx={{
                 width: '100%',
                 margin: '5',    
@@ -108,7 +95,8 @@ const ConfigurationPageRolePermissions = (props) => {
                 justifyContent: "center"
             }}>
                 <Stack spacing={5} direction="row" alignItems="center" justifyContent="center">
-                    <>Role Name: {role.name} &nbsp;&nbsp; <IconButton onClick={()=>{setOpenNameDialog(true)}}><EditIcon/></IconButton></>
+                    <Typography>Role Name: {role.name} </Typography>  
+                    <Button onClick={()=>{setOpenNameDialog(true)}} variant="contained">Modify<EditIcon/></Button>
                 </Stack>
             </Box>
             
@@ -117,7 +105,7 @@ const ConfigurationPageRolePermissions = (props) => {
                 overflow: 'auto',
                 margin: '5',
             }}>
-               {props.rowTypes.map((rowtype, i) => {
+               {roleRowTypes.map((rowtype, i) => {
                    if (rowtype === 'slider') {
                         return (
                         <Box sx={{
@@ -128,8 +116,8 @@ const ConfigurationPageRolePermissions = (props) => {
                             paddingRight: '20',
                             paddingTop: '20'
                         }}>
-                            <Typography>{displayedText[props.rowNames[i]]}</Typography>
-                            <MuiSwitchLarge sx={{marginRight: 5}} checked={values[props.rowNames[i]] === 'True'} onChange={handleSwitchChange} inputProps={{'rownum':i}} />
+                            <Typography>{roleDisplayedText[roleRowNames[i]]}</Typography>
+                            <MuiSwitchLarge sx={{marginRight: 5}} checked={values[roleRowNames[i]] === 'True'} onChange={handleSwitchChange} inputProps={{'rownum':i}} />
                         </Box>
                         )
                     } else if (rowtype === 'toggleButton') {
@@ -142,10 +130,10 @@ const ConfigurationPageRolePermissions = (props) => {
                             paddingRight: '20',
                             paddingTop: '20'
                         }}>
-                            <Typography>{displayedText[props.rowNames[i]]}</Typography>
+                            <Typography>{roleDisplayedText[roleRowNames[i]]}</Typography>
                             <ToggleButtonGroup 
                                 exclusive='true'
-                                value={values[props.rowNames[i]]}
+                                value={values[roleRowNames[i]]}
                                 onChange={handleToggleButtonChange}
                                 rownum={i}
                             >
@@ -193,7 +181,7 @@ const ConfigurationPageRolePermissions = (props) => {
                     }}>Set Name</Button>
                 </DialogActions>
             </Dialog>
-        </Box>
+        </>
         
     );
 }
