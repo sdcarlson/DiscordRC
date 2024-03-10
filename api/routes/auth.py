@@ -10,7 +10,10 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
-from api import db, models
+from api import models
+from api.db import Database
+
+user_collection = Database.instance.get_collection('users')
 
 SECRET_KEY = 'ac000a43df3fddd51817ea851e864b9a4b30888c27d0d47b32281ad751aec53f'
 ALGORITHM = 'HS256'
@@ -38,7 +41,7 @@ async def get_user_from_db(username: str) -> models.UserInDB | None:
     '''
     Fetches a user with a given username from the DB.
     '''
-    user_dict = await db.user_collection.find_one({'username': username})
+    user_dict = await user_collection.find_one({'username': username})
     if user_dict is None:
         return None
     return models.UserInDB.model_validate(user_dict)
@@ -144,7 +147,7 @@ async def signup(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> 
             detail=f'User `{username}` already exists',
         )
     hashed_password = get_password_hash(password)
-    await db.user_collection.insert_one(
+    await user_collection.insert_one(
         models.UserInDB.model_validate({
             'username': username,
             'hashed_password': hashed_password,

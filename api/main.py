@@ -18,6 +18,10 @@ see `api/README.md` or message me (biquando) on Discord.'''
     exit(1)
 
 from fastapi import FastAPI
+from api.db import Database
+db = Database()
+
+# pylint: disable=wrong-import-position
 from api.routes import auth, users, config, bot
 
 app = FastAPI(

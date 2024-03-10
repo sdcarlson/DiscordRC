@@ -7,8 +7,12 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from api import db, models
+from api import models
+from api.db import Database
 from api.routes.auth import get_current_user
+
+user_collection = Database.instance.get_collection('users')
+config_collection = Database.instance.get_collection('configs')
 
 router = APIRouter()
 
@@ -30,7 +34,7 @@ async def export_config(
     if server_name not in current_user.servers:
         raise exc
 
-    server_in_db = await db.config_collection.find_one(
+    server_in_db = await config_collection.find_one(
         {'name': server_name, 'owner': current_user.username}
     )
 
@@ -50,7 +54,7 @@ async def import_config(
     server_name = config.name
 
     if server_name in current_user.servers:
-        await db.config_collection.find_one_and_update(
+        await config_collection.find_one_and_update(
             {'name': server_name, 'owner': current_user.username},
             {"$set": config.model_dump()}
         )
@@ -60,9 +64,9 @@ async def import_config(
             **config.model_dump(),
             owner=current_user.username
         )
-        await db.config_collection.insert_one(new_config.model_dump())
+        await config_collection.insert_one(new_config.model_dump())
 
-        await db.user_collection.find_one_and_update(
+        await user_collection.find_one_and_update(
             {'username': current_user.username},
             {'$set': {
                 'servers': current_user.servers + [server_name]
