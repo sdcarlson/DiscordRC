@@ -1,7 +1,11 @@
 import asyncio
 import json
 
-from DiscordInterface import DiscordInterface
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from DiscordBot.DiscordInterface import DiscordInterface
 
 async def main():
     discord_interface = DiscordInterface()

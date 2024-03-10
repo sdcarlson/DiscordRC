@@ -1,7 +1,7 @@
 import discord
 import os
-from GuildCreatorBot import GuildCreatorBot
-from functions import GuildConfigurationCommands
+from DiscordBot.GuildCreatorBot import GuildCreatorBot
+from DiscordBot.functions import GuildConfigurationCommands
 import threading
 
 # Note: For this code to run on Mac, need to use the Install Certificates command on your Python

@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 import json
 import discord
 from discord.ext import commands
-from permissions import Channel, set_ch_type
-from permissions import \
+from DiscordBot.permissions import Channel, set_ch_type
+from DiscordBot.permissions import \
     role_perm_names, set_role_perm, \
     cat_perm_names, set_cat_perm_overwrite, \
     text_ch_perm_names, set_text_ch_perm_overwrite, \
