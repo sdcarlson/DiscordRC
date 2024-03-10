@@ -1,7 +1,7 @@
 import discord
 import os
-from GuildCreatorBot import GuildCreatorBot
-from functions import GuildConfigurationCommands
+from DiscordBot.GuildCreatorBot import GuildCreatorBot
+from DiscordBot.functions import GuildConfigurationCommands
 import threading
 
 # TODO: do we need Install Certificates

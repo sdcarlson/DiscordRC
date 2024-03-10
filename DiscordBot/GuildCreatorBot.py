@@ -70,6 +70,7 @@ class GuildCreatorBot(Bot):
             await self.create_new_invite()  # If no config given, just send the invite.
         elif not self.guild_config_dict['community']:  # If not a community server, no need for user to manually verify.
             await self.configure_guild()
+            await self.create_new_invite()
         else:  # It is a community server, manual verification needed!
             await self.create_new_invite()
 
@@ -219,7 +220,8 @@ class GuildCreatorBot(Bot):
         print("before...")
         created_guild = await self.get_created_guild()
         ctx = type('guild_ctx', (object,), {"guild": created_guild})()
-        await self.guild_configuration_cog.update_role(ctx, ADMIN_PERMISSIONS)
+        # TODO: mark update role as public
+        await self.guild_configuration_cog._update_role(ctx, ADMIN_PERMISSIONS)
         admin_role = discord.utils.get(created_guild.roles, name=ADMIN_PERMISSIONS["name"])
         await created_guild.me.add_roles(admin_role)
         print("Made self admin.")
