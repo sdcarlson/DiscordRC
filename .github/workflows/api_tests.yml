@@ -1,0 +1,32 @@
+on:
+  pull_request:
+    branches:
+    - main
+jobs:
+  test:
+    name: Run API tests
+    runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo
+        ports:
+        - 27017:27017
+        options: -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=2BLfv2tcQnSa -e MONGO_INITDB_DATABASE=db-test
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
+    - name: Set up venv
+      run: |
+        cd api
+        python -m venv api/venv
+    - name: Install dependencies
+      run: |
+        source api/venv/bin/activate
+        pip install -r api/requirements/txt
+    - name: Run tests
+      run: |
+        bash api/tests/run_tests.sh
