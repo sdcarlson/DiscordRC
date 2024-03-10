@@ -20,6 +20,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
+import ConfigurationChannelRoleSpecificPermissions from './ConfigurationChannelRoleSpecificPermissions';
 
 const ConfigurationPageChannelPermissions = (props) => {
 
@@ -117,7 +118,7 @@ const ConfigurationPageChannelPermissions = (props) => {
     }
 
     const channelTypeText = {
-        'announce': 'Announcement Channel',
+        'category': 'Category',
         'voice': 'Voice Channel',
         'text': 'Text Channel'
     }
@@ -151,8 +152,8 @@ const ConfigurationPageChannelPermissions = (props) => {
         }
         let build = {}
         for (let i = 0; i < props.rowNames.length; i++) {
-            if (props.rowNames[i] in channel.permissions) {
-                build[props.rowNames[i]] = channel.permissions[props.rowNames[i]]
+            if (props.rowNames[i] in channel.permissions['@everyone']) {
+                build[props.rowNames[i]] = channel.permissions['@everyone'][props.rowNames[i]]
             } else {
                 build[props.rowNames[i]] = 'Inherit'
             }
@@ -169,7 +170,7 @@ const ConfigurationPageChannelPermissions = (props) => {
         const r = props.rowNames[event.currentTarget.getAttribute('rownum')]
         let tempChannelData = [...channelData]
         tempChannelData[channelDataId] = {...tempChannelData[channelDataId]}
-        tempChannelData[channelDataId].permissions[r] = newOption
+        tempChannelData[channelDataId].permissions['@everyone'][r] = newOption
         props.setChannelRows(tempChannelData)
     };
     
@@ -182,9 +183,9 @@ const ConfigurationPageChannelPermissions = (props) => {
         let tempChannelData = [...channelData]
         tempChannelData[channelDataId] = {...tempChannelData[channelDataId]}
         if (newOption === true)
-            tempChannelData[channelDataId].permissions[r] = 'True'
+            tempChannelData[channelDataId].permissions['@everyone'][r] = 'True'
         else
-            tempChannelData[channelDataId].permissions[r] = 'False'
+            tempChannelData[channelDataId].permissions['@everyone'][r] = 'False'
         props.setChannelRows(tempChannelData)
     }
 
@@ -294,7 +295,7 @@ const ConfigurationPageChannelPermissions = (props) => {
                         </Box>
                     )}
                 })}
-                {roleSelected !== null && <></>}
+                {roleSelected !== null && <ConfigurationChannelRoleSpecificPermissions setChannelRows={props.setChannelRows} rowNames={props.rowNames} rowTypes={props.rowTypes} channelId={props.id} roleId={roleSelected} />}
             </Box>
             <Dialog
                 open={openNameDialog}
@@ -321,7 +322,7 @@ const ConfigurationPageChannelPermissions = (props) => {
                     >
                         <FormControlLabel value="text" control={<Radio />} label="Text Channel" />
                         <FormControlLabel value="voice" control={<Radio />} label="Voice Channel" />
-                        <FormControlLabel value="announce" control={<Radio />} label="Announcement Channel" />
+                        <FormControlLabel value="category" control={<Radio />} label="Category" />
                     </RadioGroup>
                 </DialogContent>
                 <DialogActions>

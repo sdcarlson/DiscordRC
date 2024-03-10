@@ -10,13 +10,19 @@ export const FormProvider = ({ children }) => {
       id: uuid(),
       name: 'temp',
       type: 'voice',
-      permissions: {}
+      permissions: {
+        '@everyone': {
+          
+        }
+      }
     }, {
       id: uuid(),
       name: 'temp2',
       type: 'text',
       permissions: {
-        
+        '@everyone': {
+
+        }
       }
     }])
 
