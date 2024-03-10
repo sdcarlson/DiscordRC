@@ -7,3 +7,9 @@
 5. Run: `sh -c 'cd .. && uvicorn api.main:app --reload'`
 
 To see the API documentation, go to http://localhost:8000/docs after running.
+
+## Testing
+
+1. Start the database in docker.
+2. Make sure the API isn't currently running.
+3. Run `tests/run_tests.sh`.
