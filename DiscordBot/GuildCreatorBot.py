@@ -4,8 +4,48 @@ import asyncio
 
 NEW_GUILD_NAME = "new_guild"
 BOT_NAME = "RCBot"
+ADMIN_PERMISSIONS = {
+      "name": "Administrator",
+      "id": None,
+      "permissions": [
+        "administrator"
+      ]
+    }
 
 class GuildCreatorBot(Bot):
+    """
+    A Discord Bot which creates and configures a Discord guild when run.
+    After returning an invite link to DiscordInterface, it waits until
+    a member joins the guild. Then it makes that member owner, leaves
+    the guild, and shuts itself down.
+
+    Methods
+    -------
+    on_ready():
+        Called when the bot connects to Discord. It contains the routine
+        the bot follows to create the guild.
+    create_new_guild():
+        Creates a new guild, and sets the created_guild_id.
+    configure_guild():
+        Calls GuildConfigurationCog method to configure the guild based on the guild_config_dict.
+    create_new_invite():
+        Creates an invite to the created guild, and provides it to DiscordInterface.
+    give_discord_interface_output(output):
+        Provides output to DiscordInterface.
+    give_non_bot_user_owner(member):
+        Gives the member ownership of the created guild.
+    leave_guild():
+        Leaves the created guild.
+    get_created_guild():
+        Returns the created guild.
+    on_member_join(member):
+        Method called automatically when a member joins any guild the bot is in. If the guild is the
+        created guild, hand over ownership to the member and leave the guild.
+    leave_all_guilds():
+        Makes the bot leave all guilds it belongs to and delete guilds it owns.
+    shut_down():
+        Disconnects the bot and notifies DiscordInterface that it is done.
+    """
     def __init__(self, discord_interface, intents, guild_config_dict):
         # TODO: note that guild_config_dict may be None for no config in comments
         super().__init__(command_prefix="//", intents=intents)
@@ -15,22 +55,41 @@ class GuildCreatorBot(Bot):
         self.created_guild_id = None # Discord guild ID of the guild created by this bot
 
     async def on_ready(self):
+        """
+        Called when the bot connects to Discord. The bot tries to create a new guild.
+        If guild_config_dict is not None, the bot configures the guild according to
+        that dict. Finally, the bot outputs an invite link to DiscordInterface.
+        """
         print("Successfully logged in as " + str(self.user))
 
         self.guild_configuration_cog = self.get_cog("GuildConfigurationCommands")
         # This bot automatically creates a new guild when ran.
         if not await self.create_new_guild():
             await self.shut_down()
-        if self.guild_config_dict is not None:
+        if self.guild_config_dict is None:
+            await self.create_new_invite()  # If no config given, just send the invite.
+        elif not self.guild_config_dict['community']:  # If not a community server, no need for user to manually verify.
             await self.configure_guild()
-        await self.create_new_invite()
+            await self.create_new_invite()
+        else:  # It is a community server, manual verification needed!
+            await self.create_new_invite()
 
         # Connection will only be closed once user joins and ownership is handed over
 
 
     async def create_new_guild(self):
+        """
+        Creates a new guild, and sets the created_guild_id. Handles the error of the bot
+        being unable to create guilds due to being in 10 or more guilds, and ensures that
+        the created guild will be accessible by get_created_guild().
+
+        :return: True if guild creation, False otherwise.
+        """
         try:
-            guild = await self.create_guild(name=NEW_GUILD_NAME)
+            if self.guild_config_dict is None:
+                guild = await self.create_guild(name=NEW_GUILD_NAME)
+            else:
+                guild = await self.create_guild(name=self.guild_config_dict['name'])
             self.created_guild_id = guild.id
         except discord.HTTPException:
             # HTTPException will occur if guild creation fails, usually the bot is in 10 guilds.
@@ -38,7 +97,9 @@ class GuildCreatorBot(Bot):
             print("Guild creation failed. Check that the bot is not in 10 guilds.")
             return False
         print("Waiting for guild creation to be confirmed...")
-        # Confirm that the guild has been created and is visible
+        # Confirm that the guild has been created and is visible.
+        # The created guild might not immediately show up in the bot's guilds, so it is important
+        # to do this to avoid errors when calling get_created_guild.
         loop_count = 0
         while loop_count < 100:
             try:
@@ -58,6 +119,9 @@ class GuildCreatorBot(Bot):
         return True
 
     async def configure_guild(self):
+        """
+        Calls GuildConfigurationCog method to configure the guild based on the guild_config_dict.
+        """
         # Since the commands of guild_configuration_cog require a ctx but for this function's
         # purposes only need ctx.guild, we do this:
         ctx = type('guild_ctx',(object,),{"guild": await self.get_created_guild()})()
@@ -65,6 +129,10 @@ class GuildCreatorBot(Bot):
         await self.guild_configuration_cog.update_server(ctx, self.guild_config_dict)
 
     async def create_new_invite(self):
+        """
+        Creates an invite to the created guild, and provides it to DiscordInterface by
+        give_discord_interface_output.
+        """
         # TODO: what if someone deletes the general channel?
         created_guild = await self.get_created_guild()
         channel = None
@@ -80,20 +148,41 @@ class GuildCreatorBot(Bot):
         self.give_discord_interface_output(str(invite))
 
     def give_discord_interface_output(self, output):
+        """
+        Provides output to DiscordInterface by storing it in bot_outputs,
+        then notifies DiscordInterface of this result by setting the output
+        event corresponding to this bot.
+
+        :param output: The value stored in DiscordInterface's bot_outputs.
+        """
         self.discord_interface.bot_outputs[id(self)] = output
         self.discord_interface.bot_output_events[id(self)].set()
 
     async def give_non_bot_user_owner(self, member):
+        """
+        Gives the member ownership of the created guild.
+
+        :param member: The member to make owner.
+        """
         created_guild = await self.get_created_guild()
         print(member)
         print("making this member owner...")
         new_guild = await created_guild.edit(owner=member)
 
     async def leave_guild(self):
+        """
+        Leaves the created guild.
+        """
         guild = await self.get_created_guild()
         await guild.leave()
 
     async def get_created_guild(self):
+        """
+        Returns the created guild.
+
+        :return: The Guild object of the created guild.
+        :raise LookupError: There is no created_guild_id or the guild with that id is missing.
+        """
         if self.created_guild_id is None:
             raise LookupError("created guild does not exist yet!")
         guild = None
@@ -105,18 +194,53 @@ class GuildCreatorBot(Bot):
         return guild
 
     async def on_member_join(self, member):
-        # Overrides an event functions which triggers when a new member joins a guild.
-        # Member object is only associated with one guild, so this will not trigger if a member joins some
-        # other guild the bot is part of
+        """
+        Method called automatically when a member joins any guild the bot is in. If the guild is the
+        created guild, hand over ownership to the member and leave the guild. Overrides an event
+        functions which triggers when a new member joins a guild.
+
+        :param member: The member who just joined a guild the bot is a member of.
+        """
+        # A Member object is only associated with one guild, so member.guild.id can only correspond to
+        # the guild the member just joined.
         if member.guild.id == self.created_guild_id:
-            print("Member joined, making them owner!")
-            await self.give_non_bot_user_owner(member)
+            if self.guild_config_dict is None or not self.guild_config_dict['community']:
+                print("Member joined, making them owner!")
+                await self.give_non_bot_user_owner(member)
+                await self.leave_guild()
+                print("Left the guild!")
+                await self.shut_down()
+            else:
+                print("Waiting for guild to be made community before configuring...")
+                await self.make_self_admin()
+                await self.give_non_bot_user_owner(member)
+                # TODO: send message in Discord explaining what to do
+
+    # TODO: add comments
+    async def make_self_admin(self):
+        # Since the commands of guild_configuration_cog require a ctx but for this function's
+        # purposes only need ctx.guild, we do this:
+        print("before...")
+        created_guild = await self.get_created_guild()
+        ctx = type('guild_ctx', (object,), {"guild": created_guild})()
+        await self.guild_configuration_cog.update_role(ctx, ADMIN_PERMISSIONS)
+        admin_role = discord.utils.get(created_guild.roles, name=ADMIN_PERMISSIONS["name"])
+        await created_guild.me.add_roles(admin_role)
+        print("Made self admin.")
+
+    async def on_guild_update(self, before, after):
+        if after.id == self.created_guild_id and "COMMUNITY" in after.features:
+            await self.configure_guild()
             await self.leave_guild()
             print("Left the guild!")
             await self.shut_down()
 
-    # WARNING!!!! If the bot can't leave a guild due to being owner, it will delete the guild!
     async def leave_all_guilds(self):
+        """
+        Makes the bot leave all guilds it belongs to and delete guilds it owns.
+        WARNING!!!! If the bot can't leave a guild due to being owner, it will delete the guild!
+        This method can also take minutes to run due to Discord API limits.
+        """
         print("current number of guilds:" + str(len(self.guilds)))
         print("Warning: this may take a while if many guilds are being deleted because of rate limits.")
         for guild in self.guilds:
@@ -127,7 +251,9 @@ class GuildCreatorBot(Bot):
         print("left all guilds")
 
     async def shut_down(self):
-        # TODO: unclosed connector error
+        """
+        Disconnects the bot and notifies DiscordInterface that it is done.
+        """
         await self.close()
         print("closed connection")
         self.discord_interface.thread_done(self)

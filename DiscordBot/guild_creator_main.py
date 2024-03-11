@@ -1,7 +1,11 @@
 import asyncio
 import json
 
-from DiscordInterface import DiscordInterface
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from DiscordBot.DiscordInterface import DiscordInterface
 
 async def main():
     discord_interface = DiscordInterface()
@@ -10,7 +14,7 @@ async def main():
             num_guilds = int(input("input number of new guilds to create simultaneously: "))
             for i in range(num_guilds):
                 json_file_path = input("which JSON file path to use for guild number " + str(i) + "? ")
-                # ./DiscordRC/DiscordBot/UnitTests/NoCommunityTest.json
+                # ./DiscordRC/DiscordBot/UnitTests/DefaultServer.json
                 if json_file_path == "":
                     invite_string = await discord_interface.create_guild(None)
                 else:
