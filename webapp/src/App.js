@@ -2,8 +2,8 @@ import React from 'react'
 import { FormProvider } from './context/FormContext'
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from "@mui/material/CssBaseline";
-import Form from './components/Form';
 import ConfigurationPage from './pages/ConfigurationPage';
+import PageManager from './pages/PageManager';
 const theme = createTheme({
   palette: {
     background: {
@@ -31,7 +31,7 @@ const App = () => {
     <FormProvider>
       <ThemeProvider theme={theme}> 
         <CssBaseline />
-        <ConfigurationPage />
+        <PageManager />
       </ThemeProvider>
     </FormProvider>
   )

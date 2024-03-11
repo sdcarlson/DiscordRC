@@ -8,11 +8,12 @@ import ConfigurationPageRolePermissions from './ConfigurationPageRolePermissions
 import ConfigurationPageChannelPermissions from './ConfigurationPageChannelPermissions';
 import { VolumeUp, FormatColorText, North, South, ViewList } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
-import { ConvertJson } from '../utils/ConvertJson';
 
 const ConfigurationPage = () => {
 
     const {
+        page,
+        setPage,
         roleData,
         setRoleData,
         channelData,
@@ -65,6 +66,7 @@ const ConfigurationPage = () => {
         setRoleRows([...roleRows, {
             id: id,
             name: 'New Role',
+            originalId: null,
             permissions: {},
         }], 
         )
@@ -79,6 +81,7 @@ const ConfigurationPage = () => {
             id: id,
             type: 'text',
             name: 'New Channel',
+            originalId: null,
             permissions: {
                 '@everyone': {}
             },
@@ -87,7 +90,6 @@ const ConfigurationPage = () => {
         setChannelSelected(id)
         setRoleSelected(null)
         setAddedChannel(addedChannel + 1)
-        console.log(channelRows)
     }
 
     const handleDeleteRole = () => {
@@ -374,11 +376,8 @@ const ConfigurationPage = () => {
                         marginRight: '30',
                         justifyContent: "flex-end",
                     }} spacing={5} direction="row">
-                        <Button variant="contained"> Prev </Button> 
-                        <Button variant="contained" onClick={() => {
-                            // TODO: Go to next page which then has button with convert
-                            ConvertJson(roleData, channelData)
-                        }}> Next </Button>
+                        <Button variant="contained" onClick={() => setPage(page-1)}> Prev </Button> 
+                        <Button variant="contained" onClick={() => setPage(page+1)}> Next </Button>
                     </Stack>
                 </Box>
             </Box>
