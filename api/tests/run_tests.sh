@@ -10,6 +10,8 @@ sleep 1
 
 cd api/tests || exit
 pytest -v
+PYTEST_STATUS=$?
 kill $UVI_PID
 
 python3 cleanup.py
+exit $PYTEST_STATUS
