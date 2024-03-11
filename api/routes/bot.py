@@ -20,7 +20,8 @@ async def create_server(
     config: models.ServerConfig
 ) -> models.InviteLink:
     '''
-    Uses the bot to create a Discord server.
+    Uses the bot to create a Discord server. Returns an invite link to the
+    newly created server.
     '''
     config_dict = config.model_dump()
     invite_string = await discord_interface.create_guild(config_dict)
