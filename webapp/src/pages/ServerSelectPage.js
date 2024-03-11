@@ -31,13 +31,11 @@ const ServerSelectPage = () => {
     const [config, setConfig] = useState();
 
     useEffect(() => {
-        console.log(file);
         let reader = new FileReader();
         reader.addEventListener(
             "load",
             () => {
                 const config = JSON.parse(reader.result)
-                console.log(config);
                 setConfig(config);
             },
             false

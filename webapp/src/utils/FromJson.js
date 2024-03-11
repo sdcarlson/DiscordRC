@@ -1,6 +1,5 @@
 
-import { v4 as uuid } from 'uuid'; // temp
-import { useFormContext } from '../context/FormContext';
+import { v4 as uuid } from 'uuid';
 
 export const FromJson = (setServerData, setChannelData, setRoleData, config) => {
     console.log("Converting from json object...");
@@ -85,6 +84,4 @@ export const FromJson = (setServerData, setChannelData, setRoleData, config) => 
         }
     }
     setChannelData(channels);
-
-    console.log(channels);
 }
