@@ -14,8 +14,8 @@ export const ConvertJson = (roleData, channelData, serverData) => {
         categories: []
     }
 
-    console.log(Object.keys(roleData[i][permissions]))
     for (let i = 0; i < roleData.length; i++) {
+        console.log(Object.keys(roleData[i][permissions]))
         let role = {
             name: roleData[i].name,
             id: roleData[i].originalId,
