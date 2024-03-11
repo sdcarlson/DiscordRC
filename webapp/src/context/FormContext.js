@@ -21,7 +21,9 @@ export const FormProvider = ({ children }) => {
       originalId: "128",
       permissions: {
         '@everyone': {
-          
+          "mention_everyone": 'False',
+          "use_external_emojis": 'False',
+          "use_external_stickers": 'False'
         }
       }
     }, {

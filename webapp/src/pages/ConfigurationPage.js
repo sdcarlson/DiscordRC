@@ -192,7 +192,7 @@ const ConfigurationPage = () => {
 
     return (
         <Container disableGutters={true} maxWidth={false} sx={{ display: 'flex', height:'100%', 'flex-wrap': 'wrap' }}>
-            <Box sx = {{ display: 'flex', height: '100%', width: '35%', 'flex-direction': 'column'}}>
+            <Box sx = {{ display: 'flex', height: '100%', width: '45%', 'flex-direction': 'column'}}>
                 <Box sx={{
                     width: '100%',
                     height: '50%',
@@ -345,7 +345,7 @@ const ConfigurationPage = () => {
                 </Box>
             </Box>
             <Box sx={{
-                width: '65%',
+                width: '55%',
                 height: '100%',
                 display: 'flex',
                 'flex-flow': 'column',

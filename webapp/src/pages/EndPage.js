@@ -31,7 +31,7 @@ const EndPage = () => {
                 <Stack sx={{ m: 2 }} spacing={5} direction="row" alignItems="center" justifyContent="center">
                     <Button variant="contained" onClick={()=>{setPage(page-1);}}>Previous</Button>
                     <Button variant="contained" onClick={(()=>{
-                        ConvertJson(roleData, channelData, serverData)
+                        console.log(ConvertJson(roleData, channelData, serverData))
                     })}> Download </Button>
                 </Stack>
             </Container>
