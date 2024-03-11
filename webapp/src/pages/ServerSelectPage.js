@@ -28,6 +28,8 @@ const ServerSelectPage = () => {
         setFile(event.target.files[0]);
     }
 
+    const [config, setConfig] = useState();
+
     useEffect(() => {
         console.log(file);
         let reader = new FileReader();
@@ -36,7 +38,7 @@ const ServerSelectPage = () => {
             () => {
                 const config = JSON.parse(reader.result)
                 console.log(config);
-                FromJson(setServerData, setChannelData, setRoleData, config);
+                setConfig(config);
             },
             false
         );
@@ -83,7 +85,10 @@ const ServerSelectPage = () => {
                             <Typography variant="p">Uploaded file: {file.name}</Typography>
                         </Stack>
                         <Stack sx={{ m: 2 }} spacing={5} direction="row" alignItems="center" justifyContent="center">
-                            <Button variant="contained" onClick={()=>{setPage(page+1);}}>Edit</Button>
+                            <Button variant="contained" onClick={()=>{
+                                FromJson(setServerData, setChannelData, setRoleData, config);
+                                setPage(page+1);
+                            }}>Edit</Button>
                             <Button variant="contained">Create Server</Button>
                         </Stack>
                     </div>
