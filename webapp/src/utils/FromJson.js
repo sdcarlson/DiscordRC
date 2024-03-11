@@ -6,12 +6,6 @@ export const FromJson = (setServerData, setChannelData, setRoleData, config) => 
     console.log("Converting from json object...");
     console.log(config);
 
-    // const {
-    //     setServerData,
-    //     setChannelData,
-    //     setRoleData,
-    // } = useFormContext();
-
     setServerData({
         name: config.name,
         id: config.id,
@@ -47,7 +41,7 @@ export const FromJson = (setServerData, setChannelData, setRoleData, config) => 
                 perms[roleIds[roleName]] = {};
                 for (const permName in configCategory.permissions[roleName]) {
                     perms[roleIds[roleName]][permName] =
-                        configCategory.permissions[roleName] ? 'True' : 'False';
+                        configCategory.permissions[roleName][permName] ? 'True' : 'False';
                 }
             }
             categoryChannel.permissions = perms;
@@ -65,7 +59,7 @@ export const FromJson = (setServerData, setChannelData, setRoleData, config) => 
                 perms[roleIds[roleName]] = {};
                 for (const permName in configTextChannel.permissions[roleName]) {
                     perms[roleIds[roleName]][permName] =
-                        configTextChannel.permissions[roleName] ? 'True' : 'False';
+                        configTextChannel.permissions[roleName][permName] ? 'True' : 'False';
                 }
             }
             textChannel.permissions = perms;
@@ -83,7 +77,7 @@ export const FromJson = (setServerData, setChannelData, setRoleData, config) => 
                 perms[roleIds[roleName]] = {};
                 for (const permName in configVoiceChannel.permissions[roleName]) {
                     perms[roleIds[roleName]][permName] =
-                        configVoiceChannel.permissions[roleName] ? 'True' : 'False';
+                        configVoiceChannel.permissions[roleName][permName] ? 'True' : 'False';
                 }
             }
             voiceChannel.permissions = perms;

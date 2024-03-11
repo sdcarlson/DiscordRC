@@ -1,8 +1,5 @@
 
 export const ConvertJson = (roleData, channelData, serverData) => {
-    // console.log(roleData)
-    // console.log(channelData)
-    // console.log(serverData);
 
     let jsonObj = {
         ...serverData,

@@ -275,5 +275,17 @@ export const categoryChannelRowTypes = [
     'toggleButton',
     'toggleButton',
     'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
     'toggleButton'
 ];

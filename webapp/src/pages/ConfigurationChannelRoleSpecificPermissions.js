@@ -32,6 +32,7 @@ const ConfigurationChannelRoleSpecificPermissions = (props) => {
     useEffect(() => {
         for (let i = 0; i < channelData.length; i++) {
             if (channelData[i].id === props.channelId) {
+                console.log(channelData[i].type)
                 switch (channelData[i].type) {
                     case 'category':
                         setRowNames(categoryChannelRowNames)
@@ -68,6 +69,7 @@ const ConfigurationChannelRoleSpecificPermissions = (props) => {
             || rowNames.length === 0 || Object.keys(displayedText).length === 0) {
             return;
         }
+        console.log(displayedText)
         let build = {}
         for (let i = 0; i < rowNames.length; i++) {
             if (!(roleData[roleDataId].id in channel.permissions)) {
