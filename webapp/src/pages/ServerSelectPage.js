@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Stack from '@mui/material/Stack';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
@@ -17,6 +17,26 @@ const ServerSelectPage = () => {
     } = useFormContext()
 
     const theme = useTheme();
+
+    const [file, setFile] = useState();
+    function handleUpload(event) {
+        setFile(event.target.files[0]);
+    }
+
+    useEffect(() => {
+        console.log(file);
+        let reader = new FileReader();
+        reader.addEventListener(
+            "load",
+            () => {
+                console.log(JSON.parse(reader.result));  // TODO: do something with this
+            },
+            false
+        );
+        if (file) {
+            reader.readAsText(file);
+        }
+    }, [file]);
 
     return  <Container maxWidth="lg" 
             sx={{ 
@@ -41,8 +61,27 @@ const ServerSelectPage = () => {
                 </Stack>
                 <Stack sx={{ m: 2 }} spacing={5} direction="row" alignItems="center" justifyContent="center">
                     <Button variant="contained" onClick={()=>{setPage(page+1);}}>Configure New</Button>
-                    <Button variant="contained" onClick={()=>{setPage(page+1);}}>Upload Json</Button>
+                    <Button
+                        variant="contained"
+                        component="label"
+                        // onClick={()=>{setPage(page+1);}}
+                    >Upload Json
+                    <input type="file" hidden onChange={handleUpload} />
+                    </Button>
                 </Stack>
+                {
+                    file ?
+                    <div>
+                        <Stack sx={{ m: 2 }} spacing={5} direction="row" alignItems="center" justifyContent="center">
+                            <Typography variant="p">Uploaded file: {file.name}</Typography>
+                        </Stack>
+                        <Stack sx={{ m: 2 }} spacing={5} direction="row" alignItems="center" justifyContent="center">
+                            <Button variant="contained" onClick={()=>{setPage(page+1);}}>Edit</Button>
+                            <Button variant="contained">Create Server</Button>
+                        </Stack>
+                    </div>
+                    : <></>
+                }
             </Container>
         </Container>
 }
