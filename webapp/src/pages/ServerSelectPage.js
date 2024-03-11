@@ -7,13 +7,18 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import { useFormContext } from '../context/FormContext';
+import { FromJson } from '../utils/FromJson';
 
 const ServerSelectPage = () => {
     const {
         page,
         setPage,
         serverData,
-        setServerData
+        channelData,
+        roleData,
+        setServerData,
+        setChannelData,
+        setRoleData,
     } = useFormContext()
 
     const theme = useTheme();
@@ -29,7 +34,9 @@ const ServerSelectPage = () => {
         reader.addEventListener(
             "load",
             () => {
-                console.log(JSON.parse(reader.result));  // TODO: do something with this
+                const config = JSON.parse(reader.result)
+                console.log(config);
+                FromJson(setServerData, setChannelData, setRoleData, config);
             },
             false
         );
