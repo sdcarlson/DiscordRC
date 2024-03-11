@@ -1,24 +1,55 @@
 import React, { useState } from 'react';
 import { Container, TextField, Button, Typography} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-const LoginPage = ({ onLoginSuccess, onRegisterClick }) => {
+
+const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
-    const handleSubmit = async (event) => {
+    const handleLoginSubmit = async (event) => {
         event.preventDefault();
+        const form_data = new FormData();
+        form_data.append('username', email);
+        form_data.append('password', password);
         const response = await fetch('http://localhost:8000/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams({ username: email, password }),
-        });
+                method: 'POST',
+                body: form_data,
+            })
+
 
         if (response.ok) {
             const data = await response.json();
+            const { access_token } = data;
+            console.log("access_token: ", access_token);
+            localStorage.setItem('access_token', access_token);
             console.log('Login successful:', data);
-            onLoginSuccess(data);
+            navigate('/');
         } else {
             console.error('Login failed');
+        }
+    };
+
+    const handleRegisterSubmit = async (event) => {
+        event.preventDefault();
+        const form_data = new FormData();
+        form_data.append('username', email);
+        form_data.append('password', password);
+        const response = await fetch('http://localhost:8000/auth/signup', {
+            method: 'POST',
+            body: form_data,
+        });
+        if (response.ok) {
+            const data = await response.json();
+            const { access_token } = data;
+            console.log("access_token: ", access_token);
+            localStorage.setItem('access_token', access_token);
+            console.log("YES");
+            console.log('Registration successful:', data);
+            navigate('/');
+        } else {
+            console.error('Registration failed');
         }
     };
 
@@ -30,7 +61,7 @@ const LoginPage = ({ onLoginSuccess, onRegisterClick }) => {
             <Typography component="h1" variant="h5">
                 Login
             </Typography>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleLoginSubmit}>
                 <TextField
                     margin="normal"
                     required
@@ -67,9 +98,10 @@ const LoginPage = ({ onLoginSuccess, onRegisterClick }) => {
                 </Button>
                 <Button
                     fullWidth
-                    variant="outlined"
-                    sx={{ mt: 2, mb: 2, backgroundColor: 'primary.dark', color: 'text.primary' }}
-                    onClick={onRegisterClick}
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2, backgroundColor: 'primary.dark', color: 'text.primary' }}
+                    onClick = {handleRegisterSubmit}
+                    type = "button"
                 >
                     Register
                 </Button>
