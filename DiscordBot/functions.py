@@ -28,7 +28,7 @@ class GuildConfigurationCommands(commands.Cog):
         self.rules_ch_idcs = None
         self.updates_ch_idcs = None
 
-    async def _update_role(self, ctx, role_config):
+    async def update_role(self, ctx, role_config):
         role_id = role_config['id']
         name = role_config['name']
         if role_id == None:
@@ -276,7 +276,7 @@ class GuildConfigurationCommands(commands.Cog):
         '''
         self.config = config
         for i, role_config in enumerate(config['roles']):
-            config['roles'][i] = await self._update_role(ctx, role_config)
+            config['roles'][i] = await self.update_role(ctx, role_config)
         self.role_ids = [role_config['id'] for role_config in config['roles']]
     
         if config['community'] == True:

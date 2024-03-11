@@ -86,7 +86,10 @@ class GuildCreatorBot(Bot):
         :return: True if guild creation, False otherwise.
         """
         try:
-            guild = await self.create_guild(name=NEW_GUILD_NAME)
+            if self.guild_config_dict is None:
+                guild = await self.create_guild(name=NEW_GUILD_NAME)
+            else:
+                guild = await self.create_guild(name=self.guild_config_dict['name'])
             self.created_guild_id = guild.id
         except discord.HTTPException:
             # HTTPException will occur if guild creation fails, usually the bot is in 10 guilds.
@@ -220,8 +223,7 @@ class GuildCreatorBot(Bot):
         print("before...")
         created_guild = await self.get_created_guild()
         ctx = type('guild_ctx', (object,), {"guild": created_guild})()
-        # TODO: mark update role as public
-        await self.guild_configuration_cog._update_role(ctx, ADMIN_PERMISSIONS)
+        await self.guild_configuration_cog.update_role(ctx, ADMIN_PERMISSIONS)
         admin_role = discord.utils.get(created_guild.roles, name=ADMIN_PERMISSIONS["name"])
         await created_guild.me.add_roles(admin_role)
         print("Made self admin.")
