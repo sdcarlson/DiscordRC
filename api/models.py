@@ -14,6 +14,12 @@ class Response(BaseModel):
     '''
     msg: str = 'Success'
 
+class InviteLink(BaseModel):
+    '''
+    Response data for the `/bot/create` endpoint.
+    '''
+    invite_link: str
+
 ### Server Config Models #######################################################
 
 class ChannelType(str, Enum):
