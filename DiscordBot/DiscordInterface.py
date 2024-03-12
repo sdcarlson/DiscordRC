@@ -22,7 +22,7 @@ class DiscordInterface:
     async def create_guild(self, guild_config_dict):
         print("Creating a new guild!")
         # Set up the GuildCreatorBot
-        bot_intents = discord.Intents.default()
+        bot_intents = discord.Intents.all()
         # Note: bots in 100 or more servers need verification for member intent.
         bot_intents.members = True
         Bot = GuildCreatorBot(self, bot_intents, guild_config_dict)

@@ -275,6 +275,7 @@ class GuildConfigurationCommands(commands.Cog):
         '''
         Updates the server with the given config.
         '''
+        self.clear(ctx)
         self.config = config
         for i, role_config in enumerate(config['roles']):
             config['roles'][i] = await self._update_role(ctx, role_config)
