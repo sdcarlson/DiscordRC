@@ -1,7 +1,9 @@
 import discord
 import os
 from DiscordBot.GuildCreatorBot import GuildCreatorBot
-from DiscordBot.functions import GuildConfigurationCommands
+from DiscordBot.ruco.read import Read
+from DiscordBot.ruco.write import Write
+from DiscordBot.ruco.test import Test
 import threading
 
 # TODO: do we need Install Certificates
@@ -43,12 +45,14 @@ class DiscordInterface:
         """
         print("Creating a new guild!")
         # Set up the GuildCreatorBot
-        bot_intents = discord.Intents.default()
+        bot_intents = discord.Intents.all()
         # Note: bots in 100 or more servers need verification for member intent.
         bot_intents.members = True
         Bot = GuildCreatorBot(self, bot_intents, guild_config_dict)
-        # Adds the guild configuration commands to the bot
-        await Bot.add_cog(GuildConfigurationCommands(Bot))
+        # Adds the bot configuration commands to the bot
+        await Bot.add_cog(Read(Bot))
+        await Bot.add_cog(Write(Bot))
+        await Bot.add_cog(Test(Bot))
 
         # Run the GuildCreatorBot in a separate thread. If we want to run
         # multiple Bots at once, we need to do this because Bot.run is blocking.
