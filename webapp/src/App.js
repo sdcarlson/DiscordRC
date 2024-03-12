@@ -10,12 +10,12 @@ import EndPage from "./pages/EndPage.js";
 const theme = createTheme({
   palette: {
     background: {
-      default: "#FFFFFF",
-      form: "#FFFFFF",
+      default: "#A8AABC",
+      form: "#A8AABC",
     },
     primary: {
       main: "#7289DA",
-      dark: "#424549",
+      dark: "#444655",
     },
     text: {
       primary: "#000000",
@@ -27,9 +27,26 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: ["sans-serif", "Roboto"].join(","),
+    h2: {
+      fontSize: '2rem',
+      fontWeight: 500,
+    },
   },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 4, 
+          padding: '8px 15px',
+          boxShadow: '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)', // Subtle shadow
+          '&:hover': {
+            boxShadow: '0px 4px 5px -2px rgba(0,0,0,0.2), 0px 7px 10px 1px rgba(0,0,0,0.14), 0px 2px 16px 1px rgba(0,0,0,0.12)',
+          },
+        },
+      },
+    },
+}
 });
-
 const App = () => {
   return (
     <FormProvider>
