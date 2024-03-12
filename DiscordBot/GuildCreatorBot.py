@@ -11,13 +11,18 @@ class GuildCreatorBot(Bot):
         super().__init__(command_prefix="//", intents=intents)
         self.discord_interface = discord_interface # Reference to the DiscordInterface which started the Bot
         self.guild_config_dict = guild_config_dict # Object containing config information for the guild.
+        self.guild_read_cog = None
+        self.guild_write_cog = None
+        self.guild_test_cog = None
         self.guild_configuration_cog = None # Cog containing the commands and methods for guild configuration.
         self.created_guild_id = None # Discord guild ID of the guild created by this bot
 
     async def on_ready(self):
         print("Successfully logged in as " + str(self.user))
 
-        self.guild_configuration_cog = self.get_cog("GuildConfigurationCommands")
+        self.guild_read_cog = self.get_cog("Read")
+        self.guild_write_cog = self.get_cog("Write")
+        self.guild_test_cog = self.get_cog("Test")
         # This bot automatically creates a new guild when ran.
         if not await self.create_new_guild():
             await self.shut_down()
@@ -62,7 +67,8 @@ class GuildCreatorBot(Bot):
         # purposes only need ctx.guild, we do this:
         ctx = type('guild_ctx',(object,),{"guild": await self.get_created_guild()})()
         print("Configuring guild...")
-        await self.guild_configuration_cog.update_server(ctx, self.guild_config_dict)
+        await self.guild_test_cog.clear(ctx)
+        await self.guild_write_cog.write_server(ctx, self.guild_config_dict)
 
     async def create_new_invite(self):
         # TODO: what if someone deletes the general channel?

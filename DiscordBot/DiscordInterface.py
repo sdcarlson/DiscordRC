@@ -1,7 +1,9 @@
 import discord
 import os
 from DiscordBot.GuildCreatorBot import GuildCreatorBot
-from DiscordBot.functions import GuildConfigurationCommands
+from DiscordBot.ruco.read import Read
+from DiscordBot.ruco.write import Write
+from DiscordBot.ruco.test import Test
 import threading
 
 # Note: For this code to run on Mac, need to use the Install Certificates command on your Python
@@ -27,7 +29,9 @@ class DiscordInterface:
         bot_intents.members = True
         Bot = GuildCreatorBot(self, bot_intents, guild_config_dict)
         # Adds the bot configuration commands to the bot
-        await Bot.add_cog(GuildConfigurationCommands(Bot))
+        await Bot.add_cog(Read(Bot))
+        await Bot.add_cog(Write(Bot))
+        await Bot.add_cog(Test(Bot))
 
         # Run the GuildCreatorBot in a separate thread. If we want to run
         # multiple Bots at once, we need to do this because Bot.run is blocking.
