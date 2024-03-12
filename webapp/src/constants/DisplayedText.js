@@ -109,6 +109,7 @@ export const roleDisplayedText = {
     'external_stickers': "User can use stickers from other servers.",
     'kick_members': "User can kick users from the server.",
     'manage_channels': "User can edit, delete, or create channels in the server.",
+    'manage_emojis_and_stickers': "User can manage emojis and stickers",
     'manage_events': "User can manage server events.",
     'manage_expressions': "User can edit or delete emojis, stickers, and soundboard sounds.",
     'manage_guild': "User can edit server properties.",

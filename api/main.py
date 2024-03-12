@@ -18,11 +18,22 @@ see `api/README.md` or message me (biquando) on Discord.'''
     exit(1)
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from api.routes import auth, users, config, bot
+
+origins = ["*"]
 
 app = FastAPI(
     title='DiscordRC',
     description='This is the documentation for the backend API of DiscordRC.'
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(auth.router, prefix='/auth')

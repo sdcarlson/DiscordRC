@@ -2,10 +2,11 @@ import React from "react";
 import { FormProvider } from "./context/FormContext";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import ConfigurationPage from './pages/ConfigurationPage';
+import ConfigurationPage from "./pages/ConfigurationPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage.js";
 import LoginPage from "./pages/LoginPage.js";
+import ServerSelectPage from "./pages/ServerSelectPage.js";
+import EndPage from "./pages/EndPage.js";
 const theme = createTheme({
   palette: {
     background: {
@@ -21,8 +22,8 @@ const theme = createTheme({
       secondary: "#000000",
     },
     secondary: {
-      main: '#0000FF',
-    }
+      main: "#0000FF",
+    },
   },
   typography: {
     fontFamily: ["sans-serif", "Roboto"].join(","),
@@ -37,8 +38,9 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<LoginPage />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/config" element={<ConfigurationPage />}/>
+            <Route path="/home" element={<ServerSelectPage />} />
+            <Route path="/config" element={<ConfigurationPage />} />
+            <Route path="/end" element={<EndPage />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
