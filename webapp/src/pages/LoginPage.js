@@ -3,7 +3,7 @@ import { Container, TextField, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ const LoginPage = () => {
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
     const form_data = new FormData();
-    form_data.append("username", email);
+    form_data.append("username", username);
     form_data.append("password", password);
     const response = await fetch("http://localhost:8000/auth/login", {
       method: "POST",
@@ -38,7 +38,7 @@ const LoginPage = () => {
   const handleRegisterSubmit = async (event) => {
     event.preventDefault();
     const form_data = new FormData();
-    form_data.append("username", email);
+    form_data.append("username", usernamel);
     form_data.append("password", password);
     const response = await fetch("http://localhost:8000/auth/signup", {
       method: "POST",
@@ -72,14 +72,14 @@ const LoginPage = () => {
           margin="normal"
           required
           fullWidth
-          id="email"
-          label="Email Address"
-          name="email"
-          autoComplete="email"
+          id="username"
+          label="Username"
+          name="username"
+          autoComplete="username"
           autoFocus
-          value={email}
+          value={username}
           sx={{ backgroundColor: "primary.light", color: "text.primary" }}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <TextField
           margin="normal"
