@@ -1,38 +1,49 @@
-import React from 'react'
-import { FormProvider } from './context/FormContext'
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import React from "react";
+import { FormProvider } from "./context/FormContext";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import Form from './components/Form';
+import ConfigurationPage from './pages/ConfigurationPage';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage.js";
+import LoginPage from "./pages/LoginPage.js";
 const theme = createTheme({
   palette: {
     background: {
-      default: "#7289DA",
+      default: "#FFFFFF",
       form: "#FFFFFF",
     },
     primary: {
-        main: '#7289DA',
-        dark: '#424549',
+      main: "#7289DA",
+      dark: "#424549",
     },
+    text: {
+      primary: "#ffffff",
+      secondary: "#000000",
+    },
+    secondary: {
+      main: '#0000FF',
+    }
   },
   typography: {
-    fontFamily: [
-      'sans-serif',
-      'Roboto',
-    ].join(','),
+    fontFamily: ["sans-serif", "Roboto"].join(","),
   },
-})
+});
 
 const App = () => {
-
   return (
     <FormProvider>
-      <ThemeProvider theme={theme}> 
+      <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Form />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/config" element={<ConfigurationPage />}/>
+          </Routes>
+        </BrowserRouter>
       </ThemeProvider>
     </FormProvider>
-  )
-
-}
+  );
+};
 
 export default App;
