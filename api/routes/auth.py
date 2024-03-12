@@ -1,3 +1,7 @@
+'''
+This file contains the `/auth` endpoints, which handle user authentication.
+'''
+
 from datetime import datetime, timedelta, timezone
 from typing import Annotated
 
@@ -6,8 +10,7 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
-import db
-import models
+from api import db, models
 
 SECRET_KEY = 'ac000a43df3fddd51817ea851e864b9a4b30888c27d0d47b32281ad751aec53f'
 ALGORITHM = 'HS256'
@@ -20,18 +23,30 @@ router = APIRouter()
 # Helper functions
 
 def verify_password(plain_password, hashed_password) -> bool:
+    '''
+    Checks that as password matches a hash.
+    '''
     return pwd_context.verify(plain_password, hashed_password)
 
 def get_password_hash(password) -> str:
+    '''
+    Hashes a plaintext password.
+    '''
     return pwd_context.hash(password)
 
 async def get_user_from_db(username: str) -> models.UserInDB | None:
+    '''
+    Fetches a user with a given username from the DB.
+    '''
     user_dict = await db.user_collection.find_one({'username': username})
     if user_dict is None:
         return None
     return models.UserInDB.model_validate(user_dict)
 
 async def authenticate_user(username: str, password: str) -> models.User | None:
+    '''
+    Returns a user if the username and password are valid.
+    '''
     user = await get_user_from_db(username)
     if user is None:
         return None
@@ -40,6 +55,9 @@ async def authenticate_user(username: str, password: str) -> models.User | None:
     return user
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
+    '''
+    Creates a JWT based on the input `data` dictionary.
+    '''
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta
@@ -69,8 +87,8 @@ async def get_current_user_from_db(
         if username is None:
             raise unauthorized_exception
         token_data = models.TokenData(username=str(username))
-    except JWTError:
-        raise unauthorized_exception
+    except JWTError as jwt_exc:
+        raise unauthorized_exception from jwt_exc
 
     user = await get_user_from_db(username=str(token_data.username))
     if user is None:
@@ -86,6 +104,9 @@ async def get_current_user(
     return current_user
 
 async def get_token(username: str, password: str) -> models.Token:
+    '''
+    Signs a login token for a user given a username and password.
+    '''
     user = await authenticate_user(username, password)
     if user is None:
         raise HTTPException(

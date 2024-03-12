@@ -2,4 +2,5 @@
 discord_bot.env
 __pycache__
 .vscode/
-
+.envrc
+.pytest_cache
