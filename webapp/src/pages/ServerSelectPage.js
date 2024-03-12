@@ -11,6 +11,8 @@ import { useTheme } from "@mui/material/styles";
 import { useFormContext } from "../context/FormContext";
 import { FromJson } from "../utils/FromJson";
 import { useNavigate } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Link } from "@mui/material";
 
 const ServerSelectPage = () => {
   const {
@@ -24,6 +26,9 @@ const ServerSelectPage = () => {
 
   const [servers, setServers] = useState([]);
   const [selectedServer, setSelectedServer] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
+  const [createServerDialog, setCreateServerDialog] = useState(false);
+  const [serverLink, setServerLink] = useState("");
 
   const handleServerChange = (event) => {
     setSelectedServer(event.target.value);
@@ -56,31 +61,77 @@ const ServerSelectPage = () => {
   }, [file]);
 
   useEffect(() => {
-    const fetchServers = async () => {
-      const accessToken = localStorage.getItem("access_token");
-      const authStr = "Bearer " + accessToken;
-      try {
-        const response = await fetch("http://localhost:8000/users/me", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authStr,
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Network error");
-        }
-        const data = await response.json();
-        setServers(data.servers || []);
-      } catch (error) {
-        console.error(
-          "There was a problem with the server fetch operation:",
-          error
-        );
-      }
-    };
     fetchServers();
   }, []);
+
+  const fetchServers = async () => {
+    const accessToken = localStorage.getItem("access_token");
+    const authStr = "Bearer " + accessToken;
+    try {
+      const response = await fetch("http://localhost:8000/users/me", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authStr,
+        },
+      });
+      if (!response.ok) {
+        throw new Error("Network error");
+      }
+      const data = await response.json();
+      console.log(data)
+      setServers(data.servers || []);
+    } catch (error) {
+      console.error(
+        "There was a problem with the server fetch operation:",
+        error
+      );
+    }
+  };
+
+  const handleCreateServer = async() => {
+    setIsLoading(true);
+    const response = await fetch("http://localhost:8000/bot/create", {
+        method: "POST",
+        headers: new Headers({
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem("access_token")
+        }),
+        body: JSON.stringify(config),
+    });
+
+    if (response.ok) {
+        console.log("Server creation successful");
+        const json = await response.json();
+        setCreateServerDialog(true);
+        setServerLink(json.invite_link);
+    } else {
+        console.error("Server creation failed");
+    }
+    setIsLoading(false);
+  }
+
+const handleGetServerConfig = async() => {
+    setIsLoading(true);
+    const response = await fetch("http://localhost:8000/config/export?server_name="+selectedServer, {
+        method: "GET",
+        headers: new Headers({
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + localStorage.getItem("access_token")
+        }),
+    });
+
+    if (response.ok) {
+        console.log("Server loaded successfully");
+        const json = await response.json();
+        console.log(json);
+        FromJson(setServerData, setChannelData, setRoleData, json);
+        navigate("/config");
+    } else {
+        console.error("Server load failed");
+    }
+    setIsLoading(false);
+  }
 
   return (
     <Container
@@ -154,57 +205,59 @@ const ServerSelectPage = () => {
               >
                 Edit
               </Button>
-              <Button variant="contained">Create Server</Button>
+              <Button variant="contained" onClick={handleCreateServer}>Create Server</Button>
             </Stack>
           </div>
         ) : (
           <></>
         )}
-        <FormControl
-          fullWidth
-          sx={{
-            mt: 3,
-            mb: 2,
-            backgroundColor: "primary.dark",
-            color: "text.primary",
-            textAlign: "center",
-          }}
-        >
-          <Select
-            value={selectedServer}
-            onChange={handleServerChange}
-            displayEmpty
-            inputProps={{ "aria-label": "Without label" }}
+        <Stack alignItems="center" justifyContent="center">
+            <FormControl
             sx={{
-              textAlign: "center",
-              "& .MuiSelect-select": {
-                textAlignLast: "center",
-                fontSize: "16px",
-              },
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "transparent",
-              },
-              fontSize: "16px",
+                mt: 3,
+                mb: 2,
+                // backgroundColor: "primary.dark",
+                // color: "text.primary",
+                minWidth: 500,
+                textAlign: "center",
             }}
-          >
-            <MenuItem
-              value=""
-              disabled
-              sx={{ justifyContent: "center", fontSize: "16px" }}
             >
-              EDIT SAVED SERVERS
-            </MenuItem>
-            {servers.map((server) => (
-              <MenuItem
-                key={server.id}
-                value={server.id}
+            <Select
+                value={selectedServer}
+                onChange={handleServerChange}
+                displayEmpty
+                inputProps={{ "aria-label": "Without label" }}
+                sx={{
+                textAlign: "center",
+                "& .MuiSelect-select": {
+                    textAlignLast: "center",
+                    fontSize: "16px",
+                },
+                "& .MuiOutlinedInput-notchedOutline": {
+                    // borderColor: "transparent",
+                },
+                fontSize: "16px",
+                }}
+            >
+                <MenuItem
+                value=""
+                disabled
                 sx={{ justifyContent: "center", fontSize: "16px" }}
-              >
-                {server.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+                >
+                EDIT SAVED SERVERS
+                </MenuItem>
+                {servers.map((server) => (
+                <MenuItem
+                    key={server}
+                    value={server}
+                    sx={{ justifyContent: "center", fontSize: "16px" }}
+                >
+                    {server}
+                </MenuItem>
+                ))}
+            </Select>
+            </FormControl>
+        </Stack>
         <Stack
           sx={{ m: 2 }}
           spacing={5}
@@ -212,6 +265,10 @@ const ServerSelectPage = () => {
           alignItems="center"
           justifyContent="center"
         >
+          {selectedServer !== "" && 
+            <Button variant="contained" onClick={handleGetServerConfig}>
+                Load Selected Server</Button>
+          }
           <Button
             variant="contained"
             onClick={() => {
@@ -222,6 +279,29 @@ const ServerSelectPage = () => {
             Log Out
           </Button>
         </Stack>
+        <Stack
+          alignItems="center"
+          justifyContent="center"
+        >
+            {isLoading && <Typography variant='h4'>Currently Loading</Typography>}
+            {isLoading && <CircularProgress />}
+        </Stack>
+        <Dialog
+            open={createServerDialog}
+            onClose={() => setCreateServerDialog(false)}
+        >
+            <DialogTitle>
+            {"Server Created Successfully"}
+            </DialogTitle>
+            <DialogContent>
+            <DialogContentText>
+                Join your server <Link href={serverLink} target="_blank" rel="noopener noreferrer">here</Link>
+            </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+            <Button onClick={() => setCreateServerDialog(false)}>Close</Button>
+            </DialogActions>
+        </Dialog>
       </Container>
     </Container>
   );

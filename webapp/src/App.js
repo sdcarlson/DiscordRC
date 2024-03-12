@@ -10,7 +10,7 @@ import EndPage from "./pages/EndPage.js";
 const theme = createTheme({
   palette: {
     background: {
-      default: "#A8AABC",
+      default: "#FFFFFF",
       form: "#A8AABC",
     },
     primary: {

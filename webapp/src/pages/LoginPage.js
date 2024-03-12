@@ -38,7 +38,7 @@ const LoginPage = () => {
   const handleRegisterSubmit = async (event) => {
     event.preventDefault();
     const form_data = new FormData();
-    form_data.append("username", usernamel);
+    form_data.append("username", username);
     form_data.append("password", password);
     const response = await fetch("http://localhost:8000/auth/signup", {
       method: "POST",
