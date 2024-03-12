@@ -4,7 +4,7 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import FormControl from '@mui/material/FormControl';
+import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { useTheme } from "@mui/material/styles";
@@ -22,17 +22,13 @@ const ServerSelectPage = () => {
     setRoleData,
   } = useFormContext();
 
+  const [servers, setServers] = useState([]);
   const [selectedServer, setSelectedServer] = useState("");
-
-  const servers = [
-    // replace with function that gets servers from db
-    { id: "1", name: "Server 1" },
-    { id: "2", name: "Server 2" },
-  ];
 
   const handleServerChange = (event) => {
     setSelectedServer(event.target.value);
   };
+
   const navigate = useNavigate();
 
   const theme = useTheme();
@@ -58,6 +54,33 @@ const ServerSelectPage = () => {
       reader.readAsText(file);
     }
   }, [file]);
+
+  useEffect(() => {
+    const fetchServers = async () => {
+      const accessToken = localStorage.getItem("access_token");
+      const authStr = "Bearer " + accessToken;
+      try {
+        const response = await fetch("http://localhost:8000/users/me", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authStr,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Network error");
+        }
+        const data = await response.json();
+        setServers(data.servers || []);
+      } catch (error) {
+        console.error(
+          "There was a problem with the server fetch operation:",
+          error
+        );
+      }
+    };
+    fetchServers();
+  }, []);
 
   return (
     <Container
@@ -181,6 +204,23 @@ const ServerSelectPage = () => {
             ))}
           </Select>
         </FormControl>
+        <Stack
+          sx={{ m: 2 }}
+          spacing={5}
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Button
+            variant="contained"
+            onClick={() => {
+              localStorage.removeItem("access_token");
+              navigate("/");
+            }}
+          >
+            Log Out
+          </Button>
+        </Stack>
       </Container>
     </Container>
   );
