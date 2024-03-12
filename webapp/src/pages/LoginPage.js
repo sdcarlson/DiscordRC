@@ -78,7 +78,7 @@ const LoginPage = () => {
           autoComplete="username"
           autoFocus
           value={username}
-          sx={{ backgroundColor: "primary.light", color: "text.primary" }}
+          // sx={{ backgroundColor: "primary.light", color: "text.primary" }}
           onChange={(e) => setUsername(e.target.value)}
         />
         <TextField
@@ -91,7 +91,7 @@ const LoginPage = () => {
           id="password"
           autoComplete="current-password"
           value={password}
-          sx={{ backgroundColor: "primary.light", color: "text.primary" }}
+          // sx={{ backgroundColor: "primary.light", color: "text.primary" }}
           onChange={(e) => setPassword(e.target.value)}
         />
         <Button
@@ -101,8 +101,8 @@ const LoginPage = () => {
           sx={{
             mt: 3,
             mb: 2,
-            backgroundColor: "primary.dark",
-            color: "text.primary",
+            // backgroundColor: "primary.dark",
+            // color: "text.primary",
           }}
         >
           Sign In
@@ -113,8 +113,8 @@ const LoginPage = () => {
           sx={{
             mt: 3,
             mb: 2,
-            backgroundColor: "primary.dark",
-            color: "text.primary",
+            // backgroundColor: "primary.dark",
+            // color: "text.primary",
           }}
           onClick={handleRegisterSubmit}
           type="button"
