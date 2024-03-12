@@ -25,6 +25,7 @@
 # For instance, "read_messages" makes more sense for a role,
 # whereas "view_channel" makes more sense for a channel.
 
+import discord
 from enum import StrEnum, auto
 
 class Channel(StrEnum):
@@ -36,7 +37,7 @@ class Channel(StrEnum):
     RULES = auto()
     UPDATES = auto()
 
-def set_ch_type(s):
+def get_ch_type_from_str(s):
     match s:
         case 'TEXT':
             return Channel.TEXT
@@ -54,6 +55,31 @@ def set_ch_type(s):
             return Channel.UPDATES
         case _:
             print(f"'{s}' does not match any channel type!")
+
+def get_ch_type_from_ch(ctx, o):
+    community_channels = \
+        [ctx.guild.rules_channel, ctx.guild.public_updates_channel]
+    match o:
+        case discord.TextChannel(news=False) if o not in community_channels:
+            return Channel.TEXT
+        case discord.VoiceChannel:
+            return Channel.VOICE
+        case discord.ForumChannel:
+            return Channel.FORUM
+        case discord.TextChannel(news=True):
+            return Channel.ANNOUNCEMENT
+        case discord.StageChannel:
+            return Channel.STAGE
+        case discord.TextChannel if o == ctx.guild.rules_channel:
+            return Channel.RULES
+        case discord.TextChannel if o == ctx.guild.public_updates_channel:
+            return Channel.UPDATES
+        case _:
+            print(f"'{o}' does not match any channel type!")
+
+def is_text_based_ch(ctx, ch):
+    ch_type = get_ch_type_from_ch(ctx, ch)
+    return True if ch_type in [Channel.VOICE, Channel.STAGE] else False
 
 role_perm_names = [
     'add_reactions',
@@ -869,3 +895,4 @@ def set_cat_perm_overwrite(overwrite, cat_perm_name, cat_perm_val):
             overwrite.view_channel = cat_perm_val
         case _:
             print(f"'{cat_perm_name}' does not match any category permission!")
+
