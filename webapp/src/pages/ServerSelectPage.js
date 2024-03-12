@@ -93,6 +93,8 @@ const ServerSelectPage = () => {
           <Button
             variant="contained"
             onClick={() => {
+              setChannelData([]);
+              setRoleData([]);
               navigate("/config");
             }}
           >
