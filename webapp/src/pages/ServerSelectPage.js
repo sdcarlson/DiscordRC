@@ -134,6 +134,14 @@ const handleGetServerConfig = async() => {
   }
 
   return (
+    <>
+    <Typography
+        component="h1"
+        variant="h1"
+        sx={{ mb: 4, textAlign: "center", fontFamily: 'Fredericka the Great' }}
+    >
+        DiscordRC
+    </Typography>
     <Container
       maxWidth="lg"
       sx={{
@@ -143,11 +151,11 @@ const handleGetServerConfig = async() => {
     >
       <Container sx={{ padding: 5 }}>
         <Stack spacing={3} alignItems="center" justifyContent="center">
-          <Typography variant="h2">DiscordRC Server Configuration</Typography>
+          <Typography variant="h2">Server Configuration</Typography>
           <TextField
             label="Server Name"
             defaultValue={serverData.name}
-            helperText="Enter new server name and hit configure, or upload from JSON"
+            helperText="Enter new server name and configure, upload from JSON, or use previous config"
             variant="standard"
             onChange={(event) => {
               let tempServerData = { ...serverData };
@@ -170,10 +178,19 @@ const handleGetServerConfig = async() => {
               setRoleData([]);
               navigate("/config");
             }}
+            sx = {{
+                maxWidth: "200px",
+                minWidth: "200px",
+            }}
           >
             Configure New
           </Button>
-          <Button variant="contained" component="label">
+          <Button variant="contained" component="label"
+            sx = {{
+                maxWidth: "200px",
+                minWidth: "200px",
+            }}
+          >
             Upload Json
             <input type="file" hidden onChange={handleUpload} />
           </Button>
@@ -198,6 +215,10 @@ const handleGetServerConfig = async() => {
             >
               <Button
                 variant="contained"
+                sx = {{
+                    maxWidth: "200px",
+                    minWidth: "200px",
+                }}
                 onClick={() => {
                   FromJson(setServerData, setChannelData, setRoleData, config);
                   navigate("/config");
@@ -205,7 +226,11 @@ const handleGetServerConfig = async() => {
               >
                 Edit
               </Button>
-              <Button variant="contained" onClick={handleCreateServer}>Create Server</Button>
+              <Button sx = {{
+                    maxWidth: "200px",
+                    minWidth: "200px",
+                }}
+                variant="contained" onClick={handleCreateServer}>Create Server</Button>
             </Stack>
           </div>
         ) : (
@@ -283,8 +308,7 @@ const handleGetServerConfig = async() => {
           alignItems="center"
           justifyContent="center"
         >
-            {isLoading && <Typography variant='h4'>Currently Loading</Typography>}
-            {isLoading && <CircularProgress />}
+            {isLoading && <CircularProgress sx={{ marginTop: 5 }}/>}
         </Stack>
         <Dialog
             open={createServerDialog}
@@ -304,6 +328,7 @@ const handleGetServerConfig = async() => {
         </Dialog>
       </Container>
     </Container>
+    </>
   );
 };
 

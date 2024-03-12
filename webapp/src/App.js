@@ -26,7 +26,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ["sans-serif", "Roboto"].join(","),
+    fontFamily: ["Merriweather", "sans-serif", "Roboto"].join(","),
     h2: {
       fontSize: '2rem',
       fontWeight: 500,
@@ -50,6 +50,7 @@ const theme = createTheme({
 const App = () => {
   return (
     <FormProvider>
+      <link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet"></link>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <BrowserRouter>

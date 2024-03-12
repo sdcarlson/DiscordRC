@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Stack from "@mui/material/Stack";
 import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
@@ -78,6 +79,14 @@ const EndPage = () => {
   }
 
   return (
+    <>
+    <Typography
+        component="h1"
+        variant="h1"
+        sx={{ mb: 4, textAlign: "center", fontFamily: 'Fredericka the Great' }}
+    >
+        DiscordRC
+    </Typography>
     <Container
       maxWidth="lg"
       sx={{
@@ -124,47 +133,70 @@ const EndPage = () => {
       <Container sx={{ padding: 5 }}>
         <Stack spacing={10} alignItems="center" justifyContent="center">
           <Typography variant="h2">
-            DiscordRC for {serverData.name} Completed
+            Server "{serverData.name}" Configuration Completed
           </Typography>
-          <Stack
-            sx={{ m: 2 }}
-            spacing={5}
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-            >
+          <Box>
+            <Stack alignItems="center" justifyContent="center">
+                <Typography variant="h5">
+                    Select an option below:
+                </Typography>
+            </Stack>
+            <Stack
+                sx={{ m: 2 }}
+                spacing={5}
+                direction="row"
+                alignItems="center"
+                justifyContent="center"
+                >
+                <Button
+                    variant="contained"
+                    onClick={handleDownload}
+                    sx = {{
+                        maxWidth: "200px",
+                        minWidth: "200px",
+                    }}
+                >
+                    Download JSON
+                </Button>
+                <Button
+                    variant="contained"
+                    onClick={handleCreateServer}
+                    sx = {{
+                        maxWidth: "200px",
+                        minWidth: "200px",
+                    }}
+                >
+                    Create Server
+                </Button>
+                <Button
+                    variant="contained"
+                    onClick={handleSaveConfig}
+                    sx = {{
+                        maxWidth: "200px",
+                        minWidth: "200px",
+                    }}
+                >
+                    Save Config
+                </Button>
+                </Stack>
+            </Box>
             <Button
                 variant="contained"
                 onClick={() => {
                 navigate("/config");
                 }}
             >
-                Prev
+                Return to Configuration
             </Button>
-            <Button
-                variant="contained"
-                onClick={handleDownload}
-            >
-                Download JSON
-            </Button>
-            <Button
-                variant="contained"
-                onClick={handleCreateServer}
-            >
-                Create Server
-            </Button>
-            <Button
-                variant="contained"
-                onClick={handleSaveConfig}
-            >
-                Save Config
-            </Button>
-            </Stack>
-            {isLoading && <Typography variant='h4'>Currently Loading</Typography>}
-            {isLoading && <CircularProgress />}
+            <Box>
+                {isLoading && <CircularProgress />}
+            </Box>
         </Stack>
+        
+
       </Container>
     </Container>
+    </>
   );
 };
 
