@@ -1,6 +1,7 @@
 import discord
 from discord.ext.commands import Bot
 import asyncio
+import copy
 
 NEW_GUILD_NAME = "new_guild"
 BOT_NAME = "RCBot"
@@ -51,10 +52,10 @@ class GuildCreatorBot(Bot):
         super().__init__(command_prefix="//", intents=intents)
         self.discord_interface = discord_interface # Reference to the DiscordInterface which started the Bot
         self.guild_config_dict = guild_config_dict # Object containing config information for the guild.
+        self.copy = copy.deepcopy(guild_config_dict)
         self.guild_read_cog = None
         self.guild_write_cog = None
         self.guild_test_cog = None
-        self.guild_configuration_cog = None # Cog containing the commands and methods for guild configuration.
         self.created_guild_id = None # Discord guild ID of the guild created by this bot
 
     async def on_ready(self):
@@ -131,7 +132,6 @@ class GuildCreatorBot(Bot):
         # purposes only need ctx.guild, we do this:
         ctx = type('guild_ctx',(object,),{"guild": await self.get_created_guild()})()
         print("Configuring guild...")
-        await self.guild_test_cog.clear(ctx)
         await self.guild_write_cog.write_server(ctx, self.guild_config_dict)
 
     async def create_new_invite(self):
@@ -210,7 +210,7 @@ class GuildCreatorBot(Bot):
         # A Member object is only associated with one guild, so member.guild.id can only correspond to
         # the guild the member just joined.
         if member.guild.id == self.created_guild_id:
-            if self.guild_config_dict is None or not self.guild_config_dict['community']:
+            if self.copy is None or not self.copy['community']:
                 print("Member joined, making them owner!")
                 await self.give_non_bot_user_owner(member)
                 await self.leave_guild()
@@ -229,7 +229,7 @@ class GuildCreatorBot(Bot):
         print("before...")
         created_guild = await self.get_created_guild()
         ctx = type('guild_ctx', (object,), {"guild": created_guild})()
-        await self.guild_configuration_cog.update_role(ctx, ADMIN_PERMISSIONS)
+        await self.guild_write_cog._write_role(ctx, ADMIN_PERMISSIONS)
         admin_role = discord.utils.get(created_guild.roles, name=ADMIN_PERMISSIONS["name"])
         await created_guild.me.add_roles(admin_role)
         print("Made self admin.")
