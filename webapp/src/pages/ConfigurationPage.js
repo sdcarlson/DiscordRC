@@ -12,8 +12,8 @@ import { useFormContext } from "../context/FormContext";
 import { v4 as uuid } from "uuid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import ConfigurationPageRolePermissions from "./ConfigurationPageRolePermissions";
-import ConfigurationPageChannelPermissions from "./ConfigurationPageChannelPermissions";
+import ConfigurationPageRolePermissions from "../components/ConfigurationPageRolePermissions";
+import ConfigurationPageChannelPermissions from "../components/ConfigurationPageChannelPermissions";
 import {
   VolumeUp,
   FormatColorText,
