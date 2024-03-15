@@ -1,8 +1,6 @@
 name: NodeJS with Webpack
 
 on:
-  push:
-    branches: [ "main", "webapp" ]
   pull_request:
     branches: [ "main" ]
 
@@ -27,3 +25,20 @@ jobs:
         cd webapp
         npm install
         npm run build
+
+    - name: Configure Git
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        
+    - name: Commit public directory
+      run: |
+        git add webapp/public/ -f
+        git commit -m "Build public directory"
+        
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        force: true
+        directory: public
