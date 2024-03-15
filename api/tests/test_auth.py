@@ -14,3 +14,13 @@ def test_signup_duplicate_user():
 def test_login():
     res = requests.post(f'{BASE_URL}/auth/login', data=CREDENTIALS)
     assert res.status_code == 200, res.json()
+
+def test_login_nonexisting():
+    res = requests.post(f'{BASE_URL}/auth/login',
+                        data={'username': 'fake_user', 'password': 'asdf123'})
+    assert res.status_code == 401, res.json()
+
+def test_login_wrong_password():
+    res = requests.post(f'{BASE_URL}/auth/login',
+                        data={'username': 'alice', 'password': 'wronggg'})
+    assert res.status_code == 401, res.json()

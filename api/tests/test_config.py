@@ -33,3 +33,11 @@ def test_import_export():
         )
         assert export_res.status_code == 200, export_res.json()
         assert export_res.json() == config, export_res.json()
+
+def test_import_unauthenticated():
+    response = requests.post(f'{BASE_URL}/config/import', json=configs[0])
+    assert response.status_code == 401
+
+def test_export_unauthenticated():
+    response = requests.get(f'{BASE_URL}/config/export?server_name=asdf')
+    assert response.status_code == 401
