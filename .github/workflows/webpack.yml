@@ -1,0 +1,41 @@
+name: NodeJS with Webpack
+
+on: push
+
+jobs:
+  build:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [21.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Build
+      run: |
+        cd webapp
+        npm install
+        npm run build
+
+    - name: Configure Git
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+
+    - name: Commit and Push Changes
+      run: |
+        BRANCH_NAME=${GITHUB_REF#refs/heads/}
+        git checkout $BRANCH_NAME
+        git add webapp/public/ -f
+        git commit -m "Build webapp/public"
+        git push origin $BRANCH_NAME
+      env:
+        GITHUB_REF: ${{ github.ref }}

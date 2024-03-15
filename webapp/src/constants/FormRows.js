@@ -20,6 +20,7 @@ export const roleRowNames = [
     'manage_messages',
     'manage_nicknames',
     'manage_permissions',
+    'manage_roles',
     'manage_threads',
     'manage_webhooks',
     'mention_everyone',
@@ -43,7 +44,6 @@ export const roleRowNames = [
     'use_external_stickers',
     'use_soundboard',
     'use_voice_activation',
-    'value',
     'view_audit_log',
     'view_guild_insights'
 ]
@@ -254,6 +254,18 @@ export const categoryChannelRowNames = [
 
 
 export const categoryChannelRowTypes = [
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
+    'toggleButton',
     'toggleButton',
     'toggleButton',
     'toggleButton',

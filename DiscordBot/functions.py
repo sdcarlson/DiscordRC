@@ -4,7 +4,7 @@ import os
 import json
 import discord
 from discord.ext import commands
-from DiscordBot.permissions import Channel, set_ch_type
+from DiscordBot.ruco.permissions import Channel, set_ch_type
 from DiscordBot.permissions import \
     role_perm_names, set_role_perm, \
     cat_perm_names, set_cat_perm_overwrite, \

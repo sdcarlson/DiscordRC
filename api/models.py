@@ -28,6 +28,11 @@ class ChannelType(str, Enum):
     '''
     TEXT = 'TEXT'
     VOICE = 'VOICE'
+    RULES = 'RULES'
+    UPDATES = 'UPDATES'
+    FORUM = 'FORUM'
+    STAGE = 'STAGE'
+    ANNOUNCEMENTS = 'ANNOUNCEMENTS'
 
 class Channel(BaseModel):
     '''

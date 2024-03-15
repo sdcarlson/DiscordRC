@@ -14,7 +14,7 @@ async def main():
             num_guilds = int(input("input number of new guilds to create simultaneously: "))
             for i in range(num_guilds):
                 json_file_path = input("which JSON file path to use for guild number " + str(i) + "? ")
-                # ./DiscordRC/DiscordBot/UnitTests/DefaultServer.json
+                # ./DiscordRC/DiscordBot/tests/community.json
                 if json_file_path == "":
                     invite_string = await discord_interface.create_guild(None)
                 else:
