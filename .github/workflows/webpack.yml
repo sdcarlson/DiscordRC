@@ -1,11 +1,10 @@
 name: NodeJS with Webpack
 
-on:
-  pull_request:
-    branches: [ "main" ]
+on: push
 
 jobs:
   build:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
 
     strategy:
