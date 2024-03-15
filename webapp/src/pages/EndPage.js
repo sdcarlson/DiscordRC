@@ -192,8 +192,6 @@ const EndPage = () => {
                 {isLoading && <CircularProgress />}
             </Box>
         </Stack>
-        
-
       </Container>
     </Container>
     </>
