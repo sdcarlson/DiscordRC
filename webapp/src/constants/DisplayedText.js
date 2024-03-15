@@ -115,6 +115,7 @@ export const roleDisplayedText = {
     'manage_guild': "User can edit server properties.",
     'manage_messages': "User can delete or pin messages in a text channel.",
     'manage_nicknames': "User can change other user’s nickname in the server.",
+    'manage_permissions': "User can create or edit roles less than their role’s position.",
     'manage_roles': "User can create or edit roles less than their role’s position.",
     'manage_threads': "User can manage threads.",
     'manage_webhooks': "User can create, edit, or delete webhooks.",
@@ -136,8 +137,9 @@ export const roleDisplayedText = {
     'use_embedded_activities': "User can launch an embedded application in a Voice channel.",
     'use_external_emojis': "User can use emojis from other servers.",
     'use_external_sounds': "User can use sounds from other servers.",
+    'use_external_stickers': "User can use stickers from other guilds.",
     'use_soundboard': "User can use the soundboard.",
     'use_voice_activation': "User can use voice activation in voice channels.",
-    'view_audit_log': "user can view the server’s audit log.",
+    'view_audit_log': "User can view the server’s audit log.",
     'view_guild_insights': "User can view the server’s insights."
 }
