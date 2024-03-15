@@ -29,15 +29,13 @@ jobs:
       run: |
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
-        
-    - name: Commit public directory
+
+    - name: Commit and Push Changes
       run: |
+        BRANCH_NAME=${GITHUB_REF#refs/heads/}
+        git checkout $BRANCH_NAME
         git add webapp/public/ -f
-        git commit -m "Build public directory"
-        
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        force: true
-        directory: webapp/public
+        git commit -m "Build webapp/public"
+        git push origin $BRANCH_NAME
+      env:
+        GITHUB_REF: ${{ github.ref }}
