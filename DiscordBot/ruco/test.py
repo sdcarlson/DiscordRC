@@ -1,3 +1,7 @@
+'''
+Incomplete module for integration testing of the Discord bot.
+'''
+
 import asyncio
 import os
 import json
