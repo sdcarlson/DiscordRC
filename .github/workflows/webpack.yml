@@ -34,10 +34,11 @@ jobs:
       run: |
         BRANCH_NAME=${GITHUB_REF#refs/heads/}
         git checkout $BRANCH_NAME
-        git add webapp/public/ -f
-        git add webapp/package-lock.json
-        git add webapp/package.json
-        git commit -m "Build webapp/public"
-        git push --force origin $BRANCH_NAME
+        if ! git diff --quiet; then
+          git add webapp
+          git commit -m "Build webapp/public"
+          git push origin $BRANCH_NAME || echo "Nothing to push"
+        else
+          echo "No changes to commit or push"
       env:
         GITHUB_REF: ${{ github.ref }}
