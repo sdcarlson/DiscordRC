@@ -40,15 +40,19 @@ class GuildCreatorBot(Bot):
     get_created_guild():
         Returns the created guild.
     on_member_join(member):
-        Method called automatically when a member joins any guild the bot is in. If the guild is the
-        created guild, hand over ownership to the member and leave the guild.
+        Method called automatically when a member joins any guild the bot is in, but only
+        does anything if it's the created guild.
+    make_self_admin():
+        Creates an admin role and makes the bot an admin.
+    on_guild_update(before, after):
+        Method called automatically when any guild the bot is in updates, but only does
+        anything if it's the created guild, and it was turned into a community server.
     leave_all_guilds():
         Makes the bot leave all guilds it belongs to and delete guilds it owns.
     shut_down():
         Disconnects the bot and notifies DiscordInterface that it is done.
     """
     def __init__(self, discord_interface, intents, guild_config_dict):
-        # TODO: note that guild_config_dict may be None for no config in comments
         super().__init__(command_prefix="//", intents=intents)
         self.discord_interface = discord_interface # Reference to the DiscordInterface which started the Bot
         self.guild_config_dict = guild_config_dict # Object containing config information for the guild.
@@ -201,9 +205,11 @@ class GuildCreatorBot(Bot):
 
     async def on_member_join(self, member):
         """
-        Method called automatically when a member joins any guild the bot is in. If the guild is the
-        created guild, hand over ownership to the member and leave the guild. Overrides an event
-        functions which triggers when a new member joins a guild.
+        Overrides an event functions which triggers when a new member joins a guild, but the function
+        does nothing unless the guild is the created_guild. For non-community guilds or if there
+        is no config, it then hands over ownership to the member and leave the guild. For community
+        guilds, it still hands over ownership and then waits for the server to be set to community
+        before configuring and leaving in on_guild_update.
 
         :param member: The member who just joined a guild the bot is a member of.
         """
@@ -222,8 +228,12 @@ class GuildCreatorBot(Bot):
                 await self.give_non_bot_user_owner(member)
                 # TODO: send message in Discord explaining what to do
 
-    # TODO: add comments
+                # Server will be configured in on_guild_update after guild has been set to community.
+
     async def make_self_admin(self):
+        """
+        Creates and admin role and makes self an admin.
+        """
         # Since the commands of guild_configuration_cog require a ctx but for this function's
         # purposes only need ctx.guild, we do this:
         print("before...")
@@ -235,6 +245,16 @@ class GuildCreatorBot(Bot):
         print("Made self admin.")
 
     async def on_guild_update(self, before, after):
+        """
+        Overrides an event functions which triggers when the guild is updates, but the function
+        does nothing unless the guild is the created_guild and the change was making it
+        a community server. Method called automatically when any guild the bot is in updates,
+        but only does anything if it's the created guild, and it was turned into a community server.
+        Then it configures the server and leaves the guild before shutting down.
+
+        :param before: Guild object before.
+        :param after: Guild object after.
+        """
         if after.id == self.created_guild_id and "COMMUNITY" in after.features:
             await self.configure_guild()
             await self.leave_guild()
