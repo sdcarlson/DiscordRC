@@ -35,7 +35,7 @@ jobs:
         BRANCH_NAME=${GITHUB_REF#refs/heads/}
         git checkout $BRANCH_NAME
         git add webapp
-        git commit -m "Build webapp/public"
+        git commit -m "Build webapp/public" || echo "Nothing to commit"
         git push origin $BRANCH_NAME || echo "Nothing to push"
       env:
         GITHUB_REF: ${{ github.ref }}
