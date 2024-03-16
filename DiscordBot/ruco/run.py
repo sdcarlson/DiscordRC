@@ -1,9 +1,10 @@
+'''
+When testing the ruco bot independently, the run command in this module is used.
+'''
+
 import os
 import discord
 from discord.ext import commands
-# from ruco.read import Read
-# from ruco.write import Write
-# from ruco.test import Test
 from DiscordBot.ruco.read import Read
 from DiscordBot.ruco.write import Write
 from DiscordBot.ruco.test import Test

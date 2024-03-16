@@ -1,3 +1,9 @@
+'''
+Incomplete module for reading properties of a Discord channel into a JSON file.
+The module is needed for expanding functionality to update configurations of
+existing servers, and to allow for integration testing.
+'''
+
 import asyncio
 import os
 import json

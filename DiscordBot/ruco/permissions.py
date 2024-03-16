@@ -1,29 +1,33 @@
-# Aside: At the time of writing, there is no set_voice_channel_status
-# permission available for categories and voice channels in the discord.py API.
-# The pull request for the permission is being worked on here:
-# https://github.com/discord/discord-api-docs/pull/6400
-# P.S.: create_events is not supported for voice channels, stage channels
-# and categories either.
+'''
+Module for repetitive handling of permissions.
 
-# Channel Ordering:
-# Note that forum, announcement, and stage channels are options only for community channels.
-# Text-based channels such as text, forum, and announcement channels can swap orders.
-# Voice-based channels such as voice and stage channels can swap orders.
-# However, text-based and voice-based channels cannot swap orders;
-# moreover, voice-based channels must be ordered below text-based channels
-# in each category and when not in a category.
+Aside: At the time of writing, there is no set_voice_channel_status
+permission available for categories and voice channels in the discord.py API.
+The pull request for the permission is being worked on here:
+https://github.com/discord/discord-api-docs/pull/6400
+P.S.: create_events is not supported for voice channels, stage channels
+and categories either.
 
-# Permission Aliases:
-# Each line below is a pair of permissions names with the same underlying boolean value,
-# so the permission names are aliases of each other:
-# (view_channel, read_messages)
-# (use_external_emojis, external_emojis)
-# (manage_permissions, manage_roles)
-# (manage_emojis, manage_emojis_and_stickers)
-# (use_external_stickers, external_stickers)
-# We keep both aliases because the different names make more sense under different contexts.
-# For instance, "read_messages" makes more sense for a role,
-# whereas "view_channel" makes more sense for a channel.
+Channel Ordering:
+Note that forum, announcement, and stage channels are options only for community channels.
+Text-based channels such as text, forum, and announcement channels can swap orders.
+Voice-based channels such as voice and stage channels can swap orders.
+However, text-based and voice-based channels cannot swap orders;
+moreover, voice-based channels must be ordered below text-based channels
+in each category and when not in a category.
+
+Permission Aliases:
+Each line below is a pair of permissions names with the same underlying boolean value,
+so the permission names are aliases of each other:
+(view_channel, read_messages)
+(use_external_emojis, external_emojis)
+(manage_permissions, manage_roles)
+(manage_emojis, manage_emojis_and_stickers)
+(use_external_stickers, external_stickers)
+We keep both aliases because the different names make more sense under different contexts.
+For instance, "read_messages" makes more sense for a role,
+whereas "view_channel" makes more sense for a channel.
+'''
 
 import discord
 from enum import StrEnum, auto
@@ -38,6 +42,10 @@ class Channel(StrEnum):
     UPDATES = auto()
 
 def get_ch_type_from_str(s):
+    '''
+    Returns the respective enum by matching the JSON string representation of
+    the channel type.
+    '''
     match s:
         case 'TEXT':
             return Channel.TEXT
@@ -57,6 +65,10 @@ def get_ch_type_from_str(s):
             print(f"'{s}' does not match any channel type!")
 
 def get_ch_type_from_ch(ctx, o):
+    '''
+    Returns the respective enum by matching the Channel object `o` from
+    the Discord API.
+    '''
     community_channels = \
         [ctx.guild.rules_channel, ctx.guild.public_updates_channel]
     match o:
@@ -78,6 +90,9 @@ def get_ch_type_from_ch(ctx, o):
             print(f"'{o}' does not match any channel type!")
 
 def is_text_based_ch(ctx, ch):
+    '''
+    Returns whether the channel is classified as a text-based channel.
+    '''
     ch_type = get_ch_type_from_ch(ctx, ch)
     return True if ch_type in [Channel.VOICE, Channel.STAGE] else False
 
