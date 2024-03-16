@@ -83,6 +83,32 @@ Each `issue` branch can accumulate commits to address the issue. When ready, it 
 
 It is recommended to [create periodic releases](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/managing-releases-in-a-repository#creating-a-release) from a repository, at least at the end of each sprint but can be more frequent. These releases should be working versions of the component(s) being developed in the repository. To create such releases, a new tag representing a version number (e.g., 1.0.0) is added to the local `master` branch then pushed to the remote `master` branch. A new release can then be created in Github using this tag.
 
+### Our CI/CD pipeline
+
+In order to build our project for our front-end:
+
+1. Enter the webapp folder through `cd webapp`
+2. Run an `npm install`
+3. Run an `npm run build`
+
+Our webapp uses a webpack module bundler that should be built in the `webapp/public` folder.
+
+For our FastAPI back-end, we can test it:
+
+1. Enter the api folder through `cd api`
+2. Create virtual environment: `python3 -m venv venv`
+3. Activate virtual environment: `. venv/bin/activate` (if you're using bash)
+4. Install dependencies: `pip3 install -r requirements.txt`
+5. Set up database in docker: `./mongo_setup.sh`
+6. Start the database in docker.
+7. Run `tests/run_tests.sh`.
+
+For our CI/CD process, we trigger both the webapp build and the api tests automatically. 
+
+Our webapp workflow can be found [here](https://github.com/sdcarlson/DiscordRC/blob/main/.github/workflows/webpack.yml) and is run on every push to any branch. In it, we perform the above build actions, then we commit and push the webpack build results if there were any changes. This allows us to automatically generate our webpack and keep it up to date. This also makes sure our webpack and code are always in sync.
+
+Our api testing workflow can be found [here](https://github.com/sdcarlson/DiscordRC/blob/main/.github/workflows/api_tests.yml) and is run on every pull request. In it, we perform the above FastAPI back-end operations. This workflow allows us to make sure that none of the api tests break when creating pull requests into main.
+
 ### Using a CI/CD pipeline
 
 Every repository needs to have a way to build its artifacts headlessly. It is a good idea to run tests as part of such build. Instructions on how to build the components in a repository needs to be documented in the repository's README.md.
