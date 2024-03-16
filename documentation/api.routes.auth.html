@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module api.routes.auth</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="api.html" class="white">api</a>.<a href="api.routes.html" class="white">routes</a>.auth</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/biqua/projects/webdev/DiscordRC/api/routes/auth.py">/Users/biqua/projects/webdev/DiscordRC/api/routes/auth.py</a></td></tr></table>
+    <p><span class="code">This&nbsp;file&nbsp;contains&nbsp;the&nbsp;`/auth`&nbsp;endpoints,&nbsp;which&nbsp;handle&nbsp;user&nbsp;authentication.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="api.db.html">api.db</a><br>
+</td><td class="multicolumn"><a href="jose.jwt.html">jose.jwt</a><br>
+</td><td class="multicolumn"><a href="api.models.html">api.models</a><br>
+</td><td class="multicolumn"><a href="starlette.status.html">starlette.status</a><br>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>async <a name="-authenticate_user"><strong>authenticate_user</strong></a>(username: str, password: str) -&gt; api.models.User | None</dt><dd><span class="code">Returns&nbsp;a&nbsp;user&nbsp;if&nbsp;the&nbsp;username&nbsp;and&nbsp;password&nbsp;are&nbsp;valid.</span></dd></dl>
+ <dl><dt><a name="-create_access_token"><strong>create_access_token</strong></a>(data: dict, expires_delta: datetime.timedelta | None = None) -&gt; str</dt><dd><span class="code">Creates&nbsp;a&nbsp;JWT&nbsp;based&nbsp;on&nbsp;the&nbsp;input&nbsp;`data`&nbsp;dictionary.</span></dd></dl>
+ <dl><dt>async <a name="-get_current_user"><strong>get_current_user</strong></a>(current_user: typing.Annotated[api.models.User, Depends(get_current_user_from_db)]) -&gt; api.models.User</dt><dd><span class="code">Returns&nbsp;the&nbsp;current&nbsp;user&nbsp;based&nbsp;on&nbsp;the&nbsp;oauth&nbsp;token&nbsp;as&nbsp;a&nbsp;`models.User`.</span></dd></dl>
+ <dl><dt>async <a name="-get_current_user_from_db"><strong>get_current_user_from_db</strong></a>(token: typing.Annotated[str, Depends(OAuth2PasswordBearer)]) -&gt; api.models.UserInDB</dt><dd><span class="code">Don't&nbsp;use&nbsp;this&nbsp;function&nbsp;directly,&nbsp;because&nbsp;it&nbsp;includes&nbsp;DB&nbsp;data<br>
+(i.e.&nbsp;the&nbsp;hashed&nbsp;password).&nbsp;Instead,&nbsp;use&nbsp;`get_current_user`.</span></dd></dl>
+ <dl><dt><a name="-get_password_hash"><strong>get_password_hash</strong></a>(password) -&gt; str</dt><dd><span class="code">Hashes&nbsp;a&nbsp;plaintext&nbsp;password.</span></dd></dl>
+ <dl><dt>async <a name="-get_token"><strong>get_token</strong></a>(username: str, password: str) -&gt; api.models.Token</dt><dd><span class="code">Signs&nbsp;a&nbsp;login&nbsp;token&nbsp;for&nbsp;a&nbsp;user&nbsp;given&nbsp;a&nbsp;username&nbsp;and&nbsp;password.</span></dd></dl>
+ <dl><dt>async <a name="-get_user_from_db"><strong>get_user_from_db</strong></a>(username: str) -&gt; api.models.UserInDB | None</dt><dd><span class="code">Fetches&nbsp;a&nbsp;user&nbsp;with&nbsp;a&nbsp;given&nbsp;username&nbsp;from&nbsp;the&nbsp;DB.</span></dd></dl>
+ <dl><dt>async <a name="-login"><strong>login</strong></a>(form_data: typing.Annotated[fastapi.security.oauth2.OAuth2PasswordRequestForm, Depends(OAuth2PasswordRequestForm)]) -&gt; api.models.Token</dt><dd><span class="code">To&nbsp;use&nbsp;this&nbsp;endpoint,&nbsp;pass&nbsp;in&nbsp;`username`&nbsp;and&nbsp;`password`&nbsp;as&nbsp;form&nbsp;data.<br>
+If&nbsp;login&nbsp;is&nbsp;successful,&nbsp;we&nbsp;return&nbsp;a&nbsp;bearer&nbsp;token.</span></dd></dl>
+ <dl><dt>async <a name="-signup"><strong>signup</strong></a>(form_data: typing.Annotated[fastapi.security.oauth2.OAuth2PasswordRequestForm, Depends(OAuth2PasswordRequestForm)]) -&gt; api.models.Token</dt><dd><span class="code">To&nbsp;use&nbsp;this&nbsp;endpoint,&nbsp;pass&nbsp;in&nbsp;`username`&nbsp;and&nbsp;`password`&nbsp;as&nbsp;form&nbsp;data.<br>
+If&nbsp;signup&nbsp;is&nbsp;successful,&nbsp;we&nbsp;return&nbsp;a&nbsp;bearer&nbsp;token.</span></dd></dl>
+ <dl><dt><a name="-verify_password"><strong>verify_password</strong></a>(plain_password, hashed_password) -&gt; bool</dt><dd><span class="code">Checks&nbsp;that&nbsp;as&nbsp;password&nbsp;matches&nbsp;a&nbsp;hash.</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>ACCESS_TOKEN_EXPIRE_MINUTES</strong> = 60<br>
+<strong>ALGORITHM</strong> = 'HS256'<br>
+<strong>SECRET_KEY</strong> = 'ac000a43df3fddd51817ea851e864b9a4b30888c27d0d47b32281ad751aec53f'<br>
+<strong>oauth2_scheme</strong> = &lt;fastapi.security.oauth2.OAuth2PasswordBearer object&gt;<br>
+<strong>pwd_context</strong> = &lt;CryptContext&gt;<br>
+<strong>router</strong> = &lt;fastapi.routing.APIRouter object&gt;</td></tr></table>
+</body></html>
