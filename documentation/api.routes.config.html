@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module api.routes.config</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="api.html" class="white">api</a>.<a href="api.routes.html" class="white">routes</a>.config</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/biqua/projects/webdev/DiscordRC/api/routes/config.py">/Users/biqua/projects/webdev/DiscordRC/api/routes/config.py</a></td></tr></table>
+    <p><span class="code">This&nbsp;file&nbsp;contains&nbsp;the&nbsp;`/config`&nbsp;endpoints,&nbsp;which&nbsp;handle&nbsp;importing&nbsp;and<br>
+exporting&nbsp;server&nbsp;template&nbsp;configurations.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="api.db.html">api.db</a><br>
+</td><td class="multicolumn"><a href="api.models.html">api.models</a><br>
+</td><td class="multicolumn"><a href="starlette.status.html">starlette.status</a><br>
+</td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>async <a name="-export_config"><strong>export_config</strong></a>(current_user: typing.Annotated[api.models.User, Depends(get_current_user)], server_name: str) -&gt; api.models.ServerConfig</dt><dd><span class="code">Returns&nbsp;one&nbsp;of&nbsp;the&nbsp;user's&nbsp;server&nbsp;configs&nbsp;based&nbsp;on&nbsp;the&nbsp;server&nbsp;name.</span></dd></dl>
+ <dl><dt>async <a name="-import_config"><strong>import_config</strong></a>(current_user: typing.Annotated[api.models.User, Depends(get_current_user)], config: api.models.ServerConfig) -&gt; api.models.Response</dt><dd><span class="code">Sets&nbsp;a&nbsp;server&nbsp;config&nbsp;for&nbsp;the&nbsp;current&nbsp;user.&nbsp;If&nbsp;the&nbsp;user&nbsp;already&nbsp;has<br>
+a&nbsp;config&nbsp;with&nbsp;the&nbsp;same&nbsp;name,&nbsp;then&nbsp;this&nbsp;endpoint&nbsp;will&nbsp;update&nbsp;that&nbsp;config.</span></dd></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>router</strong> = &lt;fastapi.routing.APIRouter object&gt;</td></tr></table>
+</body></html>
