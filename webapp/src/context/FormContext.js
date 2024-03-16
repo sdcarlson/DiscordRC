@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useContext } from "react"
+import { createContext, useState, useContext } from "react"
 import { v4 as uuid } from 'uuid'; // temp
 
 
@@ -9,7 +9,21 @@ export const FormProvider = ({ children }) => {
     const [channelData, setChannelData] = useState([{
       id: uuid(),
       name: 'temp',
-      permissions: {}
+      type: 'voice',
+      permissions: {
+        '@everyone': {
+          
+        }
+      }
+    }, {
+      id: uuid(),
+      name: 'temp2',
+      type: 'text',
+      permissions: {
+        '@everyone': {
+
+        }
+      }
     }])
 
     const [roleData, setRoleData] = useState([{
