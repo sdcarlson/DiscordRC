@@ -8,6 +8,10 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from DiscordBot.DiscordInterface import DiscordInterface
 
 async def main():
+    """
+        Loop for testing the Discord Interface manually. Allows you to directly test server creation
+        based on the specified JSON file(s).
+    """
     discord_interface = DiscordInterface()
     while (True):
         if input("create new guild(s)? (input y for yes): ") == 'y':

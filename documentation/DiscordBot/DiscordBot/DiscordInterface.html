@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module DiscordInterface</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">DiscordInterface</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/tedlindholm/PycharmProjects/DiscordRC/DiscordRC/DiscordBot/DiscordInterface.py">/Users/tedlindholm/PycharmProjects/DiscordRC/DiscordRC/DiscordBot/DiscordInterface.py</a></td></tr></table>
+    <p></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="discord.html">discord</a><br>
+</td><td class="multicolumn"><a href="os.html">os</a><br>
+</td><td class="multicolumn"><a href="threading.html">threading</a><br>
+</td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="DiscordInterface.html#DiscordInterface">DiscordInterface</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="DiscordInterface">class <strong>DiscordInterface</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code">An&nbsp;interface&nbsp;for&nbsp;the&nbsp;Discord&nbsp;API&nbsp;for&nbsp;the&nbsp;backend&nbsp;to&nbsp;use.<br>
+Runs&nbsp;bots&nbsp;in&nbsp;separate&nbsp;threads&nbsp;to&nbsp;avoid&nbsp;the&nbsp;blocking&nbsp;behavior&nbsp;of&nbsp;discord.py&nbsp;bots.<br>
+&nbsp;<br>
+Methods<br>
+-------<br>
+<a href="#DiscordInterface-create_guild">create_guild</a>(guild_config_dict):<br>
+&nbsp;&nbsp;&nbsp;Creates&nbsp;a&nbsp;new&nbsp;guild,&nbsp;returns&nbsp;an&nbsp;invite&nbsp;link.<br>
+<a href="#DiscordInterface-thread_done">thread_done</a>(bot):<br>
+&nbsp;&nbsp;&nbsp;Removes&nbsp;the&nbsp;bot&nbsp;and&nbsp;the&nbsp;thread&nbsp;it&nbsp;was&nbsp;running&nbsp;in&nbsp;from&nbsp;<a href="#DiscordInterface">DiscordInterface</a>.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="DiscordInterface-__init__"><strong>__init__</strong></a>(self)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt>async <a name="DiscordInterface-create_guild"><strong>create_guild</strong></a>(self, guild_config_dict)</dt><dd><span class="code">Creates&nbsp;a&nbsp;new&nbsp;Discord&nbsp;guild&nbsp;based&nbsp;on&nbsp;the&nbsp;supplied&nbsp;guild_config_dict.<br>
+Returns&nbsp;an&nbsp;invite&nbsp;link&nbsp;to&nbsp;the&nbsp;Discord&nbsp;guild&nbsp;as&nbsp;a&nbsp;string.<br>
+&nbsp;<br>
+:param&nbsp;guild_config_dict:&nbsp;A&nbsp;dictionary&nbsp;representation&nbsp;of&nbsp;the&nbsp;JSON&nbsp;file<br>
+:return:&nbsp;A&nbsp;Discord&nbsp;guild&nbsp;invitation&nbsp;link.</span></dd></dl>
+
+<dl><dt><a name="DiscordInterface-thread_done"><strong>thread_done</strong></a>(self, bot)</dt><dd><span class="code">Called&nbsp;by&nbsp;the&nbsp;bot&nbsp;when&nbsp;it's&nbsp;done.&nbsp;Removes&nbsp;the&nbsp;bot&nbsp;and&nbsp;the<br>
+thread&nbsp;it&nbsp;was&nbsp;running&nbsp;in&nbsp;from&nbsp;<a href="#DiscordInterface">DiscordInterface</a>.<br>
+&nbsp;<br>
+:param:&nbsp;bot:&nbsp;The&nbsp;bot&nbsp;to&nbsp;remove.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table></td></tr></table>
+</body></html>
