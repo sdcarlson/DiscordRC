@@ -38,6 +38,6 @@ jobs:
         git add webapp/package-lock.json
         git add webapp/package.json
         git commit -m "Build webapp/public"
-        git push origin $BRANCH_NAME
+        git push origin $BRANCH_NAME || true
       env:
         GITHUB_REF: ${{ github.ref }}
