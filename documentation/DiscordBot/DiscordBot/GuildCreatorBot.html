@@ -1,0 +1,1982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module GuildCreatorBot</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">GuildCreatorBot</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/tedlindholm/PycharmProjects/DiscordRC/DiscordRC/DiscordBot/GuildCreatorBot.py">/Users/tedlindholm/PycharmProjects/DiscordRC/DiscordRC/DiscordBot/GuildCreatorBot.py</a></td></tr></table>
+    <p></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="asyncio.html">asyncio</a><br>
+</td><td class="multicolumn"><a href="copy.html">copy</a><br>
+</td><td class="multicolumn"><a href="discord.html">discord</a><br>
+</td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="discord.ext.commands.bot.html#Bot">discord.ext.commands.bot.Bot</a>(<a href="discord.ext.commands.bot.html#BotBase">discord.ext.commands.bot.BotBase</a>, <a href="discord.client.html#Client">discord.client.Client</a>)
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="GuildCreatorBot.html#GuildCreatorBot">GuildCreatorBot</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="GuildCreatorBot">class <strong>GuildCreatorBot</strong></a>(<a href="discord.ext.commands.bot.html#Bot">discord.ext.commands.bot.Bot</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#GuildCreatorBot">GuildCreatorBot</a>(discord_interface,&nbsp;intents,&nbsp;guild_config_dict)<br>
+&nbsp;<br>
+A&nbsp;Discord&nbsp;<a href="discord.ext.commands.bot.html#Bot">Bot</a>&nbsp;which&nbsp;creates&nbsp;and&nbsp;configures&nbsp;a&nbsp;Discord&nbsp;guild&nbsp;when&nbsp;run.<br>
+After&nbsp;returning&nbsp;an&nbsp;invite&nbsp;link&nbsp;to&nbsp;DiscordInterface,&nbsp;it&nbsp;waits&nbsp;until<br>
+a&nbsp;member&nbsp;joins&nbsp;the&nbsp;guild.&nbsp;Then&nbsp;it&nbsp;makes&nbsp;that&nbsp;member&nbsp;owner,&nbsp;leaves<br>
+the&nbsp;guild,&nbsp;and&nbsp;shuts&nbsp;itself&nbsp;down.<br>
+&nbsp;<br>
+Methods<br>
+-------<br>
+<a href="#GuildCreatorBot-on_ready">on_ready</a>():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Called&nbsp;when&nbsp;the&nbsp;bot&nbsp;connects&nbsp;to&nbsp;Discord.&nbsp;It&nbsp;contains&nbsp;the&nbsp;routine<br>
+&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;bot&nbsp;follows&nbsp;to&nbsp;create&nbsp;the&nbsp;guild.<br>
+<a href="#GuildCreatorBot-create_new_guild">create_new_guild</a>():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Creates&nbsp;a&nbsp;new&nbsp;guild,&nbsp;and&nbsp;sets&nbsp;the&nbsp;created_guild_id.<br>
+<a href="#GuildCreatorBot-configure_guild">configure_guild</a>():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Calls&nbsp;GuildConfigurationCog&nbsp;method&nbsp;to&nbsp;configure&nbsp;the&nbsp;guild&nbsp;based&nbsp;on&nbsp;the&nbsp;guild_config_dict.<br>
+<a href="#GuildCreatorBot-create_new_invite">create_new_invite</a>():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Creates&nbsp;an&nbsp;invite&nbsp;to&nbsp;the&nbsp;created&nbsp;guild,&nbsp;and&nbsp;provides&nbsp;it&nbsp;to&nbsp;DiscordInterface.<br>
+<a href="#GuildCreatorBot-give_discord_interface_output">give_discord_interface_output</a>(output):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Provides&nbsp;output&nbsp;to&nbsp;DiscordInterface.<br>
+<a href="#GuildCreatorBot-give_non_bot_user_owner">give_non_bot_user_owner</a>(member):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Gives&nbsp;the&nbsp;member&nbsp;ownership&nbsp;of&nbsp;the&nbsp;created&nbsp;guild.<br>
+<a href="#GuildCreatorBot-leave_guild">leave_guild</a>():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Leaves&nbsp;the&nbsp;created&nbsp;guild.<br>
+<a href="#GuildCreatorBot-get_created_guild">get_created_guild</a>():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Returns&nbsp;the&nbsp;created&nbsp;guild.<br>
+<a href="#GuildCreatorBot-on_member_join">on_member_join</a>(member):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Method&nbsp;called&nbsp;automatically&nbsp;when&nbsp;a&nbsp;member&nbsp;joins&nbsp;any&nbsp;guild&nbsp;the&nbsp;bot&nbsp;is&nbsp;in,&nbsp;but&nbsp;only<br>
+&nbsp;&nbsp;&nbsp;&nbsp;does&nbsp;anything&nbsp;if&nbsp;it's&nbsp;the&nbsp;created&nbsp;guild.<br>
+<a href="#GuildCreatorBot-make_self_admin">make_self_admin</a>():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Creates&nbsp;an&nbsp;admin&nbsp;role&nbsp;and&nbsp;makes&nbsp;the&nbsp;bot&nbsp;an&nbsp;admin.<br>
+<a href="#GuildCreatorBot-on_guild_update">on_guild_update</a>(before,&nbsp;after):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Method&nbsp;called&nbsp;automatically&nbsp;when&nbsp;any&nbsp;guild&nbsp;the&nbsp;bot&nbsp;is&nbsp;in&nbsp;updates,&nbsp;but&nbsp;only&nbsp;does<br>
+&nbsp;&nbsp;&nbsp;&nbsp;anything&nbsp;if&nbsp;it's&nbsp;the&nbsp;created&nbsp;guild,&nbsp;and&nbsp;it&nbsp;was&nbsp;turned&nbsp;into&nbsp;a&nbsp;community&nbsp;server.<br>
+<a href="#GuildCreatorBot-leave_all_guilds">leave_all_guilds</a>():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Makes&nbsp;the&nbsp;bot&nbsp;leave&nbsp;all&nbsp;guilds&nbsp;it&nbsp;belongs&nbsp;to&nbsp;and&nbsp;delete&nbsp;guilds&nbsp;it&nbsp;owns.<br>
+<a href="#GuildCreatorBot-shut_down">shut_down</a>():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Disconnects&nbsp;the&nbsp;bot&nbsp;and&nbsp;notifies&nbsp;DiscordInterface&nbsp;that&nbsp;it&nbsp;is&nbsp;done.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="GuildCreatorBot.html#GuildCreatorBot">GuildCreatorBot</a></dd>
+<dd><a href="discord.ext.commands.bot.html#Bot">discord.ext.commands.bot.Bot</a></dd>
+<dd><a href="discord.ext.commands.bot.html#BotBase">discord.ext.commands.bot.BotBase</a></dd>
+<dd><a href="discord.ext.commands.core.html#GroupMixin">discord.ext.commands.core.GroupMixin</a></dd>
+<dd><a href="typing.html#Generic">typing.Generic</a></dd>
+<dd><a href="discord.client.html#Client">discord.client.Client</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="GuildCreatorBot-__init__"><strong>__init__</strong></a>(self, discord_interface, intents, guild_config_dict)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-configure_guild"><strong>configure_guild</strong></a>(self)</dt><dd><span class="code">Calls&nbsp;GuildConfigurationCog&nbsp;method&nbsp;to&nbsp;configure&nbsp;the&nbsp;guild&nbsp;based&nbsp;on&nbsp;the&nbsp;guild_config_dict.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-create_new_guild"><strong>create_new_guild</strong></a>(self)</dt><dd><span class="code">Creates&nbsp;a&nbsp;new&nbsp;guild,&nbsp;and&nbsp;sets&nbsp;the&nbsp;created_guild_id.&nbsp;Handles&nbsp;the&nbsp;error&nbsp;of&nbsp;the&nbsp;bot<br>
+being&nbsp;unable&nbsp;to&nbsp;create&nbsp;guilds&nbsp;due&nbsp;to&nbsp;being&nbsp;in&nbsp;10&nbsp;or&nbsp;more&nbsp;guilds,&nbsp;and&nbsp;ensures&nbsp;that<br>
+the&nbsp;created&nbsp;guild&nbsp;will&nbsp;be&nbsp;accessible&nbsp;by&nbsp;<a href="#GuildCreatorBot-get_created_guild">get_created_guild</a>().<br>
+&nbsp;<br>
+:return:&nbsp;True&nbsp;if&nbsp;guild&nbsp;creation,&nbsp;False&nbsp;otherwise.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-create_new_invite"><strong>create_new_invite</strong></a>(self)</dt><dd><span class="code">Creates&nbsp;an&nbsp;invite&nbsp;to&nbsp;the&nbsp;created&nbsp;guild,&nbsp;and&nbsp;provides&nbsp;it&nbsp;to&nbsp;DiscordInterface&nbsp;by<br>
+give_discord_interface_output.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-get_created_guild"><strong>get_created_guild</strong></a>(self)</dt><dd><span class="code">Returns&nbsp;the&nbsp;created&nbsp;guild.<br>
+&nbsp;<br>
+:return:&nbsp;The&nbsp;Guild&nbsp;object&nbsp;of&nbsp;the&nbsp;created&nbsp;guild.<br>
+:raise&nbsp;LookupError:&nbsp;There&nbsp;is&nbsp;no&nbsp;created_guild_id&nbsp;or&nbsp;the&nbsp;guild&nbsp;with&nbsp;that&nbsp;id&nbsp;is&nbsp;missing.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-give_discord_interface_output"><strong>give_discord_interface_output</strong></a>(self, output)</dt><dd><span class="code">Provides&nbsp;output&nbsp;to&nbsp;DiscordInterface&nbsp;by&nbsp;storing&nbsp;it&nbsp;in&nbsp;bot_outputs,<br>
+then&nbsp;notifies&nbsp;DiscordInterface&nbsp;of&nbsp;this&nbsp;result&nbsp;by&nbsp;setting&nbsp;the&nbsp;output<br>
+event&nbsp;corresponding&nbsp;to&nbsp;this&nbsp;bot.<br>
+&nbsp;<br>
+:param&nbsp;output:&nbsp;The&nbsp;value&nbsp;stored&nbsp;in&nbsp;DiscordInterface's&nbsp;bot_outputs.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-give_non_bot_user_owner"><strong>give_non_bot_user_owner</strong></a>(self, member)</dt><dd><span class="code">Gives&nbsp;the&nbsp;member&nbsp;ownership&nbsp;of&nbsp;the&nbsp;created&nbsp;guild.<br>
+&nbsp;<br>
+:param&nbsp;member:&nbsp;The&nbsp;member&nbsp;to&nbsp;make&nbsp;owner.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-leave_all_guilds"><strong>leave_all_guilds</strong></a>(self)</dt><dd><span class="code">Makes&nbsp;the&nbsp;bot&nbsp;leave&nbsp;all&nbsp;guilds&nbsp;it&nbsp;belongs&nbsp;to&nbsp;and&nbsp;delete&nbsp;guilds&nbsp;it&nbsp;owns.<br>
+WARNING!!!!&nbsp;If&nbsp;the&nbsp;bot&nbsp;can't&nbsp;leave&nbsp;a&nbsp;guild&nbsp;due&nbsp;to&nbsp;being&nbsp;owner,&nbsp;it&nbsp;will&nbsp;delete&nbsp;the&nbsp;guild!<br>
+This&nbsp;method&nbsp;can&nbsp;also&nbsp;take&nbsp;minutes&nbsp;to&nbsp;run&nbsp;due&nbsp;to&nbsp;Discord&nbsp;API&nbsp;limits.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-leave_guild"><strong>leave_guild</strong></a>(self)</dt><dd><span class="code">Leaves&nbsp;the&nbsp;created&nbsp;guild.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-make_self_admin"><strong>make_self_admin</strong></a>(self)</dt><dd><span class="code">Creates&nbsp;and&nbsp;admin&nbsp;role&nbsp;and&nbsp;makes&nbsp;self&nbsp;an&nbsp;admin.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-on_guild_update"><strong>on_guild_update</strong></a>(self, before, after)</dt><dd><span class="code">Overrides&nbsp;an&nbsp;event&nbsp;functions&nbsp;which&nbsp;triggers&nbsp;when&nbsp;the&nbsp;guild&nbsp;is&nbsp;updates,&nbsp;but&nbsp;the&nbsp;function<br>
+does&nbsp;nothing&nbsp;unless&nbsp;the&nbsp;guild&nbsp;is&nbsp;the&nbsp;created_guild&nbsp;and&nbsp;the&nbsp;change&nbsp;was&nbsp;making&nbsp;it<br>
+a&nbsp;community&nbsp;server.&nbsp;Method&nbsp;called&nbsp;automatically&nbsp;when&nbsp;any&nbsp;guild&nbsp;the&nbsp;bot&nbsp;is&nbsp;in&nbsp;updates,<br>
+but&nbsp;only&nbsp;does&nbsp;anything&nbsp;if&nbsp;it's&nbsp;the&nbsp;created&nbsp;guild,&nbsp;and&nbsp;it&nbsp;was&nbsp;turned&nbsp;into&nbsp;a&nbsp;community&nbsp;server.<br>
+Then&nbsp;it&nbsp;configures&nbsp;the&nbsp;server&nbsp;and&nbsp;leaves&nbsp;the&nbsp;guild&nbsp;before&nbsp;shutting&nbsp;down.<br>
+&nbsp;<br>
+:param&nbsp;before:&nbsp;Guild&nbsp;object&nbsp;before.<br>
+:param&nbsp;after:&nbsp;Guild&nbsp;object&nbsp;after.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-on_member_join"><strong>on_member_join</strong></a>(self, member)</dt><dd><span class="code">Overrides&nbsp;an&nbsp;event&nbsp;functions&nbsp;which&nbsp;triggers&nbsp;when&nbsp;a&nbsp;new&nbsp;member&nbsp;joins&nbsp;a&nbsp;guild,&nbsp;but&nbsp;the&nbsp;function<br>
+does&nbsp;nothing&nbsp;unless&nbsp;the&nbsp;guild&nbsp;is&nbsp;the&nbsp;created_guild.&nbsp;For&nbsp;non-community&nbsp;guilds&nbsp;or&nbsp;if&nbsp;there<br>
+is&nbsp;no&nbsp;config,&nbsp;it&nbsp;then&nbsp;hands&nbsp;over&nbsp;ownership&nbsp;to&nbsp;the&nbsp;member&nbsp;and&nbsp;leave&nbsp;the&nbsp;guild.&nbsp;For&nbsp;community<br>
+guilds,&nbsp;it&nbsp;still&nbsp;hands&nbsp;over&nbsp;ownership&nbsp;and&nbsp;then&nbsp;waits&nbsp;for&nbsp;the&nbsp;server&nbsp;to&nbsp;be&nbsp;set&nbsp;to&nbsp;community<br>
+before&nbsp;configuring&nbsp;and&nbsp;leaving&nbsp;in&nbsp;on_guild_update.<br>
+&nbsp;<br>
+:param&nbsp;member:&nbsp;The&nbsp;member&nbsp;who&nbsp;just&nbsp;joined&nbsp;a&nbsp;guild&nbsp;the&nbsp;bot&nbsp;is&nbsp;a&nbsp;member&nbsp;of.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-on_ready"><strong>on_ready</strong></a>(self)</dt><dd><span class="code">Called&nbsp;when&nbsp;the&nbsp;bot&nbsp;connects&nbsp;to&nbsp;Discord.&nbsp;The&nbsp;bot&nbsp;tries&nbsp;to&nbsp;create&nbsp;a&nbsp;new&nbsp;guild.<br>
+If&nbsp;guild_config_dict&nbsp;is&nbsp;not&nbsp;None,&nbsp;the&nbsp;bot&nbsp;configures&nbsp;the&nbsp;guild&nbsp;according&nbsp;to<br>
+that&nbsp;dict.&nbsp;Finally,&nbsp;the&nbsp;bot&nbsp;outputs&nbsp;an&nbsp;invite&nbsp;link&nbsp;to&nbsp;DiscordInterface.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-shut_down"><strong>shut_down</strong></a>(self)</dt><dd><span class="code">Disconnects&nbsp;the&nbsp;bot&nbsp;and&nbsp;notifies&nbsp;DiscordInterface&nbsp;that&nbsp;it&nbsp;is&nbsp;done.</span></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__parameters__</strong> = ()</dl>
+
+<hr>
+Methods inherited from <a href="discord.ext.commands.bot.html#BotBase">discord.ext.commands.bot.BotBase</a>:<br>
+<dl><dt><a name="GuildCreatorBot-add_check"><strong>add_check</strong></a>(self, func: 'UserCheck[ContextT]', /, *, call_once: 'bool' = False) -&gt; 'None'</dt><dd><span class="code">Adds&nbsp;a&nbsp;global&nbsp;check&nbsp;to&nbsp;the&nbsp;bot.<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;the&nbsp;non-decorator&nbsp;interface&nbsp;to&nbsp;:meth:`.check`<br>
+and&nbsp;:meth:`.check_once`.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``func``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+..&nbsp;seealso::&nbsp;The&nbsp;:func:`~discord.ext.commands.check`&nbsp;decorator<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+func<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;function&nbsp;that&nbsp;was&nbsp;used&nbsp;as&nbsp;a&nbsp;global&nbsp;check.<br>
+call_once:&nbsp;:class:`bool`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;the&nbsp;function&nbsp;should&nbsp;only&nbsp;be&nbsp;called&nbsp;once&nbsp;per<br>
+&nbsp;&nbsp;&nbsp;&nbsp;:meth:`.invoke`&nbsp;call.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-add_cog"><strong>add_cog</strong></a>(self, cog: 'Cog', /, *, override: 'bool' = False, guild: 'Optional[Snowflake]' = ..., guilds: 'Sequence[Snowflake]' = ...) -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Adds&nbsp;a&nbsp;"cog"&nbsp;to&nbsp;the&nbsp;bot.<br>
+&nbsp;<br>
+A&nbsp;cog&nbsp;is&nbsp;a&nbsp;class&nbsp;that&nbsp;has&nbsp;its&nbsp;own&nbsp;event&nbsp;listeners&nbsp;and&nbsp;commands.<br>
+&nbsp;<br>
+If&nbsp;the&nbsp;cog&nbsp;is&nbsp;a&nbsp;:class:`.app_commands.Group`&nbsp;then&nbsp;it&nbsp;is&nbsp;added&nbsp;to<br>
+the&nbsp;bot's&nbsp;:class:`~discord.app_commands.CommandTree`&nbsp;as&nbsp;well.<br>
+&nbsp;<br>
+..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Exceptions&nbsp;raised&nbsp;inside&nbsp;a&nbsp;:class:`.Cog`'s&nbsp;:meth:`~.Cog.cog_load`&nbsp;method&nbsp;will&nbsp;be<br>
+&nbsp;&nbsp;&nbsp;&nbsp;propagated&nbsp;to&nbsp;the&nbsp;caller.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;:exc:`.ClientException`&nbsp;is&nbsp;raised&nbsp;when&nbsp;a&nbsp;cog&nbsp;with&nbsp;the&nbsp;same&nbsp;name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;already&nbsp;loaded.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``cog``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;now&nbsp;a&nbsp;:term:`coroutine`.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+cog:&nbsp;:class:`.Cog`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;cog&nbsp;to&nbsp;register&nbsp;to&nbsp;the&nbsp;bot.<br>
+override:&nbsp;:class:`bool`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;a&nbsp;previously&nbsp;loaded&nbsp;cog&nbsp;with&nbsp;the&nbsp;same&nbsp;name&nbsp;should&nbsp;be&nbsp;ejected<br>
+&nbsp;&nbsp;&nbsp;&nbsp;instead&nbsp;of&nbsp;raising&nbsp;an&nbsp;error.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;versionadded::&nbsp;2.0<br>
+guild:&nbsp;Optional[:class:`~discord.abc.Snowflake`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;the&nbsp;cog&nbsp;is&nbsp;an&nbsp;application&nbsp;command&nbsp;group,&nbsp;then&nbsp;this&nbsp;would&nbsp;be&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;guild&nbsp;where&nbsp;the&nbsp;cog&nbsp;group&nbsp;would&nbsp;be&nbsp;added&nbsp;to.&nbsp;If&nbsp;not&nbsp;given&nbsp;then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;it&nbsp;becomes&nbsp;a&nbsp;global&nbsp;command&nbsp;instead.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;versionadded::&nbsp;2.0<br>
+guilds:&nbsp;List[:class:`~discord.abc.Snowflake`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;the&nbsp;cog&nbsp;is&nbsp;an&nbsp;application&nbsp;command&nbsp;group,&nbsp;then&nbsp;this&nbsp;would&nbsp;be&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;guilds&nbsp;where&nbsp;the&nbsp;cog&nbsp;group&nbsp;would&nbsp;be&nbsp;added&nbsp;to.&nbsp;If&nbsp;not&nbsp;given&nbsp;then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;it&nbsp;becomes&nbsp;a&nbsp;global&nbsp;command&nbsp;instead.&nbsp;Cannot&nbsp;be&nbsp;mixed&nbsp;with<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``guild``.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;versionadded::&nbsp;2.0<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+TypeError<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;cog&nbsp;does&nbsp;not&nbsp;inherit&nbsp;from&nbsp;:class:`.Cog`.<br>
+CommandError<br>
+&nbsp;&nbsp;&nbsp;&nbsp;An&nbsp;error&nbsp;happened&nbsp;during&nbsp;loading.<br>
+ClientException<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;cog&nbsp;with&nbsp;the&nbsp;same&nbsp;name&nbsp;is&nbsp;already&nbsp;loaded.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-add_command"><strong>add_command</strong></a>(self, command: 'Command[CogT, ..., Any]', /) -&gt; 'None'</dt><dd><span class="code">Adds&nbsp;a&nbsp;:class:`.Command`&nbsp;into&nbsp;the&nbsp;internal&nbsp;list&nbsp;of&nbsp;commands.<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;usually&nbsp;not&nbsp;called,&nbsp;instead&nbsp;the&nbsp;:meth:`~.GroupMixin.command`&nbsp;or<br>
+:meth:`~.GroupMixin.group`&nbsp;shortcut&nbsp;decorators&nbsp;are&nbsp;used&nbsp;instead.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;1.4<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Raise&nbsp;:exc:`.CommandRegistrationError`&nbsp;instead&nbsp;of&nbsp;generic&nbsp;:exc:`.ClientException`<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``command``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+command:&nbsp;:class:`Command`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;command&nbsp;to&nbsp;add.<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+CommandRegistrationError<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;the&nbsp;command&nbsp;or&nbsp;its&nbsp;alias&nbsp;is&nbsp;already&nbsp;registered&nbsp;by&nbsp;different&nbsp;command.<br>
+TypeError<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;the&nbsp;command&nbsp;passed&nbsp;is&nbsp;not&nbsp;a&nbsp;subclass&nbsp;of&nbsp;:class:`.Command`.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-add_listener"><strong>add_listener</strong></a>(self, func: 'CoroFunc', /, name: 'str' = ...) -&gt; 'None'</dt><dd><span class="code">The&nbsp;non&nbsp;decorator&nbsp;alternative&nbsp;to&nbsp;:meth:`.listen`.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``func``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+func:&nbsp;:ref:`coroutine&nbsp;&lt;coroutine&gt;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;function&nbsp;to&nbsp;call.<br>
+name:&nbsp;:class:`str`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;event&nbsp;to&nbsp;listen&nbsp;for.&nbsp;Defaults&nbsp;to&nbsp;``func.__name__``.<br>
+&nbsp;<br>
+Example<br>
+--------<br>
+&nbsp;<br>
+..&nbsp;code-block::&nbsp;python3<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async&nbsp;def&nbsp;<a href="#GuildCreatorBot-on_ready">on_ready</a>():&nbsp;pass<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async&nbsp;def&nbsp;my_message(message):&nbsp;pass<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bot.<a href="#GuildCreatorBot-add_listener">add_listener</a>(on_ready)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bot.<a href="#GuildCreatorBot-add_listener">add_listener</a>(my_message,&nbsp;'on_message')</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-after_invoke"><strong>after_invoke</strong></a>(self, coro: 'CFT', /) -&gt; 'CFT'</dt><dd><span class="code">A&nbsp;decorator&nbsp;that&nbsp;registers&nbsp;a&nbsp;coroutine&nbsp;as&nbsp;a&nbsp;post-invoke&nbsp;hook.<br>
+&nbsp;<br>
+A&nbsp;post-invoke&nbsp;hook&nbsp;is&nbsp;called&nbsp;directly&nbsp;after&nbsp;the&nbsp;command&nbsp;is<br>
+called.&nbsp;This&nbsp;makes&nbsp;it&nbsp;a&nbsp;useful&nbsp;function&nbsp;to&nbsp;clean-up&nbsp;database<br>
+connections&nbsp;or&nbsp;any&nbsp;type&nbsp;of&nbsp;clean&nbsp;up&nbsp;required.<br>
+&nbsp;<br>
+This&nbsp;post-invoke&nbsp;hook&nbsp;takes&nbsp;a&nbsp;sole&nbsp;parameter,&nbsp;a&nbsp;:class:`.Context`.<br>
+&nbsp;<br>
+..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Similar&nbsp;to&nbsp;:meth:`~.<a href="discord.ext.commands.bot.html#Bot">Bot</a>.before_invoke`\,&nbsp;this&nbsp;is&nbsp;not&nbsp;called&nbsp;unless<br>
+&nbsp;&nbsp;&nbsp;&nbsp;checks&nbsp;and&nbsp;argument&nbsp;parsing&nbsp;procedures&nbsp;succeed.&nbsp;This&nbsp;hook&nbsp;is,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;however,&nbsp;**always**&nbsp;called&nbsp;regardless&nbsp;of&nbsp;the&nbsp;internal&nbsp;command<br>
+&nbsp;&nbsp;&nbsp;&nbsp;callback&nbsp;raising&nbsp;an&nbsp;error&nbsp;(i.e.&nbsp;:exc:`.CommandInvokeError`\).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;makes&nbsp;it&nbsp;ideal&nbsp;for&nbsp;clean-up&nbsp;scenarios.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``coro``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+coro:&nbsp;:ref:`coroutine&nbsp;&lt;coroutine&gt;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;coroutine&nbsp;to&nbsp;register&nbsp;as&nbsp;the&nbsp;post-invoke&nbsp;hook.<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+TypeError<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;coroutine&nbsp;passed&nbsp;is&nbsp;not&nbsp;actually&nbsp;a&nbsp;coroutine.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-before_invoke"><strong>before_invoke</strong></a>(self, coro: 'CFT', /) -&gt; 'CFT'</dt><dd><span class="code">A&nbsp;decorator&nbsp;that&nbsp;registers&nbsp;a&nbsp;coroutine&nbsp;as&nbsp;a&nbsp;pre-invoke&nbsp;hook.<br>
+&nbsp;<br>
+A&nbsp;pre-invoke&nbsp;hook&nbsp;is&nbsp;called&nbsp;directly&nbsp;before&nbsp;the&nbsp;command&nbsp;is<br>
+called.&nbsp;This&nbsp;makes&nbsp;it&nbsp;a&nbsp;useful&nbsp;function&nbsp;to&nbsp;set&nbsp;up&nbsp;database<br>
+connections&nbsp;or&nbsp;any&nbsp;type&nbsp;of&nbsp;set&nbsp;up&nbsp;required.<br>
+&nbsp;<br>
+This&nbsp;pre-invoke&nbsp;hook&nbsp;takes&nbsp;a&nbsp;sole&nbsp;parameter,&nbsp;a&nbsp;:class:`.Context`.<br>
+&nbsp;<br>
+..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;:meth:`~.<a href="discord.ext.commands.bot.html#Bot">Bot</a>.before_invoke`&nbsp;and&nbsp;:meth:`~.<a href="discord.ext.commands.bot.html#Bot">Bot</a>.after_invoke`&nbsp;hooks&nbsp;are<br>
+&nbsp;&nbsp;&nbsp;&nbsp;only&nbsp;called&nbsp;if&nbsp;all&nbsp;checks&nbsp;and&nbsp;argument&nbsp;parsing&nbsp;procedures&nbsp;pass<br>
+&nbsp;&nbsp;&nbsp;&nbsp;without&nbsp;error.&nbsp;If&nbsp;any&nbsp;check&nbsp;or&nbsp;argument&nbsp;parsing&nbsp;procedures&nbsp;fail<br>
+&nbsp;&nbsp;&nbsp;&nbsp;then&nbsp;the&nbsp;hooks&nbsp;are&nbsp;not&nbsp;called.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``coro``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+coro:&nbsp;:ref:`coroutine&nbsp;&lt;coroutine&gt;`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;coroutine&nbsp;to&nbsp;register&nbsp;as&nbsp;the&nbsp;pre-invoke&nbsp;hook.<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+TypeError<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;coroutine&nbsp;passed&nbsp;is&nbsp;not&nbsp;actually&nbsp;a&nbsp;coroutine.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-can_run"><strong>can_run</strong></a>(self, ctx: 'Context[BotT]', /, *, call_once: 'bool' = False) -&gt; 'bool'</dt></dl>
+
+<dl><dt><a name="GuildCreatorBot-check"><strong>check</strong></a>(self, func: 'T', /) -&gt; 'T'</dt><dd><span class="code">A&nbsp;decorator&nbsp;that&nbsp;adds&nbsp;a&nbsp;global&nbsp;check&nbsp;to&nbsp;the&nbsp;bot.<br>
+&nbsp;<br>
+A&nbsp;global&nbsp;check&nbsp;is&nbsp;similar&nbsp;to&nbsp;a&nbsp;:func:`.check`&nbsp;that&nbsp;is&nbsp;applied<br>
+on&nbsp;a&nbsp;per&nbsp;command&nbsp;basis&nbsp;except&nbsp;it&nbsp;is&nbsp;run&nbsp;before&nbsp;any&nbsp;command&nbsp;checks<br>
+have&nbsp;been&nbsp;verified&nbsp;and&nbsp;applies&nbsp;to&nbsp;every&nbsp;command&nbsp;the&nbsp;bot&nbsp;has.<br>
+&nbsp;<br>
+..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;function&nbsp;can&nbsp;either&nbsp;be&nbsp;a&nbsp;regular&nbsp;function&nbsp;or&nbsp;a&nbsp;coroutine.<br>
+&nbsp;<br>
+Similar&nbsp;to&nbsp;a&nbsp;command&nbsp;:func:`.check`\,&nbsp;this&nbsp;takes&nbsp;a&nbsp;single&nbsp;parameter<br>
+of&nbsp;type&nbsp;:class:`.Context`&nbsp;and&nbsp;can&nbsp;only&nbsp;raise&nbsp;exceptions&nbsp;inherited&nbsp;from<br>
+:exc:`.CommandError`.<br>
+&nbsp;<br>
+Example<br>
+---------<br>
+&nbsp;<br>
+..&nbsp;code-block::&nbsp;python3<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@bot.check<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def&nbsp;check_commands(ctx):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;ctx.command.qualified_name&nbsp;in&nbsp;allowed_commands<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``func``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-check_once"><strong>check_once</strong></a>(self, func: 'CFT', /) -&gt; 'CFT'</dt><dd><span class="code">A&nbsp;decorator&nbsp;that&nbsp;adds&nbsp;a&nbsp;"call&nbsp;once"&nbsp;global&nbsp;check&nbsp;to&nbsp;the&nbsp;bot.<br>
+&nbsp;<br>
+Unlike&nbsp;regular&nbsp;global&nbsp;checks,&nbsp;this&nbsp;one&nbsp;is&nbsp;called&nbsp;only&nbsp;once<br>
+per&nbsp;:meth:`.invoke`&nbsp;call.<br>
+&nbsp;<br>
+Regular&nbsp;global&nbsp;checks&nbsp;are&nbsp;called&nbsp;whenever&nbsp;a&nbsp;command&nbsp;is&nbsp;called<br>
+or&nbsp;:meth:`.Command.can_run`&nbsp;is&nbsp;called.&nbsp;This&nbsp;type&nbsp;of&nbsp;check<br>
+bypasses&nbsp;that&nbsp;and&nbsp;ensures&nbsp;that&nbsp;it's&nbsp;called&nbsp;only&nbsp;once,&nbsp;even&nbsp;inside<br>
+the&nbsp;default&nbsp;help&nbsp;command.<br>
+&nbsp;<br>
+..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;When&nbsp;using&nbsp;this&nbsp;function&nbsp;the&nbsp;:class:`.Context`&nbsp;sent&nbsp;to&nbsp;a&nbsp;group&nbsp;subcommand<br>
+&nbsp;&nbsp;&nbsp;&nbsp;may&nbsp;only&nbsp;parse&nbsp;the&nbsp;parent&nbsp;command&nbsp;and&nbsp;not&nbsp;the&nbsp;subcommands&nbsp;due&nbsp;to&nbsp;it<br>
+&nbsp;&nbsp;&nbsp;&nbsp;being&nbsp;invoked&nbsp;once&nbsp;per&nbsp;:meth:`.<a href="discord.ext.commands.bot.html#Bot">Bot</a>.invoke`&nbsp;call.<br>
+&nbsp;<br>
+..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;function&nbsp;can&nbsp;either&nbsp;be&nbsp;a&nbsp;regular&nbsp;function&nbsp;or&nbsp;a&nbsp;coroutine.<br>
+&nbsp;<br>
+Similar&nbsp;to&nbsp;a&nbsp;command&nbsp;:func:`.check`\,&nbsp;this&nbsp;takes&nbsp;a&nbsp;single&nbsp;parameter<br>
+of&nbsp;type&nbsp;:class:`.Context`&nbsp;and&nbsp;can&nbsp;only&nbsp;raise&nbsp;exceptions&nbsp;inherited&nbsp;from<br>
+:exc:`.CommandError`.<br>
+&nbsp;<br>
+Example<br>
+---------<br>
+&nbsp;<br>
+..&nbsp;code-block::&nbsp;python3<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@bot.check_once<br>
+&nbsp;&nbsp;&nbsp;&nbsp;def&nbsp;whitelist(ctx):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;ctx.message.author.id&nbsp;in&nbsp;my_whitelist<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``func``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-close"><strong>close</strong></a>(self) -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Closes&nbsp;the&nbsp;connection&nbsp;to&nbsp;Discord.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-dispatch"><strong>dispatch</strong></a>(self, event_name: 'str', /, *args: 'Any', **kwargs: 'Any') -&gt; 'None'</dt></dl>
+
+<dl><dt><a name="GuildCreatorBot-get_cog"><strong>get_cog</strong></a>(self, name: 'str', /) -&gt; 'Optional[Cog]'</dt><dd><span class="code">Gets&nbsp;the&nbsp;cog&nbsp;instance&nbsp;requested.<br>
+&nbsp;<br>
+If&nbsp;the&nbsp;cog&nbsp;is&nbsp;not&nbsp;found,&nbsp;``None``&nbsp;is&nbsp;returned&nbsp;instead.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``name``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+name:&nbsp;:class:`str`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;cog&nbsp;you&nbsp;are&nbsp;requesting.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;is&nbsp;equivalent&nbsp;to&nbsp;the&nbsp;name&nbsp;passed&nbsp;via&nbsp;keyword<br>
+&nbsp;&nbsp;&nbsp;&nbsp;argument&nbsp;in&nbsp;class&nbsp;creation&nbsp;or&nbsp;the&nbsp;class&nbsp;name&nbsp;if&nbsp;unspecified.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+Optional[:class:`Cog`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;cog&nbsp;that&nbsp;was&nbsp;requested.&nbsp;If&nbsp;not&nbsp;found,&nbsp;returns&nbsp;``None``.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-get_context"><strong>get_context</strong></a>(self, origin: 'Union[Message, Interaction]', /, *, cls: 'Type[ContextT]' = ...) -&gt; 'Any'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Returns&nbsp;the&nbsp;invocation&nbsp;context&nbsp;from&nbsp;the&nbsp;message&nbsp;or&nbsp;interaction.<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;a&nbsp;more&nbsp;low-level&nbsp;counter-part&nbsp;for&nbsp;:meth:`.process_commands`<br>
+to&nbsp;allow&nbsp;users&nbsp;more&nbsp;fine&nbsp;grained&nbsp;control&nbsp;over&nbsp;the&nbsp;processing.<br>
+&nbsp;<br>
+The&nbsp;returned&nbsp;context&nbsp;is&nbsp;not&nbsp;guaranteed&nbsp;to&nbsp;be&nbsp;a&nbsp;valid&nbsp;invocation<br>
+context,&nbsp;:attr:`.Context.valid`&nbsp;must&nbsp;be&nbsp;checked&nbsp;to&nbsp;make&nbsp;sure&nbsp;it&nbsp;is.<br>
+If&nbsp;the&nbsp;context&nbsp;is&nbsp;not&nbsp;valid&nbsp;then&nbsp;it&nbsp;is&nbsp;not&nbsp;a&nbsp;valid&nbsp;candidate&nbsp;to&nbsp;be<br>
+invoked&nbsp;under&nbsp;:meth:`~.<a href="discord.ext.commands.bot.html#Bot">Bot</a>.invoke`.<br>
+&nbsp;<br>
+..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;In&nbsp;order&nbsp;for&nbsp;the&nbsp;custom&nbsp;context&nbsp;to&nbsp;be&nbsp;used&nbsp;inside&nbsp;an&nbsp;interaction-based<br>
+&nbsp;&nbsp;&nbsp;&nbsp;context&nbsp;(such&nbsp;as&nbsp;:class:`HybridCommand`)&nbsp;then&nbsp;this&nbsp;method&nbsp;must&nbsp;be<br>
+&nbsp;&nbsp;&nbsp;&nbsp;overridden&nbsp;to&nbsp;return&nbsp;that&nbsp;class.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``message``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only&nbsp;and&nbsp;renamed&nbsp;to&nbsp;``origin``.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+origin:&nbsp;Union[:class:`discord.Message`,&nbsp;:class:`discord.Interaction`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;message&nbsp;or&nbsp;interaction&nbsp;to&nbsp;get&nbsp;the&nbsp;invocation&nbsp;context&nbsp;from.<br>
+cls<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;factory&nbsp;class&nbsp;that&nbsp;will&nbsp;be&nbsp;used&nbsp;to&nbsp;create&nbsp;the&nbsp;context.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;By&nbsp;default,&nbsp;this&nbsp;is&nbsp;:class:`.Context`.&nbsp;Should&nbsp;a&nbsp;custom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;class&nbsp;be&nbsp;provided,&nbsp;it&nbsp;must&nbsp;be&nbsp;similar&nbsp;enough&nbsp;to&nbsp;:class:`.Context`\'s<br>
+&nbsp;&nbsp;&nbsp;&nbsp;interface.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+:class:`.Context`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;invocation&nbsp;context.&nbsp;The&nbsp;type&nbsp;of&nbsp;this&nbsp;can&nbsp;change&nbsp;via&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``cls``&nbsp;parameter.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-get_prefix"><strong>get_prefix</strong></a>(self, message: 'Message', /) -&gt; 'Union[List[str], str]'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Retrieves&nbsp;the&nbsp;prefix&nbsp;the&nbsp;bot&nbsp;is&nbsp;listening&nbsp;to<br>
+with&nbsp;the&nbsp;message&nbsp;as&nbsp;a&nbsp;context.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``message``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+message:&nbsp;:class:`discord.Message`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;message&nbsp;context&nbsp;to&nbsp;get&nbsp;the&nbsp;prefix&nbsp;of.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+Union[List[:class:`str`],&nbsp;:class:`str`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;prefixes&nbsp;or&nbsp;a&nbsp;single&nbsp;prefix&nbsp;that&nbsp;the&nbsp;bot&nbsp;is<br>
+&nbsp;&nbsp;&nbsp;&nbsp;listening&nbsp;for.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-hybrid_command"><strong>hybrid_command</strong></a>(self, name: 'Union[str, app_commands.locale_str]' = ..., with_app_command: 'bool' = True, *args: 'Any', **kwargs: 'Any') -&gt; 'Callable[[CommandCallback[Any, ContextT, P, T]], HybridCommand[Any, P, T]]'</dt><dd><span class="code">A&nbsp;shortcut&nbsp;decorator&nbsp;that&nbsp;invokes&nbsp;:func:`~discord.ext.commands.hybrid_command`&nbsp;and&nbsp;adds&nbsp;it&nbsp;to<br>
+the&nbsp;internal&nbsp;command&nbsp;list&nbsp;via&nbsp;:meth:`add_command`.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+Callable[...,&nbsp;:class:`HybridCommand`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;decorator&nbsp;that&nbsp;converts&nbsp;the&nbsp;provided&nbsp;method&nbsp;into&nbsp;a&nbsp;Command,&nbsp;adds&nbsp;it&nbsp;to&nbsp;the&nbsp;bot,&nbsp;then&nbsp;returns&nbsp;it.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-hybrid_group"><strong>hybrid_group</strong></a>(self, name: 'Union[str, app_commands.locale_str]' = ..., with_app_command: 'bool' = True, *args: 'Any', **kwargs: 'Any') -&gt; 'Callable[[CommandCallback[Any, ContextT, P, T]], HybridGroup[Any, P, T]]'</dt><dd><span class="code">A&nbsp;shortcut&nbsp;decorator&nbsp;that&nbsp;invokes&nbsp;:func:`~discord.ext.commands.hybrid_group`&nbsp;and&nbsp;adds&nbsp;it&nbsp;to<br>
+the&nbsp;internal&nbsp;command&nbsp;list&nbsp;via&nbsp;:meth:`add_command`.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+Callable[...,&nbsp;:class:`HybridGroup`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;decorator&nbsp;that&nbsp;converts&nbsp;the&nbsp;provided&nbsp;method&nbsp;into&nbsp;a&nbsp;Group,&nbsp;adds&nbsp;it&nbsp;to&nbsp;the&nbsp;bot,&nbsp;then&nbsp;returns&nbsp;it.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-invoke"><strong>invoke</strong></a>(self, ctx: 'Context[BotT]', /) -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Invokes&nbsp;the&nbsp;command&nbsp;given&nbsp;under&nbsp;the&nbsp;invocation&nbsp;context&nbsp;and<br>
+handles&nbsp;all&nbsp;the&nbsp;internal&nbsp;event&nbsp;dispatch&nbsp;mechanisms.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``ctx``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+ctx:&nbsp;:class:`.Context`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;invocation&nbsp;context&nbsp;to&nbsp;invoke.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-is_owner"><strong>is_owner</strong></a>(self, user: 'User', /) -&gt; 'bool'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Checks&nbsp;if&nbsp;a&nbsp;:class:`~discord.User`&nbsp;or&nbsp;:class:`~discord.Member`&nbsp;is&nbsp;the&nbsp;owner&nbsp;of<br>
+this&nbsp;bot.<br>
+&nbsp;<br>
+If&nbsp;an&nbsp;:attr:`owner_id`&nbsp;is&nbsp;not&nbsp;set,&nbsp;it&nbsp;is&nbsp;fetched&nbsp;automatically<br>
+through&nbsp;the&nbsp;use&nbsp;of&nbsp;:meth:`~.<a href="discord.ext.commands.bot.html#Bot">Bot</a>.application_info`.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;1.3<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;function&nbsp;also&nbsp;checks&nbsp;if&nbsp;the&nbsp;application&nbsp;is&nbsp;team-owned&nbsp;if<br>
+&nbsp;&nbsp;&nbsp;&nbsp;:attr:`owner_ids`&nbsp;is&nbsp;not&nbsp;set.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``user``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+user:&nbsp;:class:`.abc.User`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;user&nbsp;to&nbsp;check&nbsp;for.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+:class:`bool`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Whether&nbsp;the&nbsp;user&nbsp;is&nbsp;the&nbsp;owner.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-listen"><strong>listen</strong></a>(self, name: 'str' = ...) -&gt; 'Callable[[CFT], CFT]'</dt><dd><span class="code">A&nbsp;decorator&nbsp;that&nbsp;registers&nbsp;another&nbsp;function&nbsp;as&nbsp;an&nbsp;external<br>
+event&nbsp;listener.&nbsp;Basically&nbsp;this&nbsp;allows&nbsp;you&nbsp;to&nbsp;listen&nbsp;to&nbsp;multiple<br>
+events&nbsp;from&nbsp;different&nbsp;places&nbsp;e.g.&nbsp;such&nbsp;as&nbsp;:func:`.on_ready`<br>
+&nbsp;<br>
+The&nbsp;functions&nbsp;being&nbsp;listened&nbsp;to&nbsp;must&nbsp;be&nbsp;a&nbsp;:ref:`coroutine&nbsp;&lt;coroutine&gt;`.<br>
+&nbsp;<br>
+Example<br>
+--------<br>
+&nbsp;<br>
+..&nbsp;code-block::&nbsp;python3<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@bot.<a href="#GuildCreatorBot-listen">listen</a>()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async&nbsp;def&nbsp;<a href="#GuildCreatorBot-on_message">on_message</a>(message):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print('one')<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;in&nbsp;some&nbsp;other&nbsp;file...<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@bot.<a href="#GuildCreatorBot-listen">listen</a>('on_message')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async&nbsp;def&nbsp;my_message(message):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print('two')<br>
+&nbsp;<br>
+Would&nbsp;print&nbsp;one&nbsp;and&nbsp;two&nbsp;in&nbsp;an&nbsp;unspecified&nbsp;order.<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+TypeError<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;function&nbsp;being&nbsp;listened&nbsp;to&nbsp;is&nbsp;not&nbsp;a&nbsp;coroutine.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-load_extension"><strong>load_extension</strong></a>(self, name: 'str', *, package: 'Optional[str]' = None) -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Loads&nbsp;an&nbsp;extension.<br>
+&nbsp;<br>
+An&nbsp;extension&nbsp;is&nbsp;a&nbsp;python&nbsp;module&nbsp;that&nbsp;contains&nbsp;commands,&nbsp;cogs,&nbsp;or<br>
+listeners.<br>
+&nbsp;<br>
+An&nbsp;extension&nbsp;must&nbsp;have&nbsp;a&nbsp;global&nbsp;function,&nbsp;``setup``&nbsp;defined&nbsp;as<br>
+the&nbsp;entry&nbsp;point&nbsp;on&nbsp;what&nbsp;to&nbsp;do&nbsp;when&nbsp;the&nbsp;extension&nbsp;is&nbsp;loaded.&nbsp;This&nbsp;entry<br>
+point&nbsp;must&nbsp;have&nbsp;a&nbsp;single&nbsp;argument,&nbsp;the&nbsp;``bot``.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;now&nbsp;a&nbsp;:term:`coroutine`.<br>
+&nbsp;<br>
+Parameters<br>
+------------<br>
+name:&nbsp;:class:`str`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;extension&nbsp;name&nbsp;to&nbsp;load.&nbsp;It&nbsp;must&nbsp;be&nbsp;dot&nbsp;separated&nbsp;like<br>
+&nbsp;&nbsp;&nbsp;&nbsp;regular&nbsp;Python&nbsp;imports&nbsp;if&nbsp;accessing&nbsp;a&nbsp;sub-module.&nbsp;e.g.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``foo.test``&nbsp;if&nbsp;you&nbsp;want&nbsp;to&nbsp;import&nbsp;``foo/test.py``.<br>
+package:&nbsp;Optional[:class:`str`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;package&nbsp;name&nbsp;to&nbsp;resolve&nbsp;relative&nbsp;imports&nbsp;with.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;is&nbsp;required&nbsp;when&nbsp;loading&nbsp;an&nbsp;extension&nbsp;using&nbsp;a&nbsp;relative&nbsp;path,&nbsp;e.g&nbsp;``.foo.test``.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Defaults&nbsp;to&nbsp;``None``.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;versionadded::&nbsp;1.7<br>
+&nbsp;<br>
+Raises<br>
+--------<br>
+ExtensionNotFound<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;extension&nbsp;could&nbsp;not&nbsp;be&nbsp;imported.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;is&nbsp;also&nbsp;raised&nbsp;if&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;extension&nbsp;could&nbsp;not<br>
+&nbsp;&nbsp;&nbsp;&nbsp;be&nbsp;resolved&nbsp;using&nbsp;the&nbsp;provided&nbsp;``package``&nbsp;parameter.<br>
+ExtensionAlreadyLoaded<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;extension&nbsp;is&nbsp;already&nbsp;loaded.<br>
+NoEntryPointError<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;extension&nbsp;does&nbsp;not&nbsp;have&nbsp;a&nbsp;setup&nbsp;function.<br>
+ExtensionFailed<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;extension&nbsp;or&nbsp;its&nbsp;setup&nbsp;function&nbsp;had&nbsp;an&nbsp;execution&nbsp;error.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-on_command_error"><strong>on_command_error</strong></a>(self, context: 'Context[BotT]', exception: 'errors.CommandError', /) -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;command&nbsp;error&nbsp;handler&nbsp;provided&nbsp;by&nbsp;the&nbsp;bot.<br>
+&nbsp;<br>
+By&nbsp;default&nbsp;this&nbsp;logs&nbsp;to&nbsp;the&nbsp;library&nbsp;logger,&nbsp;however&nbsp;it&nbsp;could&nbsp;be<br>
+overridden&nbsp;to&nbsp;have&nbsp;a&nbsp;different&nbsp;implementation.<br>
+&nbsp;<br>
+This&nbsp;only&nbsp;fires&nbsp;if&nbsp;you&nbsp;do&nbsp;not&nbsp;specify&nbsp;any&nbsp;listeners&nbsp;for&nbsp;command&nbsp;error.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``context``&nbsp;and&nbsp;``exception``&nbsp;parameters&nbsp;are&nbsp;now&nbsp;positional-only.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Instead&nbsp;of&nbsp;writing&nbsp;to&nbsp;``sys.stderr``&nbsp;this&nbsp;now&nbsp;uses&nbsp;the&nbsp;library&nbsp;logger.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-on_message"><strong>on_message</strong></a>(self, message: 'Message', /) -&gt; 'None'</dt></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-process_commands"><strong>process_commands</strong></a>(self, message: 'Message', /) -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;processes&nbsp;the&nbsp;commands&nbsp;that&nbsp;have&nbsp;been&nbsp;registered<br>
+to&nbsp;the&nbsp;bot&nbsp;and&nbsp;other&nbsp;groups.&nbsp;Without&nbsp;this&nbsp;coroutine,&nbsp;none&nbsp;of&nbsp;the<br>
+commands&nbsp;will&nbsp;be&nbsp;triggered.<br>
+&nbsp;<br>
+By&nbsp;default,&nbsp;this&nbsp;coroutine&nbsp;is&nbsp;called&nbsp;inside&nbsp;the&nbsp;:func:`.on_message`<br>
+event.&nbsp;If&nbsp;you&nbsp;choose&nbsp;to&nbsp;override&nbsp;the&nbsp;:func:`.on_message`&nbsp;event,&nbsp;then<br>
+you&nbsp;should&nbsp;invoke&nbsp;this&nbsp;coroutine&nbsp;as&nbsp;well.<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;built&nbsp;using&nbsp;other&nbsp;low&nbsp;level&nbsp;tools,&nbsp;and&nbsp;is&nbsp;equivalent&nbsp;to&nbsp;a<br>
+call&nbsp;to&nbsp;:meth:`~.<a href="discord.ext.commands.bot.html#Bot">Bot</a>.get_context`&nbsp;followed&nbsp;by&nbsp;a&nbsp;call&nbsp;to&nbsp;:meth:`~.<a href="discord.ext.commands.bot.html#Bot">Bot</a>.invoke`.<br>
+&nbsp;<br>
+This&nbsp;also&nbsp;checks&nbsp;if&nbsp;the&nbsp;message's&nbsp;author&nbsp;is&nbsp;a&nbsp;bot&nbsp;and&nbsp;doesn't<br>
+call&nbsp;:meth:`~.<a href="discord.ext.commands.bot.html#Bot">Bot</a>.get_context`&nbsp;or&nbsp;:meth:`~.<a href="discord.ext.commands.bot.html#Bot">Bot</a>.invoke`&nbsp;if&nbsp;so.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``message``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+message:&nbsp;:class:`discord.Message`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;message&nbsp;to&nbsp;process&nbsp;commands&nbsp;for.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-reload_extension"><strong>reload_extension</strong></a>(self, name: 'str', *, package: 'Optional[str]' = None) -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Atomically&nbsp;reloads&nbsp;an&nbsp;extension.<br>
+&nbsp;<br>
+This&nbsp;replaces&nbsp;the&nbsp;extension&nbsp;with&nbsp;the&nbsp;same&nbsp;extension,&nbsp;only&nbsp;refreshed.&nbsp;This&nbsp;is<br>
+equivalent&nbsp;to&nbsp;a&nbsp;:meth:`unload_extension`&nbsp;followed&nbsp;by&nbsp;a&nbsp;:meth:`load_extension`<br>
+except&nbsp;done&nbsp;in&nbsp;an&nbsp;atomic&nbsp;way.&nbsp;That&nbsp;is,&nbsp;if&nbsp;an&nbsp;operation&nbsp;fails&nbsp;mid-reload&nbsp;then<br>
+the&nbsp;bot&nbsp;will&nbsp;roll-back&nbsp;to&nbsp;the&nbsp;prior&nbsp;working&nbsp;state.<br>
+&nbsp;<br>
+Parameters<br>
+------------<br>
+name:&nbsp;:class:`str`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;extension&nbsp;name&nbsp;to&nbsp;reload.&nbsp;It&nbsp;must&nbsp;be&nbsp;dot&nbsp;separated&nbsp;like<br>
+&nbsp;&nbsp;&nbsp;&nbsp;regular&nbsp;Python&nbsp;imports&nbsp;if&nbsp;accessing&nbsp;a&nbsp;sub-module.&nbsp;e.g.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``foo.test``&nbsp;if&nbsp;you&nbsp;want&nbsp;to&nbsp;import&nbsp;``foo/test.py``.<br>
+package:&nbsp;Optional[:class:`str`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;package&nbsp;name&nbsp;to&nbsp;resolve&nbsp;relative&nbsp;imports&nbsp;with.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;is&nbsp;required&nbsp;when&nbsp;reloading&nbsp;an&nbsp;extension&nbsp;using&nbsp;a&nbsp;relative&nbsp;path,&nbsp;e.g&nbsp;``.foo.test``.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Defaults&nbsp;to&nbsp;``None``.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;versionadded::&nbsp;1.7<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+ExtensionNotLoaded<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;extension&nbsp;was&nbsp;not&nbsp;loaded.<br>
+ExtensionNotFound<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;extension&nbsp;could&nbsp;not&nbsp;be&nbsp;imported.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;is&nbsp;also&nbsp;raised&nbsp;if&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;extension&nbsp;could&nbsp;not<br>
+&nbsp;&nbsp;&nbsp;&nbsp;be&nbsp;resolved&nbsp;using&nbsp;the&nbsp;provided&nbsp;``package``&nbsp;parameter.<br>
+NoEntryPointError<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;extension&nbsp;does&nbsp;not&nbsp;have&nbsp;a&nbsp;setup&nbsp;function.<br>
+ExtensionFailed<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;extension&nbsp;setup&nbsp;function&nbsp;had&nbsp;an&nbsp;execution&nbsp;error.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-remove_check"><strong>remove_check</strong></a>(self, func: 'UserCheck[ContextT]', /, *, call_once: 'bool' = False) -&gt; 'None'</dt><dd><span class="code">Removes&nbsp;a&nbsp;global&nbsp;check&nbsp;from&nbsp;the&nbsp;bot.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;is&nbsp;idempotent&nbsp;and&nbsp;will&nbsp;not&nbsp;raise&nbsp;an&nbsp;exception<br>
+if&nbsp;the&nbsp;function&nbsp;is&nbsp;not&nbsp;in&nbsp;the&nbsp;global&nbsp;checks.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``func``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+func<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;function&nbsp;to&nbsp;remove&nbsp;from&nbsp;the&nbsp;global&nbsp;checks.<br>
+call_once:&nbsp;:class:`bool`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;the&nbsp;function&nbsp;was&nbsp;added&nbsp;with&nbsp;``call_once=True``&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;:meth:`.<a href="discord.ext.commands.bot.html#Bot">Bot</a>.add_check`&nbsp;call&nbsp;or&nbsp;using&nbsp;:meth:`.check_once`.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-remove_cog"><strong>remove_cog</strong></a>(self, name: 'str', /, *, guild: 'Optional[Snowflake]' = ..., guilds: 'Sequence[Snowflake]' = ...) -&gt; 'Optional[Cog]'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Removes&nbsp;a&nbsp;cog&nbsp;from&nbsp;the&nbsp;bot&nbsp;and&nbsp;returns&nbsp;it.<br>
+&nbsp;<br>
+All&nbsp;registered&nbsp;commands&nbsp;and&nbsp;event&nbsp;listeners&nbsp;that&nbsp;the<br>
+cog&nbsp;has&nbsp;registered&nbsp;will&nbsp;be&nbsp;removed&nbsp;as&nbsp;well.<br>
+&nbsp;<br>
+If&nbsp;no&nbsp;cog&nbsp;is&nbsp;found&nbsp;then&nbsp;this&nbsp;method&nbsp;has&nbsp;no&nbsp;effect.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``name``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;now&nbsp;a&nbsp;:term:`coroutine`.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+name:&nbsp;:class:`str`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;cog&nbsp;to&nbsp;remove.<br>
+guild:&nbsp;Optional[:class:`~discord.abc.Snowflake`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;the&nbsp;cog&nbsp;is&nbsp;an&nbsp;application&nbsp;command&nbsp;group,&nbsp;then&nbsp;this&nbsp;would&nbsp;be&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;guild&nbsp;where&nbsp;the&nbsp;cog&nbsp;group&nbsp;would&nbsp;be&nbsp;removed&nbsp;from.&nbsp;If&nbsp;not&nbsp;given&nbsp;then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;global&nbsp;command&nbsp;is&nbsp;removed&nbsp;instead&nbsp;instead.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;versionadded::&nbsp;2.0<br>
+guilds:&nbsp;List[:class:`~discord.abc.Snowflake`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;the&nbsp;cog&nbsp;is&nbsp;an&nbsp;application&nbsp;command&nbsp;group,&nbsp;then&nbsp;this&nbsp;would&nbsp;be&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;guilds&nbsp;where&nbsp;the&nbsp;cog&nbsp;group&nbsp;would&nbsp;be&nbsp;removed&nbsp;from.&nbsp;If&nbsp;not&nbsp;given&nbsp;then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;global&nbsp;command&nbsp;is&nbsp;removed&nbsp;instead&nbsp;instead.&nbsp;Cannot&nbsp;be&nbsp;mixed&nbsp;with<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``guild``.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;versionadded::&nbsp;2.0<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+Optional[:class:`.Cog`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;cog&nbsp;that&nbsp;was&nbsp;removed.&nbsp;``None``&nbsp;if&nbsp;not&nbsp;found.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-remove_command"><strong>remove_command</strong></a>(self, name: 'str', /) -&gt; 'Optional[Command[CogT, ..., Any]]'</dt><dd><span class="code">Remove&nbsp;a&nbsp;:class:`.Command`&nbsp;from&nbsp;the&nbsp;internal&nbsp;list<br>
+of&nbsp;commands.<br>
+&nbsp;<br>
+This&nbsp;could&nbsp;also&nbsp;be&nbsp;used&nbsp;as&nbsp;a&nbsp;way&nbsp;to&nbsp;remove&nbsp;aliases.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``name``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+name:&nbsp;:class:`str`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;command&nbsp;to&nbsp;remove.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+Optional[:class:`.Command`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;command&nbsp;that&nbsp;was&nbsp;removed.&nbsp;If&nbsp;the&nbsp;name&nbsp;is&nbsp;not&nbsp;valid&nbsp;then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``None``&nbsp;is&nbsp;returned&nbsp;instead.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-remove_listener"><strong>remove_listener</strong></a>(self, func: 'CoroFunc', /, name: 'str' = ...) -&gt; 'None'</dt><dd><span class="code">Removes&nbsp;a&nbsp;listener&nbsp;from&nbsp;the&nbsp;pool&nbsp;of&nbsp;listeners.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``func``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+func<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;function&nbsp;that&nbsp;was&nbsp;used&nbsp;as&nbsp;a&nbsp;listener&nbsp;to&nbsp;remove.<br>
+name:&nbsp;:class:`str`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;event&nbsp;we&nbsp;want&nbsp;to&nbsp;remove.&nbsp;Defaults&nbsp;to<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``func.__name__``.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-unload_extension"><strong>unload_extension</strong></a>(self, name: 'str', *, package: 'Optional[str]' = None) -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Unloads&nbsp;an&nbsp;extension.<br>
+&nbsp;<br>
+When&nbsp;the&nbsp;extension&nbsp;is&nbsp;unloaded,&nbsp;all&nbsp;commands,&nbsp;listeners,&nbsp;and&nbsp;cogs&nbsp;are<br>
+removed&nbsp;from&nbsp;the&nbsp;bot&nbsp;and&nbsp;the&nbsp;module&nbsp;is&nbsp;un-imported.<br>
+&nbsp;<br>
+The&nbsp;extension&nbsp;can&nbsp;provide&nbsp;an&nbsp;optional&nbsp;global&nbsp;function,&nbsp;``teardown``,<br>
+to&nbsp;do&nbsp;miscellaneous&nbsp;clean-up&nbsp;if&nbsp;necessary.&nbsp;This&nbsp;function&nbsp;takes&nbsp;a&nbsp;single<br>
+parameter,&nbsp;the&nbsp;``bot``,&nbsp;similar&nbsp;to&nbsp;``setup``&nbsp;from<br>
+:meth:`~.<a href="discord.ext.commands.bot.html#Bot">Bot</a>.load_extension`.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;now&nbsp;a&nbsp;:term:`coroutine`.<br>
+&nbsp;<br>
+Parameters<br>
+------------<br>
+name:&nbsp;:class:`str`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;extension&nbsp;name&nbsp;to&nbsp;unload.&nbsp;It&nbsp;must&nbsp;be&nbsp;dot&nbsp;separated&nbsp;like<br>
+&nbsp;&nbsp;&nbsp;&nbsp;regular&nbsp;Python&nbsp;imports&nbsp;if&nbsp;accessing&nbsp;a&nbsp;sub-module.&nbsp;e.g.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``foo.test``&nbsp;if&nbsp;you&nbsp;want&nbsp;to&nbsp;import&nbsp;``foo/test.py``.<br>
+package:&nbsp;Optional[:class:`str`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;package&nbsp;name&nbsp;to&nbsp;resolve&nbsp;relative&nbsp;imports&nbsp;with.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;is&nbsp;required&nbsp;when&nbsp;unloading&nbsp;an&nbsp;extension&nbsp;using&nbsp;a&nbsp;relative&nbsp;path,&nbsp;e.g&nbsp;``.foo.test``.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Defaults&nbsp;to&nbsp;``None``.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;versionadded::&nbsp;1.7<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+ExtensionNotFound<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;extension&nbsp;could&nbsp;not<br>
+&nbsp;&nbsp;&nbsp;&nbsp;be&nbsp;resolved&nbsp;using&nbsp;the&nbsp;provided&nbsp;``package``&nbsp;parameter.<br>
+ExtensionNotLoaded<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;extension&nbsp;was&nbsp;not&nbsp;loaded.</span></dd></dl>
+
+<hr>
+Readonly properties inherited from <a href="discord.ext.commands.bot.html#BotBase">discord.ext.commands.bot.BotBase</a>:<br>
+<dl><dt><strong>cogs</strong></dt>
+<dd><span class="code">Mapping[:class:`str`,&nbsp;:class:`Cog`]:&nbsp;A&nbsp;read-only&nbsp;mapping&nbsp;of&nbsp;cog&nbsp;name&nbsp;to&nbsp;cog.</span></dd>
+</dl>
+<dl><dt><strong>extensions</strong></dt>
+<dd><span class="code">Mapping[:class:`str`,&nbsp;:class:`py:types.ModuleType`]:&nbsp;A&nbsp;read-only&nbsp;mapping&nbsp;of&nbsp;extension&nbsp;name&nbsp;to&nbsp;extension.</span></dd>
+</dl>
+<dl><dt><strong>tree</strong></dt>
+<dd><span class="code">:class:`~discord.app_commands.CommandTree`:&nbsp;The&nbsp;command&nbsp;tree&nbsp;responsible&nbsp;for&nbsp;handling&nbsp;the&nbsp;application&nbsp;commands<br>
+in&nbsp;this&nbsp;bot.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;2.0</span></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="discord.ext.commands.bot.html#BotBase">discord.ext.commands.bot.BotBase</a>:<br>
+<dl><dt><strong>help_command</strong></dt>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="discord.ext.commands.bot.html#BotBase">discord.ext.commands.bot.BotBase</a>:<br>
+<dl><dt><strong>__orig_bases__</strong> = (discord.ext.commands.core.GroupMixin[NoneType],)</dl>
+
+<hr>
+Methods inherited from <a href="discord.ext.commands.core.html#GroupMixin">discord.ext.commands.core.GroupMixin</a>:<br>
+<dl><dt><a name="GuildCreatorBot-command"><strong>command</strong></a>(self, name: 'str' = ..., cls: 'Type[Command[Any, ..., Any]]' = ..., *args: 'Any', **kwargs: 'Any') -&gt; 'Any'</dt><dd><span class="code">A&nbsp;shortcut&nbsp;decorator&nbsp;that&nbsp;invokes&nbsp;:func:`~discord.ext.commands.command`&nbsp;and&nbsp;adds&nbsp;it&nbsp;to<br>
+the&nbsp;internal&nbsp;command&nbsp;list&nbsp;via&nbsp;:meth:`~.GroupMixin.add_command`.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+Callable[...,&nbsp;:class:`Command`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;decorator&nbsp;that&nbsp;converts&nbsp;the&nbsp;provided&nbsp;method&nbsp;into&nbsp;a&nbsp;Command,&nbsp;adds&nbsp;it&nbsp;to&nbsp;the&nbsp;bot,&nbsp;then&nbsp;returns&nbsp;it.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-get_command"><strong>get_command</strong></a>(self, name: 'str', /) -&gt; 'Optional[Command[CogT, ..., Any]]'</dt><dd><span class="code">Get&nbsp;a&nbsp;:class:`.Command`&nbsp;from&nbsp;the&nbsp;internal&nbsp;list<br>
+of&nbsp;commands.<br>
+&nbsp;<br>
+This&nbsp;could&nbsp;also&nbsp;be&nbsp;used&nbsp;as&nbsp;a&nbsp;way&nbsp;to&nbsp;get&nbsp;aliases.<br>
+&nbsp;<br>
+The&nbsp;name&nbsp;could&nbsp;be&nbsp;fully&nbsp;qualified&nbsp;(e.g.&nbsp;``'foo&nbsp;bar'``)&nbsp;will&nbsp;get<br>
+the&nbsp;subcommand&nbsp;``bar``&nbsp;of&nbsp;the&nbsp;group&nbsp;command&nbsp;``foo``.&nbsp;If&nbsp;a<br>
+subcommand&nbsp;is&nbsp;not&nbsp;found&nbsp;then&nbsp;``None``&nbsp;is&nbsp;returned&nbsp;just&nbsp;as&nbsp;usual.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``name``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+name:&nbsp;:class:`str`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;command&nbsp;to&nbsp;get.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+Optional[:class:`Command`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;command&nbsp;that&nbsp;was&nbsp;requested.&nbsp;If&nbsp;not&nbsp;found,&nbsp;returns&nbsp;``None``.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-group"><strong>group</strong></a>(self, name: 'str' = ..., cls: 'Type[Group[Any, ..., Any]]' = ..., *args: 'Any', **kwargs: 'Any') -&gt; 'Any'</dt><dd><span class="code">A&nbsp;shortcut&nbsp;decorator&nbsp;that&nbsp;invokes&nbsp;:func:`.group`&nbsp;and&nbsp;adds&nbsp;it&nbsp;to<br>
+the&nbsp;internal&nbsp;command&nbsp;list&nbsp;via&nbsp;:meth:`~.GroupMixin.add_command`.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+Callable[...,&nbsp;:class:`Group`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;decorator&nbsp;that&nbsp;converts&nbsp;the&nbsp;provided&nbsp;method&nbsp;into&nbsp;a&nbsp;Group,&nbsp;adds&nbsp;it&nbsp;to&nbsp;the&nbsp;bot,&nbsp;then&nbsp;returns&nbsp;it.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-recursively_remove_all_commands"><strong>recursively_remove_all_commands</strong></a>(self) -&gt; 'None'</dt></dl>
+
+<dl><dt><a name="GuildCreatorBot-walk_commands"><strong>walk_commands</strong></a>(self) -&gt; 'Generator[Command[CogT, ..., Any], None, None]'</dt><dd><span class="code">An&nbsp;iterator&nbsp;that&nbsp;recursively&nbsp;walks&nbsp;through&nbsp;all&nbsp;commands&nbsp;and&nbsp;subcommands.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;1.4<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Duplicates&nbsp;due&nbsp;to&nbsp;aliases&nbsp;are&nbsp;no&nbsp;longer&nbsp;returned<br>
+&nbsp;<br>
+Yields<br>
+------<br>
+Union[:class:`.Command`,&nbsp;:class:`.Group`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;command&nbsp;or&nbsp;group&nbsp;from&nbsp;the&nbsp;internal&nbsp;list&nbsp;of&nbsp;commands.</span></dd></dl>
+
+<hr>
+Readonly properties inherited from <a href="discord.ext.commands.core.html#GroupMixin">discord.ext.commands.core.GroupMixin</a>:<br>
+<dl><dt><strong>commands</strong></dt>
+<dd><span class="code">Set[:class:`.Command`]:&nbsp;A&nbsp;unique&nbsp;set&nbsp;of&nbsp;commands&nbsp;without&nbsp;aliases&nbsp;that&nbsp;are&nbsp;registered.</span></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="discord.ext.commands.core.html#GroupMixin">discord.ext.commands.core.GroupMixin</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<hr>
+Class methods inherited from <a href="typing.html#Generic">typing.Generic</a>:<br>
+<dl><dt><a name="GuildCreatorBot-__class_getitem__"><strong>__class_getitem__</strong></a>(params)<span class="grey"><span class="heading-text"> from <a href="builtins.html#type">builtins.type</a></span></span></dt><dd><span class="code">Parameterizes&nbsp;a&nbsp;generic&nbsp;class.<br>
+&nbsp;<br>
+At&nbsp;least,&nbsp;parameterizing&nbsp;a&nbsp;generic&nbsp;class&nbsp;is&nbsp;the&nbsp;*main*&nbsp;thing&nbsp;this&nbsp;method<br>
+does.&nbsp;For&nbsp;example,&nbsp;for&nbsp;some&nbsp;generic&nbsp;class&nbsp;`Foo`,&nbsp;this&nbsp;is&nbsp;called&nbsp;when&nbsp;we<br>
+do&nbsp;`Foo[int]`&nbsp;-&nbsp;there,&nbsp;with&nbsp;`cls=Foo`&nbsp;and&nbsp;`params=int`.<br>
+&nbsp;<br>
+However,&nbsp;note&nbsp;that&nbsp;this&nbsp;method&nbsp;is&nbsp;also&nbsp;called&nbsp;when&nbsp;defining&nbsp;generic<br>
+classes&nbsp;in&nbsp;the&nbsp;first&nbsp;place&nbsp;with&nbsp;`class&nbsp;Foo(Generic[T]):&nbsp;...`.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-__init_subclass__"><strong>__init_subclass__</strong></a>(*args, **kwargs)<span class="grey"><span class="heading-text"> from <a href="builtins.html#type">builtins.type</a></span></span></dt><dd><span class="code">This&nbsp;method&nbsp;is&nbsp;called&nbsp;when&nbsp;a&nbsp;class&nbsp;is&nbsp;subclassed.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;implementation&nbsp;does&nbsp;nothing.&nbsp;It&nbsp;may&nbsp;be<br>
+overridden&nbsp;to&nbsp;extend&nbsp;subclasses.</span></dd></dl>
+
+<hr>
+Methods inherited from <a href="discord.client.html#Client">discord.client.Client</a>:<br>
+<dl><dt>async <a name="GuildCreatorBot-__aenter__"><strong>__aenter__</strong></a>(self) -&gt; 'Self'</dt></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-__aexit__"><strong>__aexit__</strong></a>(self, exc_type: 'Optional[Type[BaseException]]', exc_value: 'Optional[BaseException]', traceback: 'Optional[TracebackType]') -&gt; 'None'</dt></dl>
+
+<dl><dt><a name="GuildCreatorBot-add_view"><strong>add_view</strong></a>(self, view: 'View', *, message_id: 'Optional[int]' = None) -&gt; 'None'</dt><dd><span class="code">Registers&nbsp;a&nbsp;:class:`~discord.ui.View`&nbsp;for&nbsp;persistent&nbsp;listening.<br>
+&nbsp;<br>
+This&nbsp;method&nbsp;should&nbsp;be&nbsp;used&nbsp;for&nbsp;when&nbsp;a&nbsp;view&nbsp;is&nbsp;comprised&nbsp;of&nbsp;components<br>
+that&nbsp;last&nbsp;longer&nbsp;than&nbsp;the&nbsp;lifecycle&nbsp;of&nbsp;the&nbsp;program.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;2.0<br>
+&nbsp;<br>
+Parameters<br>
+------------<br>
+view:&nbsp;:class:`discord.ui.View`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;view&nbsp;to&nbsp;register&nbsp;for&nbsp;dispatching.<br>
+message_id:&nbsp;Optional[:class:`int`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;message&nbsp;ID&nbsp;that&nbsp;the&nbsp;view&nbsp;is&nbsp;attached&nbsp;to.&nbsp;This&nbsp;is&nbsp;currently&nbsp;used&nbsp;to<br>
+&nbsp;&nbsp;&nbsp;&nbsp;refresh&nbsp;the&nbsp;view's&nbsp;state&nbsp;during&nbsp;message&nbsp;update&nbsp;events.&nbsp;If&nbsp;not&nbsp;given<br>
+&nbsp;&nbsp;&nbsp;&nbsp;then&nbsp;message&nbsp;update&nbsp;events&nbsp;are&nbsp;not&nbsp;propagated&nbsp;for&nbsp;the&nbsp;view.<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+TypeError<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;view&nbsp;was&nbsp;not&nbsp;passed.<br>
+ValueError<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;view&nbsp;is&nbsp;not&nbsp;persistent&nbsp;or&nbsp;is&nbsp;already&nbsp;finished.&nbsp;A&nbsp;persistent&nbsp;view&nbsp;has&nbsp;no&nbsp;timeout<br>
+&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;all&nbsp;their&nbsp;components&nbsp;have&nbsp;an&nbsp;explicitly&nbsp;provided&nbsp;custom_id.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-application_info"><strong>application_info</strong></a>(self) -&gt; 'AppInfo'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Retrieves&nbsp;the&nbsp;bot's&nbsp;application&nbsp;information.<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+HTTPException<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Retrieving&nbsp;the&nbsp;information&nbsp;failed&nbsp;somehow.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+:class:`.AppInfo`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;bot's&nbsp;application&nbsp;information.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-before_identify_hook"><strong>before_identify_hook</strong></a>(self, shard_id: 'Optional[int]', *, initial: 'bool' = False) -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+A&nbsp;hook&nbsp;that&nbsp;is&nbsp;called&nbsp;before&nbsp;IDENTIFYing&nbsp;a&nbsp;session.&nbsp;This&nbsp;is&nbsp;useful<br>
+if&nbsp;you&nbsp;wish&nbsp;to&nbsp;have&nbsp;more&nbsp;control&nbsp;over&nbsp;the&nbsp;synchronization&nbsp;of&nbsp;multiple<br>
+IDENTIFYing&nbsp;clients.<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;implementation&nbsp;sleeps&nbsp;for&nbsp;5&nbsp;seconds.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;1.4<br>
+&nbsp;<br>
+Parameters<br>
+------------<br>
+shard_id:&nbsp;:class:`int`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;shard&nbsp;ID&nbsp;that&nbsp;requested&nbsp;being&nbsp;IDENTIFY'd<br>
+initial:&nbsp;:class:`bool`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Whether&nbsp;this&nbsp;IDENTIFY&nbsp;is&nbsp;the&nbsp;first&nbsp;initial&nbsp;IDENTIFY.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-change_presence"><strong>change_presence</strong></a>(self, *, activity: 'Optional[BaseActivity]' = None, status: 'Optional[Status]' = None) -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Changes&nbsp;the&nbsp;client's&nbsp;presence.<br>
+&nbsp;<br>
+Example<br>
+---------<br>
+&nbsp;<br>
+..&nbsp;code-block::&nbsp;python3<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;game&nbsp;=&nbsp;discord.Game("with&nbsp;the&nbsp;API")<br>
+&nbsp;&nbsp;&nbsp;&nbsp;await&nbsp;client.<a href="#GuildCreatorBot-change_presence">change_presence</a>(status=discord.Status.idle,&nbsp;activity=game)<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Removed&nbsp;the&nbsp;``afk``&nbsp;keyword-only&nbsp;parameter.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;function&nbsp;will&nbsp;now&nbsp;raise&nbsp;:exc:`TypeError`&nbsp;instead&nbsp;of<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``InvalidArgument``.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+activity:&nbsp;Optional[:class:`.BaseActivity`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;activity&nbsp;being&nbsp;done.&nbsp;``None``&nbsp;if&nbsp;no&nbsp;currently&nbsp;active&nbsp;activity&nbsp;is&nbsp;done.<br>
+status:&nbsp;Optional[:class:`.Status`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Indicates&nbsp;what&nbsp;status&nbsp;to&nbsp;change&nbsp;to.&nbsp;If&nbsp;``None``,&nbsp;then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;:attr:`.Status.online`&nbsp;is&nbsp;used.<br>
+&nbsp;<br>
+Raises<br>
+------<br>
+TypeError<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;the&nbsp;``activity``&nbsp;parameter&nbsp;is&nbsp;not&nbsp;the&nbsp;proper&nbsp;type.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-clear"><strong>clear</strong></a>(self) -&gt; 'None'</dt><dd><span class="code">Clears&nbsp;the&nbsp;internal&nbsp;state&nbsp;of&nbsp;the&nbsp;bot.<br>
+&nbsp;<br>
+After&nbsp;this,&nbsp;the&nbsp;bot&nbsp;can&nbsp;be&nbsp;considered&nbsp;"re-opened",&nbsp;i.e.&nbsp;:meth:`is_closed`<br>
+and&nbsp;:meth:`is_ready`&nbsp;both&nbsp;return&nbsp;``False``&nbsp;along&nbsp;with&nbsp;the&nbsp;bot's&nbsp;internal<br>
+cache&nbsp;cleared.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-connect"><strong>connect</strong></a>(self, *, reconnect: 'bool' = True) -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Creates&nbsp;a&nbsp;websocket&nbsp;connection&nbsp;and&nbsp;lets&nbsp;the&nbsp;websocket&nbsp;listen<br>
+to&nbsp;messages&nbsp;from&nbsp;Discord.&nbsp;This&nbsp;is&nbsp;a&nbsp;loop&nbsp;that&nbsp;runs&nbsp;the&nbsp;entire<br>
+event&nbsp;system&nbsp;and&nbsp;miscellaneous&nbsp;aspects&nbsp;of&nbsp;the&nbsp;library.&nbsp;Control<br>
+is&nbsp;not&nbsp;resumed&nbsp;until&nbsp;the&nbsp;WebSocket&nbsp;connection&nbsp;is&nbsp;terminated.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+reconnect:&nbsp;:class:`bool`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;we&nbsp;should&nbsp;attempt&nbsp;reconnecting,&nbsp;either&nbsp;due&nbsp;to&nbsp;internet<br>
+&nbsp;&nbsp;&nbsp;&nbsp;failure&nbsp;or&nbsp;a&nbsp;specific&nbsp;failure&nbsp;on&nbsp;Discord's&nbsp;part.&nbsp;Certain<br>
+&nbsp;&nbsp;&nbsp;&nbsp;disconnects&nbsp;that&nbsp;lead&nbsp;to&nbsp;bad&nbsp;state&nbsp;will&nbsp;not&nbsp;be&nbsp;handled&nbsp;(such&nbsp;as<br>
+&nbsp;&nbsp;&nbsp;&nbsp;invalid&nbsp;sharding&nbsp;payloads&nbsp;or&nbsp;bad&nbsp;tokens).<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+GatewayNotFound<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;the&nbsp;gateway&nbsp;to&nbsp;connect&nbsp;to&nbsp;Discord&nbsp;is&nbsp;not&nbsp;found.&nbsp;Usually&nbsp;if&nbsp;this<br>
+&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;thrown&nbsp;then&nbsp;there&nbsp;is&nbsp;a&nbsp;Discord&nbsp;API&nbsp;outage.<br>
+ConnectionClosed<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;websocket&nbsp;connection&nbsp;has&nbsp;been&nbsp;terminated.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-create_dm"><strong>create_dm</strong></a>(self, user: 'Snowflake') -&gt; 'DMChannel'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Creates&nbsp;a&nbsp;:class:`.DMChannel`&nbsp;with&nbsp;this&nbsp;user.<br>
+&nbsp;<br>
+This&nbsp;should&nbsp;be&nbsp;rarely&nbsp;called,&nbsp;as&nbsp;this&nbsp;is&nbsp;done&nbsp;transparently&nbsp;for&nbsp;most<br>
+people.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;2.0<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+user:&nbsp;:class:`~discord.abc.Snowflake`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;user&nbsp;to&nbsp;create&nbsp;a&nbsp;DM&nbsp;with.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+:class:`.DMChannel`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;channel&nbsp;that&nbsp;was&nbsp;created.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-create_guild"><strong>create_guild</strong></a>(self, *, name: 'str', icon: 'bytes' = ..., code: 'str' = ...) -&gt; 'Guild'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Creates&nbsp;a&nbsp;:class:`.Guild`.<br>
+&nbsp;<br>
+<a href="discord.ext.commands.bot.html#Bot">Bot</a>&nbsp;accounts&nbsp;in&nbsp;more&nbsp;than&nbsp;10&nbsp;guilds&nbsp;are&nbsp;not&nbsp;allowed&nbsp;to&nbsp;create&nbsp;guilds.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``name``&nbsp;and&nbsp;``icon``&nbsp;parameters&nbsp;are&nbsp;now&nbsp;keyword-only.&nbsp;The&nbsp;``region``&nbsp;parameter&nbsp;has&nbsp;been&nbsp;removed.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;function&nbsp;will&nbsp;now&nbsp;raise&nbsp;:exc:`ValueError`&nbsp;instead&nbsp;of<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``InvalidArgument``.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+name:&nbsp;:class:`str`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;guild.<br>
+icon:&nbsp;Optional[:class:`bytes`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;:term:`py:bytes-like&nbsp;object`&nbsp;representing&nbsp;the&nbsp;icon.&nbsp;See&nbsp;:meth:`.ClientUser.edit`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;more&nbsp;details&nbsp;on&nbsp;what&nbsp;is&nbsp;expected.<br>
+code:&nbsp;:class:`str`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;code&nbsp;for&nbsp;a&nbsp;template&nbsp;to&nbsp;create&nbsp;the&nbsp;guild&nbsp;with.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;versionadded::&nbsp;1.4<br>
+&nbsp;<br>
+Raises<br>
+------<br>
+HTTPException<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Guild&nbsp;creation&nbsp;failed.<br>
+ValueError<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Invalid&nbsp;icon&nbsp;image&nbsp;format&nbsp;given.&nbsp;Must&nbsp;be&nbsp;PNG&nbsp;or&nbsp;JPG.<br>
+&nbsp;<br>
+Returns<br>
+-------<br>
+:class:`.Guild`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;guild&nbsp;created.&nbsp;This&nbsp;is&nbsp;not&nbsp;the&nbsp;same&nbsp;guild&nbsp;that&nbsp;is<br>
+&nbsp;&nbsp;&nbsp;&nbsp;added&nbsp;to&nbsp;cache.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-delete_invite"><strong>delete_invite</strong></a>(self, invite: 'Union[Invite, str]', /) -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Revokes&nbsp;an&nbsp;:class:`.Invite`,&nbsp;URL,&nbsp;or&nbsp;ID&nbsp;to&nbsp;an&nbsp;invite.<br>
+&nbsp;<br>
+You&nbsp;must&nbsp;have&nbsp;:attr:`~.Permissions.manage_channels`&nbsp;in<br>
+the&nbsp;associated&nbsp;guild&nbsp;to&nbsp;do&nbsp;this.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``invite``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+----------<br>
+invite:&nbsp;Union[:class:`.Invite`,&nbsp;:class:`str`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;invite&nbsp;to&nbsp;revoke.<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+Forbidden<br>
+&nbsp;&nbsp;&nbsp;&nbsp;You&nbsp;do&nbsp;not&nbsp;have&nbsp;permissions&nbsp;to&nbsp;revoke&nbsp;invites.<br>
+NotFound<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;invite&nbsp;is&nbsp;invalid&nbsp;or&nbsp;expired.<br>
+HTTPException<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Revoking&nbsp;the&nbsp;invite&nbsp;failed.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-event"><strong>event</strong></a>(self, coro: 'CoroT', /) -&gt; 'CoroT'</dt><dd><span class="code">A&nbsp;decorator&nbsp;that&nbsp;registers&nbsp;an&nbsp;event&nbsp;to&nbsp;listen&nbsp;to.<br>
+&nbsp;<br>
+You&nbsp;can&nbsp;find&nbsp;more&nbsp;info&nbsp;about&nbsp;the&nbsp;events&nbsp;on&nbsp;the&nbsp;:ref:`documentation&nbsp;below&nbsp;&lt;discord-api-events&gt;`.<br>
+&nbsp;<br>
+The&nbsp;events&nbsp;must&nbsp;be&nbsp;a&nbsp;:ref:`coroutine&nbsp;&lt;coroutine&gt;`,&nbsp;if&nbsp;not,&nbsp;:exc:`TypeError`&nbsp;is&nbsp;raised.<br>
+&nbsp;<br>
+Example<br>
+---------<br>
+&nbsp;<br>
+..&nbsp;code-block::&nbsp;python3<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@client.event<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async&nbsp;def&nbsp;<a href="#GuildCreatorBot-on_ready">on_ready</a>():<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print('Ready!')<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``coro``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Raises<br>
+--------<br>
+TypeError<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;coroutine&nbsp;passed&nbsp;is&nbsp;not&nbsp;actually&nbsp;a&nbsp;coroutine.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-fetch_channel"><strong>fetch_channel</strong></a>(self, channel_id: 'int', /) -&gt; 'Union[GuildChannel, PrivateChannel, Thread]'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Retrieves&nbsp;a&nbsp;:class:`.abc.GuildChannel`,&nbsp;:class:`.abc.PrivateChannel`,&nbsp;or&nbsp;:class:`.Thread`&nbsp;with&nbsp;the&nbsp;specified&nbsp;ID.<br>
+&nbsp;<br>
+..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;an&nbsp;API&nbsp;call.&nbsp;For&nbsp;general&nbsp;usage,&nbsp;consider&nbsp;:meth:`get_channel`&nbsp;instead.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;1.2<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``channel_id``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+InvalidData<br>
+&nbsp;&nbsp;&nbsp;&nbsp;An&nbsp;unknown&nbsp;channel&nbsp;type&nbsp;was&nbsp;received&nbsp;from&nbsp;Discord.<br>
+HTTPException<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Retrieving&nbsp;the&nbsp;channel&nbsp;failed.<br>
+NotFound<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Invalid&nbsp;Channel&nbsp;ID.<br>
+Forbidden<br>
+&nbsp;&nbsp;&nbsp;&nbsp;You&nbsp;do&nbsp;not&nbsp;have&nbsp;permission&nbsp;to&nbsp;fetch&nbsp;this&nbsp;channel.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+Union[:class:`.abc.GuildChannel`,&nbsp;:class:`.abc.PrivateChannel`,&nbsp;:class:`.Thread`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;channel&nbsp;from&nbsp;the&nbsp;ID.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-fetch_guild"><strong>fetch_guild</strong></a>(self, guild_id: 'int', /, *, with_counts: 'bool' = True) -&gt; 'Guild'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Retrieves&nbsp;a&nbsp;:class:`.Guild`&nbsp;from&nbsp;an&nbsp;ID.<br>
+&nbsp;<br>
+..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Using&nbsp;this,&nbsp;you&nbsp;will&nbsp;**not**&nbsp;receive&nbsp;:attr:`.Guild.channels`,&nbsp;:attr:`.Guild.members`,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;:attr:`.Member.activity`&nbsp;and&nbsp;:attr:`.Member.voice`&nbsp;per&nbsp;:class:`.Member`.<br>
+&nbsp;<br>
+..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;an&nbsp;API&nbsp;call.&nbsp;For&nbsp;general&nbsp;usage,&nbsp;consider&nbsp;:meth:`get_guild`&nbsp;instead.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``guild_id``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+guild_id:&nbsp;:class:`int`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;guild's&nbsp;ID&nbsp;to&nbsp;fetch&nbsp;from.<br>
+with_counts:&nbsp;:class:`bool`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Whether&nbsp;to&nbsp;include&nbsp;count&nbsp;information&nbsp;in&nbsp;the&nbsp;guild.&nbsp;This&nbsp;fills&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;:attr:`.Guild.approximate_member_count`&nbsp;and&nbsp;:attr:`.Guild.approximate_presence_count`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;attributes&nbsp;without&nbsp;needing&nbsp;any&nbsp;privileged&nbsp;intents.&nbsp;Defaults&nbsp;to&nbsp;``True``.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;versionadded::&nbsp;2.0<br>
+&nbsp;<br>
+Raises<br>
+------<br>
+Forbidden<br>
+&nbsp;&nbsp;&nbsp;&nbsp;You&nbsp;do&nbsp;not&nbsp;have&nbsp;access&nbsp;to&nbsp;the&nbsp;guild.<br>
+HTTPException<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Getting&nbsp;the&nbsp;guild&nbsp;failed.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+:class:`.Guild`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;guild&nbsp;from&nbsp;the&nbsp;ID.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-fetch_guilds"><strong>fetch_guilds</strong></a>(self, *, limit: 'Optional[int]' = 200, before: 'Optional[SnowflakeTime]' = None, after: 'Optional[SnowflakeTime]' = None, with_counts: 'bool' = True) -&gt; 'AsyncIterator[Guild]'</dt><dd><span class="code">Retrieves&nbsp;an&nbsp;:term:`asynchronous&nbsp;iterator`&nbsp;that&nbsp;enables&nbsp;receiving&nbsp;your&nbsp;guilds.<br>
+&nbsp;<br>
+..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Using&nbsp;this,&nbsp;you&nbsp;will&nbsp;only&nbsp;receive&nbsp;:attr:`.Guild.owner`,&nbsp;:attr:`.Guild.icon`,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;:attr:`.Guild.id`,&nbsp;:attr:`.Guild.name`,&nbsp;:attr:`.Guild.approximate_member_count`,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;:attr:`.Guild.approximate_presence_count`&nbsp;per&nbsp;:class:`.Guild`.<br>
+&nbsp;<br>
+..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;an&nbsp;API&nbsp;call.&nbsp;For&nbsp;general&nbsp;usage,&nbsp;consider&nbsp;:attr:`guilds`&nbsp;instead.<br>
+&nbsp;<br>
+Examples<br>
+---------<br>
+&nbsp;<br>
+Usage&nbsp;::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async&nbsp;for&nbsp;guild&nbsp;in&nbsp;client.<a href="#GuildCreatorBot-fetch_guilds">fetch_guilds</a>(limit=150):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(guild.name)<br>
+&nbsp;<br>
+Flattening&nbsp;into&nbsp;a&nbsp;list&nbsp;::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;guilds&nbsp;=&nbsp;[guild&nbsp;async&nbsp;for&nbsp;guild&nbsp;in&nbsp;client.<a href="#GuildCreatorBot-fetch_guilds">fetch_guilds</a>(limit=150)]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;guilds&nbsp;is&nbsp;now&nbsp;a&nbsp;list&nbsp;of&nbsp;Guild...<br>
+&nbsp;<br>
+All&nbsp;parameters&nbsp;are&nbsp;optional.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+limit:&nbsp;Optional[:class:`int`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;guilds&nbsp;to&nbsp;retrieve.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;``None``,&nbsp;it&nbsp;retrieves&nbsp;every&nbsp;guild&nbsp;you&nbsp;have&nbsp;access&nbsp;to.&nbsp;Note,&nbsp;however,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;that&nbsp;this&nbsp;would&nbsp;make&nbsp;it&nbsp;a&nbsp;slow&nbsp;operation.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Defaults&nbsp;to&nbsp;``200``.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;default&nbsp;has&nbsp;been&nbsp;changed&nbsp;to&nbsp;200.<br>
+&nbsp;<br>
+before:&nbsp;Union[:class:`.abc.Snowflake`,&nbsp;:class:`datetime.datetime`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Retrieves&nbsp;guilds&nbsp;before&nbsp;this&nbsp;date&nbsp;or&nbsp;object.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;a&nbsp;datetime&nbsp;is&nbsp;provided,&nbsp;it&nbsp;is&nbsp;recommended&nbsp;to&nbsp;use&nbsp;a&nbsp;UTC&nbsp;aware&nbsp;datetime.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;the&nbsp;datetime&nbsp;is&nbsp;naive,&nbsp;it&nbsp;is&nbsp;assumed&nbsp;to&nbsp;be&nbsp;local&nbsp;time.<br>
+after:&nbsp;Union[:class:`.abc.Snowflake`,&nbsp;:class:`datetime.datetime`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Retrieve&nbsp;guilds&nbsp;after&nbsp;this&nbsp;date&nbsp;or&nbsp;object.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;a&nbsp;datetime&nbsp;is&nbsp;provided,&nbsp;it&nbsp;is&nbsp;recommended&nbsp;to&nbsp;use&nbsp;a&nbsp;UTC&nbsp;aware&nbsp;datetime.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;the&nbsp;datetime&nbsp;is&nbsp;naive,&nbsp;it&nbsp;is&nbsp;assumed&nbsp;to&nbsp;be&nbsp;local&nbsp;time.<br>
+with_counts:&nbsp;:class:`bool`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Whether&nbsp;to&nbsp;include&nbsp;count&nbsp;information&nbsp;in&nbsp;the&nbsp;guilds.&nbsp;This&nbsp;fills&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;:attr:`.Guild.approximate_member_count`&nbsp;and&nbsp;:attr:`.Guild.approximate_presence_count`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;attributes&nbsp;without&nbsp;needing&nbsp;any&nbsp;privileged&nbsp;intents.&nbsp;Defaults&nbsp;to&nbsp;``True``.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;versionadded::&nbsp;2.3<br>
+&nbsp;<br>
+Raises<br>
+------<br>
+HTTPException<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Getting&nbsp;the&nbsp;guilds&nbsp;failed.<br>
+&nbsp;<br>
+Yields<br>
+--------<br>
+:class:`.Guild`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;guild&nbsp;with&nbsp;the&nbsp;guild&nbsp;data&nbsp;parsed.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-fetch_invite"><strong>fetch_invite</strong></a>(self, url: 'Union[Invite, str]', *, with_counts: 'bool' = True, with_expiration: 'bool' = True, scheduled_event_id: 'Optional[int]' = None) -&gt; 'Invite'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Gets&nbsp;an&nbsp;:class:`.Invite`&nbsp;from&nbsp;a&nbsp;discord.gg&nbsp;URL&nbsp;or&nbsp;ID.<br>
+&nbsp;<br>
+..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;the&nbsp;invite&nbsp;is&nbsp;for&nbsp;a&nbsp;guild&nbsp;you&nbsp;have&nbsp;not&nbsp;joined,&nbsp;the&nbsp;guild&nbsp;and&nbsp;channel<br>
+&nbsp;&nbsp;&nbsp;&nbsp;attributes&nbsp;of&nbsp;the&nbsp;returned&nbsp;:class:`.Invite`&nbsp;will&nbsp;be&nbsp;:class:`.PartialInviteGuild`&nbsp;and<br>
+&nbsp;&nbsp;&nbsp;&nbsp;:class:`.PartialInviteChannel`&nbsp;respectively.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+url:&nbsp;Union[:class:`.Invite`,&nbsp;:class:`str`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;Discord&nbsp;invite&nbsp;ID&nbsp;or&nbsp;URL&nbsp;(must&nbsp;be&nbsp;a&nbsp;discord.gg&nbsp;URL).<br>
+with_counts:&nbsp;:class:`bool`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Whether&nbsp;to&nbsp;include&nbsp;count&nbsp;information&nbsp;in&nbsp;the&nbsp;invite.&nbsp;This&nbsp;fills&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;:attr:`.Invite.approximate_member_count`&nbsp;and&nbsp;:attr:`.Invite.approximate_presence_count`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fields.<br>
+with_expiration:&nbsp;:class:`bool`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Whether&nbsp;to&nbsp;include&nbsp;the&nbsp;expiration&nbsp;date&nbsp;of&nbsp;the&nbsp;invite.&nbsp;This&nbsp;fills&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;:attr:`.Invite.expires_at`&nbsp;field.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;versionadded::&nbsp;2.0<br>
+scheduled_event_id:&nbsp;Optional[:class:`int`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;ID&nbsp;of&nbsp;the&nbsp;scheduled&nbsp;event&nbsp;this&nbsp;invite&nbsp;is&nbsp;for.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It&nbsp;is&nbsp;not&nbsp;possible&nbsp;to&nbsp;provide&nbsp;a&nbsp;url&nbsp;that&nbsp;contains&nbsp;an&nbsp;``event_id``&nbsp;parameter<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;when&nbsp;using&nbsp;this&nbsp;parameter.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;versionadded::&nbsp;2.0<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+ValueError<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;url&nbsp;contains&nbsp;an&nbsp;``event_id``,&nbsp;but&nbsp;``scheduled_event_id``&nbsp;has&nbsp;also&nbsp;been&nbsp;provided.<br>
+NotFound<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;invite&nbsp;has&nbsp;expired&nbsp;or&nbsp;is&nbsp;invalid.<br>
+HTTPException<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Getting&nbsp;the&nbsp;invite&nbsp;failed.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+:class:`.Invite`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;invite&nbsp;from&nbsp;the&nbsp;URL/ID.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-fetch_premium_sticker_packs"><strong>fetch_premium_sticker_packs</strong></a>(self) -&gt; 'List[StickerPack]'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Retrieves&nbsp;all&nbsp;available&nbsp;premium&nbsp;sticker&nbsp;packs.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;2.0<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+HTTPException<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Retrieving&nbsp;the&nbsp;sticker&nbsp;packs&nbsp;failed.<br>
+&nbsp;<br>
+Returns<br>
+---------<br>
+List[:class:`.StickerPack`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;All&nbsp;available&nbsp;premium&nbsp;sticker&nbsp;packs.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-fetch_stage_instance"><strong>fetch_stage_instance</strong></a>(self, channel_id: 'int', /) -&gt; 'StageInstance'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Gets&nbsp;a&nbsp;:class:`.StageInstance`&nbsp;for&nbsp;a&nbsp;stage&nbsp;channel&nbsp;id.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;2.0<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+channel_id:&nbsp;:class:`int`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;stage&nbsp;channel&nbsp;ID.<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+NotFound<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;stage&nbsp;instance&nbsp;or&nbsp;channel&nbsp;could&nbsp;not&nbsp;be&nbsp;found.<br>
+HTTPException<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Getting&nbsp;the&nbsp;stage&nbsp;instance&nbsp;failed.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+:class:`.StageInstance`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;stage&nbsp;instance&nbsp;from&nbsp;the&nbsp;stage&nbsp;channel&nbsp;ID.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-fetch_sticker"><strong>fetch_sticker</strong></a>(self, sticker_id: 'int', /) -&gt; 'Union[StandardSticker, GuildSticker]'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Retrieves&nbsp;a&nbsp;:class:`.Sticker`&nbsp;with&nbsp;the&nbsp;specified&nbsp;ID.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;2.0<br>
+&nbsp;<br>
+Raises<br>
+--------<br>
+HTTPException<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Retrieving&nbsp;the&nbsp;sticker&nbsp;failed.<br>
+NotFound<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Invalid&nbsp;sticker&nbsp;ID.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+Union[:class:`.StandardSticker`,&nbsp;:class:`.GuildSticker`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;sticker&nbsp;you&nbsp;requested.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-fetch_template"><strong>fetch_template</strong></a>(self, code: 'Union[Template, str]') -&gt; 'Template'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Gets&nbsp;a&nbsp;:class:`.Template`&nbsp;from&nbsp;a&nbsp;discord.new&nbsp;URL&nbsp;or&nbsp;code.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+code:&nbsp;Union[:class:`.Template`,&nbsp;:class:`str`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;Discord&nbsp;Template&nbsp;Code&nbsp;or&nbsp;URL&nbsp;(must&nbsp;be&nbsp;a&nbsp;discord.new&nbsp;URL).<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+NotFound<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;template&nbsp;is&nbsp;invalid.<br>
+HTTPException<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Getting&nbsp;the&nbsp;template&nbsp;failed.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+:class:`.Template`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;template&nbsp;from&nbsp;the&nbsp;URL/code.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-fetch_user"><strong>fetch_user</strong></a>(self, user_id: 'int', /) -&gt; 'User'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Retrieves&nbsp;a&nbsp;:class:`~discord.User`&nbsp;based&nbsp;on&nbsp;their&nbsp;ID.<br>
+You&nbsp;do&nbsp;not&nbsp;have&nbsp;to&nbsp;share&nbsp;any&nbsp;guilds&nbsp;with&nbsp;the&nbsp;user&nbsp;to&nbsp;get&nbsp;this&nbsp;information,<br>
+however&nbsp;many&nbsp;operations&nbsp;do&nbsp;require&nbsp;that&nbsp;you&nbsp;do.<br>
+&nbsp;<br>
+..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;method&nbsp;is&nbsp;an&nbsp;API&nbsp;call.&nbsp;If&nbsp;you&nbsp;have&nbsp;:attr:`discord.Intents.members`&nbsp;and&nbsp;member&nbsp;cache&nbsp;enabled,&nbsp;consider&nbsp;:meth:`get_user`&nbsp;instead.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``user_id``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+user_id:&nbsp;:class:`int`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;user's&nbsp;ID&nbsp;to&nbsp;fetch&nbsp;from.<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+NotFound<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;user&nbsp;with&nbsp;this&nbsp;ID&nbsp;does&nbsp;not&nbsp;exist.<br>
+HTTPException<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Fetching&nbsp;the&nbsp;user&nbsp;failed.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+:class:`~discord.User`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;user&nbsp;you&nbsp;requested.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-fetch_webhook"><strong>fetch_webhook</strong></a>(self, webhook_id: 'int', /) -&gt; 'Webhook'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Retrieves&nbsp;a&nbsp;:class:`.Webhook`&nbsp;with&nbsp;the&nbsp;specified&nbsp;ID.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``webhook_id``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Raises<br>
+--------<br>
+HTTPException<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Retrieving&nbsp;the&nbsp;webhook&nbsp;failed.<br>
+NotFound<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Invalid&nbsp;webhook&nbsp;ID.<br>
+Forbidden<br>
+&nbsp;&nbsp;&nbsp;&nbsp;You&nbsp;do&nbsp;not&nbsp;have&nbsp;permission&nbsp;to&nbsp;fetch&nbsp;this&nbsp;webhook.<br>
+&nbsp;<br>
+Returns<br>
+---------<br>
+:class:`.Webhook`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;webhook&nbsp;you&nbsp;requested.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-fetch_widget"><strong>fetch_widget</strong></a>(self, guild_id: 'int', /) -&gt; 'Widget'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Gets&nbsp;a&nbsp;:class:`.Widget`&nbsp;from&nbsp;a&nbsp;guild&nbsp;ID.<br>
+&nbsp;<br>
+..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;guild&nbsp;must&nbsp;have&nbsp;the&nbsp;widget&nbsp;enabled&nbsp;to&nbsp;get&nbsp;this&nbsp;information.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``guild_id``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+guild_id:&nbsp;:class:`int`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;ID&nbsp;of&nbsp;the&nbsp;guild.<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+Forbidden<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;widget&nbsp;for&nbsp;this&nbsp;guild&nbsp;is&nbsp;disabled.<br>
+HTTPException<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Retrieving&nbsp;the&nbsp;widget&nbsp;failed.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+:class:`.Widget`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;guild's&nbsp;widget.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-get_all_channels"><strong>get_all_channels</strong></a>(self) -&gt; 'Generator[GuildChannel, None, None]'</dt><dd><span class="code">A&nbsp;generator&nbsp;that&nbsp;retrieves&nbsp;every&nbsp;:class:`.abc.GuildChannel`&nbsp;the&nbsp;client&nbsp;can&nbsp;'access'.<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;equivalent&nbsp;to:&nbsp;::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;guild&nbsp;in&nbsp;client.guilds:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;channel&nbsp;in&nbsp;guild.channels:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;yield&nbsp;channel<br>
+&nbsp;<br>
+..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Just&nbsp;because&nbsp;you&nbsp;receive&nbsp;a&nbsp;:class:`.abc.GuildChannel`&nbsp;does&nbsp;not&nbsp;mean&nbsp;that<br>
+&nbsp;&nbsp;&nbsp;&nbsp;you&nbsp;can&nbsp;communicate&nbsp;in&nbsp;said&nbsp;channel.&nbsp;:meth:`.abc.GuildChannel.permissions_for`&nbsp;should<br>
+&nbsp;&nbsp;&nbsp;&nbsp;be&nbsp;used&nbsp;for&nbsp;that.<br>
+&nbsp;<br>
+Yields<br>
+------<br>
+:class:`.abc.GuildChannel`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;channel&nbsp;the&nbsp;client&nbsp;can&nbsp;'access'.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-get_all_members"><strong>get_all_members</strong></a>(self) -&gt; 'Generator[Member, None, None]'</dt><dd><span class="code">Returns&nbsp;a&nbsp;generator&nbsp;with&nbsp;every&nbsp;:class:`.Member`&nbsp;the&nbsp;client&nbsp;can&nbsp;see.<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;equivalent&nbsp;to:&nbsp;::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;guild&nbsp;in&nbsp;client.guilds:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;member&nbsp;in&nbsp;guild.members:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;yield&nbsp;member<br>
+&nbsp;<br>
+Yields<br>
+------<br>
+:class:`.Member`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;member&nbsp;the&nbsp;client&nbsp;can&nbsp;see.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-get_channel"><strong>get_channel</strong></a>(self, id: 'int', /) -&gt; 'Optional[Union[GuildChannel, Thread, PrivateChannel]]'</dt><dd><span class="code">Returns&nbsp;a&nbsp;channel&nbsp;or&nbsp;thread&nbsp;with&nbsp;the&nbsp;given&nbsp;ID.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``id``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+id:&nbsp;:class:`int`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;ID&nbsp;to&nbsp;search&nbsp;for.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+Optional[Union[:class:`.abc.GuildChannel`,&nbsp;:class:`.Thread`,&nbsp;:class:`.abc.PrivateChannel`]]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;returned&nbsp;channel&nbsp;or&nbsp;``None``&nbsp;if&nbsp;not&nbsp;found.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-get_emoji"><strong>get_emoji</strong></a>(self, id: 'int', /) -&gt; 'Optional[Emoji]'</dt><dd><span class="code">Returns&nbsp;an&nbsp;emoji&nbsp;with&nbsp;the&nbsp;given&nbsp;ID.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``id``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+id:&nbsp;:class:`int`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;ID&nbsp;to&nbsp;search&nbsp;for.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+Optional[:class:`.Emoji`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;custom&nbsp;emoji&nbsp;or&nbsp;``None``&nbsp;if&nbsp;not&nbsp;found.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-get_guild"><strong>get_guild</strong></a>(self, id: 'int', /) -&gt; 'Optional[Guild]'</dt><dd><span class="code">Returns&nbsp;a&nbsp;guild&nbsp;with&nbsp;the&nbsp;given&nbsp;ID.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``id``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+id:&nbsp;:class:`int`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;ID&nbsp;to&nbsp;search&nbsp;for.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+Optional[:class:`.Guild`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;guild&nbsp;or&nbsp;``None``&nbsp;if&nbsp;not&nbsp;found.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-get_partial_messageable"><strong>get_partial_messageable</strong></a>(self, id: 'int', *, guild_id: 'Optional[int]' = None, type: 'Optional[ChannelType]' = None) -&gt; 'PartialMessageable'</dt><dd><span class="code">Returns&nbsp;a&nbsp;partial&nbsp;messageable&nbsp;with&nbsp;the&nbsp;given&nbsp;channel&nbsp;ID.<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;useful&nbsp;if&nbsp;you&nbsp;have&nbsp;a&nbsp;channel_id&nbsp;but&nbsp;don't&nbsp;want&nbsp;to&nbsp;do&nbsp;an&nbsp;API&nbsp;call<br>
+to&nbsp;send&nbsp;messages&nbsp;to&nbsp;it.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;2.0<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+id:&nbsp;:class:`int`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;channel&nbsp;ID&nbsp;to&nbsp;create&nbsp;a&nbsp;partial&nbsp;messageable&nbsp;for.<br>
+guild_id:&nbsp;Optional[:class:`int`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;optional&nbsp;guild&nbsp;ID&nbsp;to&nbsp;create&nbsp;a&nbsp;partial&nbsp;messageable&nbsp;for.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;is&nbsp;not&nbsp;required&nbsp;to&nbsp;actually&nbsp;send&nbsp;messages,&nbsp;but&nbsp;it&nbsp;does&nbsp;allow&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;:meth:`~discord.PartialMessageable.jump_url`&nbsp;and<br>
+&nbsp;&nbsp;&nbsp;&nbsp;:attr:`~discord.PartialMessageable.guild`&nbsp;properties&nbsp;to&nbsp;function&nbsp;properly.<br>
+type:&nbsp;Optional[:class:`.ChannelType`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;underlying&nbsp;channel&nbsp;type&nbsp;for&nbsp;the&nbsp;partial&nbsp;messageable.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+:class:`.PartialMessageable`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;partial&nbsp;messageable</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-get_stage_instance"><strong>get_stage_instance</strong></a>(self, id: 'int', /) -&gt; 'Optional[StageInstance]'</dt><dd><span class="code">Returns&nbsp;a&nbsp;stage&nbsp;instance&nbsp;with&nbsp;the&nbsp;given&nbsp;stage&nbsp;channel&nbsp;ID.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;2.0<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+id:&nbsp;:class:`int`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;ID&nbsp;to&nbsp;search&nbsp;for.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+Optional[:class:`.StageInstance`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;stage&nbsp;instance&nbsp;or&nbsp;``None``&nbsp;if&nbsp;not&nbsp;found.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-get_sticker"><strong>get_sticker</strong></a>(self, id: 'int', /) -&gt; 'Optional[GuildSticker]'</dt><dd><span class="code">Returns&nbsp;a&nbsp;guild&nbsp;sticker&nbsp;with&nbsp;the&nbsp;given&nbsp;ID.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;2.0<br>
+&nbsp;<br>
+..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;To&nbsp;retrieve&nbsp;standard&nbsp;stickers,&nbsp;use&nbsp;:meth:`.fetch_sticker`.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;:meth:`.fetch_premium_sticker_packs`.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+Optional[:class:`.GuildSticker`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;sticker&nbsp;or&nbsp;``None``&nbsp;if&nbsp;not&nbsp;found.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-get_user"><strong>get_user</strong></a>(self, id: 'int', /) -&gt; 'Optional[User]'</dt><dd><span class="code">Returns&nbsp;a&nbsp;user&nbsp;with&nbsp;the&nbsp;given&nbsp;ID.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``id``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+id:&nbsp;:class:`int`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;ID&nbsp;to&nbsp;search&nbsp;for.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+Optional[:class:`~discord.User`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;user&nbsp;or&nbsp;``None``&nbsp;if&nbsp;not&nbsp;found.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-is_closed"><strong>is_closed</strong></a>(self) -&gt; 'bool'</dt><dd><span class="code">:class:`bool`:&nbsp;Indicates&nbsp;if&nbsp;the&nbsp;websocket&nbsp;connection&nbsp;is&nbsp;closed.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-is_ready"><strong>is_ready</strong></a>(self) -&gt; 'bool'</dt><dd><span class="code">:class:`bool`:&nbsp;Specifies&nbsp;if&nbsp;the&nbsp;client's&nbsp;internal&nbsp;cache&nbsp;is&nbsp;ready&nbsp;for&nbsp;use.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-is_ws_ratelimited"><strong>is_ws_ratelimited</strong></a>(self) -&gt; 'bool'</dt><dd><span class="code">:class:`bool`:&nbsp;Whether&nbsp;the&nbsp;websocket&nbsp;is&nbsp;currently&nbsp;rate&nbsp;limited.<br>
+&nbsp;<br>
+This&nbsp;can&nbsp;be&nbsp;useful&nbsp;to&nbsp;know&nbsp;when&nbsp;deciding&nbsp;whether&nbsp;you&nbsp;should&nbsp;query&nbsp;members<br>
+using&nbsp;HTTP&nbsp;or&nbsp;via&nbsp;the&nbsp;gateway.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;1.6</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-login"><strong>login</strong></a>(self, token: 'str') -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Logs&nbsp;in&nbsp;the&nbsp;client&nbsp;with&nbsp;the&nbsp;specified&nbsp;credentials&nbsp;and<br>
+calls&nbsp;the&nbsp;:meth:`setup_hook`.<br>
+&nbsp;<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+token:&nbsp;:class:`str`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;authentication&nbsp;token.&nbsp;Do&nbsp;not&nbsp;prefix&nbsp;this&nbsp;token&nbsp;with<br>
+&nbsp;&nbsp;&nbsp;&nbsp;anything&nbsp;as&nbsp;the&nbsp;library&nbsp;will&nbsp;do&nbsp;it&nbsp;for&nbsp;you.<br>
+&nbsp;<br>
+Raises<br>
+------<br>
+LoginFailure<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;wrong&nbsp;credentials&nbsp;are&nbsp;passed.<br>
+HTTPException<br>
+&nbsp;&nbsp;&nbsp;&nbsp;An&nbsp;unknown&nbsp;HTTP&nbsp;related&nbsp;error&nbsp;occurred,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;usually&nbsp;when&nbsp;it&nbsp;isn't&nbsp;200&nbsp;or&nbsp;the&nbsp;known&nbsp;incorrect&nbsp;credentials<br>
+&nbsp;&nbsp;&nbsp;&nbsp;passing&nbsp;status&nbsp;code.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-on_error"><strong>on_error</strong></a>(self, event_method: 'str', /, *args: 'Any', **kwargs: 'Any') -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+The&nbsp;default&nbsp;error&nbsp;handler&nbsp;provided&nbsp;by&nbsp;the&nbsp;client.<br>
+&nbsp;<br>
+By&nbsp;default&nbsp;this&nbsp;logs&nbsp;to&nbsp;the&nbsp;library&nbsp;logger&nbsp;however&nbsp;it&nbsp;could&nbsp;be<br>
+overridden&nbsp;to&nbsp;have&nbsp;a&nbsp;different&nbsp;implementation.<br>
+Check&nbsp;:func:`~discord.on_error`&nbsp;for&nbsp;more&nbsp;details.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``event_method``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only<br>
+&nbsp;&nbsp;&nbsp;&nbsp;and&nbsp;instead&nbsp;of&nbsp;writing&nbsp;to&nbsp;``sys.stderr``&nbsp;it&nbsp;logs&nbsp;instead.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-run"><strong>run</strong></a>(self, token: 'str', *, reconnect: 'bool' = True, log_handler: 'Optional[logging.Handler]' = ..., log_formatter: 'logging.Formatter' = ..., log_level: 'int' = ..., root_logger: 'bool' = False) -&gt; 'None'</dt><dd><span class="code">A&nbsp;blocking&nbsp;call&nbsp;that&nbsp;abstracts&nbsp;away&nbsp;the&nbsp;event&nbsp;loop<br>
+initialisation&nbsp;from&nbsp;you.<br>
+&nbsp;<br>
+If&nbsp;you&nbsp;want&nbsp;more&nbsp;control&nbsp;over&nbsp;the&nbsp;event&nbsp;loop&nbsp;then&nbsp;this<br>
+function&nbsp;should&nbsp;not&nbsp;be&nbsp;used.&nbsp;Use&nbsp;:meth:`start`&nbsp;coroutine<br>
+or&nbsp;:meth:`connect`&nbsp;+&nbsp;:meth:`login`.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;also&nbsp;sets&nbsp;up&nbsp;the&nbsp;logging&nbsp;library&nbsp;to&nbsp;make&nbsp;it&nbsp;easier<br>
+for&nbsp;beginners&nbsp;to&nbsp;know&nbsp;what&nbsp;is&nbsp;going&nbsp;on&nbsp;with&nbsp;the&nbsp;library.&nbsp;For&nbsp;more<br>
+advanced&nbsp;users,&nbsp;this&nbsp;can&nbsp;be&nbsp;disabled&nbsp;by&nbsp;passing&nbsp;``None``&nbsp;to<br>
+the&nbsp;``log_handler``&nbsp;parameter.<br>
+&nbsp;<br>
+..&nbsp;warning::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;function&nbsp;must&nbsp;be&nbsp;the&nbsp;last&nbsp;function&nbsp;to&nbsp;call&nbsp;due&nbsp;to&nbsp;the&nbsp;fact&nbsp;that&nbsp;it<br>
+&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;blocking.&nbsp;That&nbsp;means&nbsp;that&nbsp;registration&nbsp;of&nbsp;events&nbsp;or&nbsp;anything&nbsp;being<br>
+&nbsp;&nbsp;&nbsp;&nbsp;called&nbsp;after&nbsp;this&nbsp;function&nbsp;call&nbsp;will&nbsp;not&nbsp;execute&nbsp;until&nbsp;it&nbsp;returns.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+token:&nbsp;:class:`str`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;authentication&nbsp;token.&nbsp;Do&nbsp;not&nbsp;prefix&nbsp;this&nbsp;token&nbsp;with<br>
+&nbsp;&nbsp;&nbsp;&nbsp;anything&nbsp;as&nbsp;the&nbsp;library&nbsp;will&nbsp;do&nbsp;it&nbsp;for&nbsp;you.<br>
+reconnect:&nbsp;:class:`bool`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;we&nbsp;should&nbsp;attempt&nbsp;reconnecting,&nbsp;either&nbsp;due&nbsp;to&nbsp;internet<br>
+&nbsp;&nbsp;&nbsp;&nbsp;failure&nbsp;or&nbsp;a&nbsp;specific&nbsp;failure&nbsp;on&nbsp;Discord's&nbsp;part.&nbsp;Certain<br>
+&nbsp;&nbsp;&nbsp;&nbsp;disconnects&nbsp;that&nbsp;lead&nbsp;to&nbsp;bad&nbsp;state&nbsp;will&nbsp;not&nbsp;be&nbsp;handled&nbsp;(such&nbsp;as<br>
+&nbsp;&nbsp;&nbsp;&nbsp;invalid&nbsp;sharding&nbsp;payloads&nbsp;or&nbsp;bad&nbsp;tokens).<br>
+log_handler:&nbsp;Optional[:class:`logging.Handler`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;log&nbsp;handler&nbsp;to&nbsp;use&nbsp;for&nbsp;the&nbsp;library's&nbsp;logger.&nbsp;If&nbsp;this&nbsp;is&nbsp;``None``<br>
+&nbsp;&nbsp;&nbsp;&nbsp;then&nbsp;the&nbsp;library&nbsp;will&nbsp;not&nbsp;set&nbsp;up&nbsp;anything&nbsp;logging&nbsp;related.&nbsp;Logging<br>
+&nbsp;&nbsp;&nbsp;&nbsp;will&nbsp;still&nbsp;work&nbsp;if&nbsp;``None``&nbsp;is&nbsp;passed,&nbsp;though&nbsp;it&nbsp;is&nbsp;your&nbsp;responsibility<br>
+&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;set&nbsp;it&nbsp;up.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;default&nbsp;log&nbsp;handler&nbsp;if&nbsp;not&nbsp;provided&nbsp;is&nbsp;:class:`logging.StreamHandler`.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;versionadded::&nbsp;2.0<br>
+log_formatter:&nbsp;:class:`logging.Formatter`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;formatter&nbsp;to&nbsp;use&nbsp;with&nbsp;the&nbsp;given&nbsp;log&nbsp;handler.&nbsp;If&nbsp;not&nbsp;provided&nbsp;then&nbsp;it<br>
+&nbsp;&nbsp;&nbsp;&nbsp;defaults&nbsp;to&nbsp;a&nbsp;colour&nbsp;based&nbsp;logging&nbsp;formatter&nbsp;(if&nbsp;available).<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;versionadded::&nbsp;2.0<br>
+log_level:&nbsp;:class:`int`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;default&nbsp;log&nbsp;level&nbsp;for&nbsp;the&nbsp;library's&nbsp;logger.&nbsp;This&nbsp;is&nbsp;only&nbsp;applied&nbsp;if&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``log_handler``&nbsp;parameter&nbsp;is&nbsp;not&nbsp;``None``.&nbsp;Defaults&nbsp;to&nbsp;``logging.INFO``.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;versionadded::&nbsp;2.0<br>
+root_logger:&nbsp;:class:`bool`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Whether&nbsp;to&nbsp;set&nbsp;up&nbsp;the&nbsp;root&nbsp;logger&nbsp;rather&nbsp;than&nbsp;the&nbsp;library&nbsp;logger.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;By&nbsp;default,&nbsp;only&nbsp;the&nbsp;library&nbsp;logger&nbsp;(``'discord'``)&nbsp;is&nbsp;set&nbsp;up.&nbsp;If&nbsp;this<br>
+&nbsp;&nbsp;&nbsp;&nbsp;is&nbsp;set&nbsp;to&nbsp;``True``&nbsp;then&nbsp;the&nbsp;root&nbsp;logger&nbsp;is&nbsp;set&nbsp;up&nbsp;as&nbsp;well.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Defaults&nbsp;to&nbsp;``False``.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;..&nbsp;versionadded::&nbsp;2.0</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-setup_hook"><strong>setup_hook</strong></a>(self) -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+A&nbsp;coroutine&nbsp;to&nbsp;be&nbsp;called&nbsp;to&nbsp;setup&nbsp;the&nbsp;bot,&nbsp;by&nbsp;default&nbsp;this&nbsp;is&nbsp;blank.<br>
+&nbsp;<br>
+To&nbsp;perform&nbsp;asynchronous&nbsp;setup&nbsp;after&nbsp;the&nbsp;bot&nbsp;is&nbsp;logged&nbsp;in&nbsp;but&nbsp;before<br>
+it&nbsp;has&nbsp;connected&nbsp;to&nbsp;the&nbsp;Websocket,&nbsp;overwrite&nbsp;this&nbsp;coroutine.<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;only&nbsp;called&nbsp;once,&nbsp;in&nbsp;:meth:`login`,&nbsp;and&nbsp;will&nbsp;be&nbsp;called&nbsp;before<br>
+any&nbsp;events&nbsp;are&nbsp;dispatched,&nbsp;making&nbsp;it&nbsp;a&nbsp;better&nbsp;solution&nbsp;than&nbsp;doing&nbsp;such<br>
+setup&nbsp;in&nbsp;the&nbsp;:func:`~discord.on_ready`&nbsp;event.<br>
+&nbsp;<br>
+..&nbsp;warning::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Since&nbsp;this&nbsp;is&nbsp;called&nbsp;*before*&nbsp;the&nbsp;websocket&nbsp;connection&nbsp;is&nbsp;made&nbsp;therefore<br>
+&nbsp;&nbsp;&nbsp;&nbsp;anything&nbsp;that&nbsp;waits&nbsp;for&nbsp;the&nbsp;websocket&nbsp;will&nbsp;deadlock,&nbsp;this&nbsp;includes&nbsp;things<br>
+&nbsp;&nbsp;&nbsp;&nbsp;like&nbsp;:meth:`wait_for`&nbsp;and&nbsp;:meth:`wait_until_ready`.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;2.0</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-start"><strong>start</strong></a>(self, token: 'str', *, reconnect: 'bool' = True) -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+A&nbsp;shorthand&nbsp;coroutine&nbsp;for&nbsp;:meth:`login`&nbsp;+&nbsp;:meth:`connect`.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+token:&nbsp;:class:`str`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;authentication&nbsp;token.&nbsp;Do&nbsp;not&nbsp;prefix&nbsp;this&nbsp;token&nbsp;with<br>
+&nbsp;&nbsp;&nbsp;&nbsp;anything&nbsp;as&nbsp;the&nbsp;library&nbsp;will&nbsp;do&nbsp;it&nbsp;for&nbsp;you.<br>
+reconnect:&nbsp;:class:`bool`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;we&nbsp;should&nbsp;attempt&nbsp;reconnecting,&nbsp;either&nbsp;due&nbsp;to&nbsp;internet<br>
+&nbsp;&nbsp;&nbsp;&nbsp;failure&nbsp;or&nbsp;a&nbsp;specific&nbsp;failure&nbsp;on&nbsp;Discord's&nbsp;part.&nbsp;Certain<br>
+&nbsp;&nbsp;&nbsp;&nbsp;disconnects&nbsp;that&nbsp;lead&nbsp;to&nbsp;bad&nbsp;state&nbsp;will&nbsp;not&nbsp;be&nbsp;handled&nbsp;(such&nbsp;as<br>
+&nbsp;&nbsp;&nbsp;&nbsp;invalid&nbsp;sharding&nbsp;payloads&nbsp;or&nbsp;bad&nbsp;tokens).<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+TypeError<br>
+&nbsp;&nbsp;&nbsp;&nbsp;An&nbsp;unexpected&nbsp;keyword&nbsp;argument&nbsp;was&nbsp;received.</span></dd></dl>
+
+<dl><dt><a name="GuildCreatorBot-wait_for"><strong>wait_for</strong></a>(self, event: 'str', /, *, check: 'Optional[Callable[..., bool]]' = None, timeout: 'Optional[float]' = None) -&gt; 'Coro[Any]'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Waits&nbsp;for&nbsp;a&nbsp;WebSocket&nbsp;event&nbsp;to&nbsp;be&nbsp;dispatched.<br>
+&nbsp;<br>
+This&nbsp;could&nbsp;be&nbsp;used&nbsp;to&nbsp;wait&nbsp;for&nbsp;a&nbsp;user&nbsp;to&nbsp;reply&nbsp;to&nbsp;a&nbsp;message,<br>
+or&nbsp;to&nbsp;react&nbsp;to&nbsp;a&nbsp;message,&nbsp;or&nbsp;to&nbsp;edit&nbsp;a&nbsp;message&nbsp;in&nbsp;a&nbsp;self-contained<br>
+way.<br>
+&nbsp;<br>
+The&nbsp;``timeout``&nbsp;parameter&nbsp;is&nbsp;passed&nbsp;onto&nbsp;:func:`asyncio.wait_for`.&nbsp;By&nbsp;default,<br>
+it&nbsp;does&nbsp;not&nbsp;timeout.&nbsp;Note&nbsp;that&nbsp;this&nbsp;does&nbsp;propagate&nbsp;the<br>
+:exc:`asyncio.TimeoutError`&nbsp;for&nbsp;you&nbsp;in&nbsp;case&nbsp;of&nbsp;timeout&nbsp;and&nbsp;is&nbsp;provided&nbsp;for<br>
+ease&nbsp;of&nbsp;use.<br>
+&nbsp;<br>
+In&nbsp;case&nbsp;the&nbsp;event&nbsp;returns&nbsp;multiple&nbsp;arguments,&nbsp;a&nbsp;:class:`tuple`&nbsp;containing&nbsp;those<br>
+arguments&nbsp;is&nbsp;returned&nbsp;instead.&nbsp;Please&nbsp;check&nbsp;the<br>
+:ref:`documentation&nbsp;&lt;discord-api-events&gt;`&nbsp;for&nbsp;a&nbsp;list&nbsp;of&nbsp;events&nbsp;and&nbsp;their<br>
+parameters.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;returns&nbsp;the&nbsp;**first&nbsp;event&nbsp;that&nbsp;meets&nbsp;the&nbsp;requirements**.<br>
+&nbsp;<br>
+Examples<br>
+---------<br>
+&nbsp;<br>
+Waiting&nbsp;for&nbsp;a&nbsp;user&nbsp;reply:&nbsp;::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@client.event<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async&nbsp;def&nbsp;<a href="#GuildCreatorBot-on_message">on_message</a>(message):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;message.content.startswith('$greet'):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;channel&nbsp;=&nbsp;message.channel<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;await&nbsp;channel.send('Say&nbsp;hello!')<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;def&nbsp;<a href="#GuildCreatorBot-check">check</a>(m):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;m.content&nbsp;==&nbsp;'hello'&nbsp;and&nbsp;m.channel&nbsp;==&nbsp;channel<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;msg&nbsp;=&nbsp;await&nbsp;client.<a href="#GuildCreatorBot-wait_for">wait_for</a>('message',&nbsp;check=check)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;await&nbsp;channel.send(f'Hello&nbsp;{msg.author}!')<br>
+&nbsp;<br>
+Waiting&nbsp;for&nbsp;a&nbsp;thumbs&nbsp;up&nbsp;reaction&nbsp;from&nbsp;the&nbsp;message&nbsp;author:&nbsp;::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;@client.event<br>
+&nbsp;&nbsp;&nbsp;&nbsp;async&nbsp;def&nbsp;<a href="#GuildCreatorBot-on_message">on_message</a>(message):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;message.content.startswith('$thumb'):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;channel&nbsp;=&nbsp;message.channel<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;await&nbsp;channel.send('Send&nbsp;me&nbsp;that&nbsp;👍&nbsp;reaction,&nbsp;mate')<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;def&nbsp;<a href="#GuildCreatorBot-check">check</a>(reaction,&nbsp;user):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;user&nbsp;==&nbsp;message.author&nbsp;and&nbsp;str(reaction.emoji)&nbsp;==&nbsp;'👍'<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reaction,&nbsp;user&nbsp;=&nbsp;await&nbsp;client.<a href="#GuildCreatorBot-wait_for">wait_for</a>('reaction_add',&nbsp;timeout=60.0,&nbsp;check=check)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;except&nbsp;asyncio.TimeoutError:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;await&nbsp;channel.send('👎')<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;await&nbsp;channel.send('👍')<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;``event``&nbsp;parameter&nbsp;is&nbsp;now&nbsp;positional-only.<br>
+&nbsp;<br>
+&nbsp;<br>
+Parameters<br>
+------------<br>
+event:&nbsp;:class:`str`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;event&nbsp;name,&nbsp;similar&nbsp;to&nbsp;the&nbsp;:ref:`event&nbsp;reference&nbsp;&lt;discord-api-events&gt;`,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;but&nbsp;without&nbsp;the&nbsp;``on_``&nbsp;prefix,&nbsp;to&nbsp;wait&nbsp;for.<br>
+check:&nbsp;Optional[Callable[...,&nbsp;:class:`bool`]]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;predicate&nbsp;to&nbsp;check&nbsp;what&nbsp;to&nbsp;wait&nbsp;for.&nbsp;The&nbsp;arguments&nbsp;must&nbsp;meet&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;parameters&nbsp;of&nbsp;the&nbsp;event&nbsp;being&nbsp;waited&nbsp;for.<br>
+timeout:&nbsp;Optional[:class:`float`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;seconds&nbsp;to&nbsp;wait&nbsp;before&nbsp;timing&nbsp;out&nbsp;and&nbsp;raising<br>
+&nbsp;&nbsp;&nbsp;&nbsp;:exc:`asyncio.TimeoutError`.<br>
+&nbsp;<br>
+Raises<br>
+-------<br>
+asyncio.TimeoutError<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;a&nbsp;timeout&nbsp;is&nbsp;provided&nbsp;and&nbsp;it&nbsp;was&nbsp;reached.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+Any<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Returns&nbsp;no&nbsp;arguments,&nbsp;a&nbsp;single&nbsp;argument,&nbsp;or&nbsp;a&nbsp;:class:`tuple`&nbsp;of&nbsp;multiple<br>
+&nbsp;&nbsp;&nbsp;&nbsp;arguments&nbsp;that&nbsp;mirrors&nbsp;the&nbsp;parameters&nbsp;passed&nbsp;in&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;:ref:`event&nbsp;reference&nbsp;&lt;discord-api-events&gt;`.</span></dd></dl>
+
+<dl><dt>async <a name="GuildCreatorBot-wait_until_ready"><strong>wait_until_ready</strong></a>(self) -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+Waits&nbsp;until&nbsp;the&nbsp;client's&nbsp;internal&nbsp;cache&nbsp;is&nbsp;all&nbsp;ready.<br>
+&nbsp;<br>
+..&nbsp;warning::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Calling&nbsp;this&nbsp;inside&nbsp;:meth:`setup_hook`&nbsp;can&nbsp;lead&nbsp;to&nbsp;a&nbsp;deadlock.</span></dd></dl>
+
+<hr>
+Readonly properties inherited from <a href="discord.client.html#Client">discord.client.Client</a>:<br>
+<dl><dt><strong>application</strong></dt>
+<dd><span class="code">Optional[:class:`~discord.AppInfo`]:&nbsp;The&nbsp;client's&nbsp;application&nbsp;info.<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;retrieved&nbsp;on&nbsp;:meth:`~discord.Client.login`&nbsp;and&nbsp;is&nbsp;not&nbsp;updated<br>
+afterwards.&nbsp;This&nbsp;allows&nbsp;populating&nbsp;the&nbsp;application_id&nbsp;without&nbsp;requiring&nbsp;a<br>
+gateway&nbsp;connection.<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;``None``&nbsp;if&nbsp;accessed&nbsp;before&nbsp;:meth:`~discord.Client.login`&nbsp;is&nbsp;called.<br>
+&nbsp;<br>
+..&nbsp;seealso::&nbsp;The&nbsp;:meth:`~discord.Client.application_info`&nbsp;API&nbsp;call<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;2.0</span></dd>
+</dl>
+<dl><dt><strong>application_flags</strong></dt>
+<dd><span class="code">:class:`~discord.ApplicationFlags`:&nbsp;The&nbsp;client's&nbsp;application&nbsp;flags.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;2.0</span></dd>
+</dl>
+<dl><dt><strong>application_id</strong></dt>
+<dd><span class="code">Optional[:class:`int`]:&nbsp;The&nbsp;client's&nbsp;application&nbsp;ID.<br>
+&nbsp;<br>
+If&nbsp;this&nbsp;is&nbsp;not&nbsp;passed&nbsp;via&nbsp;``__init__``&nbsp;then&nbsp;this&nbsp;is&nbsp;retrieved<br>
+through&nbsp;the&nbsp;gateway&nbsp;when&nbsp;an&nbsp;event&nbsp;contains&nbsp;the&nbsp;data&nbsp;or&nbsp;after&nbsp;a&nbsp;call<br>
+to&nbsp;:meth:`~discord.Client.login`.&nbsp;Usually&nbsp;after&nbsp;:func:`~discord.on_connect`<br>
+is&nbsp;called.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;2.0</span></dd>
+</dl>
+<dl><dt><strong>cached_messages</strong></dt>
+<dd><span class="code">Sequence[:class:`.Message`]:&nbsp;Read-only&nbsp;list&nbsp;of&nbsp;messages&nbsp;the&nbsp;connected&nbsp;client&nbsp;has&nbsp;cached.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;1.1</span></dd>
+</dl>
+<dl><dt><strong>emojis</strong></dt>
+<dd><span class="code">Sequence[:class:`.Emoji`]:&nbsp;The&nbsp;emojis&nbsp;that&nbsp;the&nbsp;connected&nbsp;client&nbsp;has.</span></dd>
+</dl>
+<dl><dt><strong>guilds</strong></dt>
+<dd><span class="code">Sequence[:class:`.Guild`]:&nbsp;The&nbsp;guilds&nbsp;that&nbsp;the&nbsp;connected&nbsp;client&nbsp;is&nbsp;a&nbsp;member&nbsp;of.</span></dd>
+</dl>
+<dl><dt><strong>intents</strong></dt>
+<dd><span class="code">:class:`~discord.Intents`:&nbsp;The&nbsp;intents&nbsp;configured&nbsp;for&nbsp;this&nbsp;connection.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;1.5</span></dd>
+</dl>
+<dl><dt><strong>latency</strong></dt>
+<dd><span class="code">:class:`float`:&nbsp;Measures&nbsp;latency&nbsp;between&nbsp;a&nbsp;HEARTBEAT&nbsp;and&nbsp;a&nbsp;HEARTBEAT_ACK&nbsp;in&nbsp;seconds.<br>
+&nbsp;<br>
+This&nbsp;could&nbsp;be&nbsp;referred&nbsp;to&nbsp;as&nbsp;the&nbsp;Discord&nbsp;WebSocket&nbsp;protocol&nbsp;latency.</span></dd>
+</dl>
+<dl><dt><strong>persistent_views</strong></dt>
+<dd><span class="code">Sequence[:class:`.View`]:&nbsp;A&nbsp;sequence&nbsp;of&nbsp;persistent&nbsp;views&nbsp;added&nbsp;to&nbsp;the&nbsp;client.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;2.0</span></dd>
+</dl>
+<dl><dt><strong>private_channels</strong></dt>
+<dd><span class="code">Sequence[:class:`.abc.PrivateChannel`]:&nbsp;The&nbsp;private&nbsp;channels&nbsp;that&nbsp;the&nbsp;connected&nbsp;client&nbsp;is&nbsp;participating&nbsp;on.<br>
+&nbsp;<br>
+..&nbsp;note::<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;returns&nbsp;only&nbsp;up&nbsp;to&nbsp;128&nbsp;most&nbsp;recent&nbsp;private&nbsp;channels&nbsp;due&nbsp;to&nbsp;an&nbsp;internal&nbsp;working<br>
+&nbsp;&nbsp;&nbsp;&nbsp;on&nbsp;how&nbsp;Discord&nbsp;deals&nbsp;with&nbsp;private&nbsp;channels.</span></dd>
+</dl>
+<dl><dt><strong>stickers</strong></dt>
+<dd><span class="code">Sequence[:class:`.GuildSticker`]:&nbsp;The&nbsp;stickers&nbsp;that&nbsp;the&nbsp;connected&nbsp;client&nbsp;has.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;2.0</span></dd>
+</dl>
+<dl><dt><strong>user</strong></dt>
+<dd><span class="code">Optional[:class:`.ClientUser`]:&nbsp;Represents&nbsp;the&nbsp;connected&nbsp;client.&nbsp;``None``&nbsp;if&nbsp;not&nbsp;logged&nbsp;in.</span></dd>
+</dl>
+<dl><dt><strong>users</strong></dt>
+<dd><span class="code">List[:class:`~discord.User`]:&nbsp;Returns&nbsp;a&nbsp;list&nbsp;of&nbsp;all&nbsp;the&nbsp;users&nbsp;the&nbsp;bot&nbsp;can&nbsp;see.</span></dd>
+</dl>
+<dl><dt><strong>voice_clients</strong></dt>
+<dd><span class="code">List[:class:`.VoiceProtocol`]:&nbsp;Represents&nbsp;a&nbsp;list&nbsp;of&nbsp;voice&nbsp;connections.<br>
+&nbsp;<br>
+These&nbsp;are&nbsp;usually&nbsp;:class:`.VoiceClient`&nbsp;instances.</span></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="discord.client.html#Client">discord.client.Client</a>:<br>
+<dl><dt><strong>activity</strong></dt>
+<dd><span class="code">Optional[:class:`.BaseActivity`]:&nbsp;The&nbsp;activity&nbsp;being&nbsp;used&nbsp;upon<br>
+logging&nbsp;in.</span></dd>
+</dl>
+<dl><dt><strong>allowed_mentions</strong></dt>
+<dd><span class="code">Optional[:class:`~discord.AllowedMentions`]:&nbsp;The&nbsp;allowed&nbsp;mention&nbsp;configuration.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;1.4</span></dd>
+</dl>
+<dl><dt><strong>status</strong></dt>
+<dd><span class="code">:class:`.Status`:<br>
+The&nbsp;status&nbsp;being&nbsp;used&nbsp;upon&nbsp;logging&nbsp;on&nbsp;to&nbsp;Discord.<br>
+&nbsp;<br>
+..&nbsp;versionadded:&nbsp;2.0</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>ADMIN_PERMISSIONS</strong> = {'id': None, 'name': 'Administrator', 'permissions': ['administrator']}<br>
+<strong>BOT_NAME</strong> = 'RCBot'<br>
+<strong>NEW_GUILD_NAME</strong> = 'new_guild'</td></tr></table>
+</body></html>
