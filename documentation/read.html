@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module read</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">read</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:/Users/kevinjin/Documents/kevwjin/UclaCoursework/Current/ComSci130/DiscordRC/DiscordBot/ruco/read.py">/Users/kevinjin/Documents/kevwjin/UclaCoursework/Current/ComSci130/DiscordRC/DiscordBot/ruco/read.py</a></td></tr></table>
+    <p><span class="code">Incomplete&nbsp;module&nbsp;for&nbsp;reading&nbsp;properties&nbsp;of&nbsp;a&nbsp;Discord&nbsp;channel&nbsp;into&nbsp;a&nbsp;JSON&nbsp;file.<br>
+The&nbsp;module&nbsp;is&nbsp;needed&nbsp;for&nbsp;expanding&nbsp;functionality&nbsp;to&nbsp;update&nbsp;configurations&nbsp;of<br>
+existing&nbsp;servers,&nbsp;and&nbsp;to&nbsp;allow&nbsp;for&nbsp;integration&nbsp;testing.</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="asyncio.html">asyncio</a><br>
+<a href="discord.ext.commands.html">discord.ext.commands</a><br>
+</td><td class="multicolumn"><a href="discord.html">discord</a><br>
+<a href="json.html">json</a><br>
+</td><td class="multicolumn"><a href="os.html">os</a><br>
+<a href="sys.html">sys</a><br>
+</td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="discord.ext.commands.cog.html#Cog">discord.ext.commands.cog.Cog</a>(<a href="builtins.html#object">builtins.object</a>)
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="read.html#Read">Read</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Read">class <strong>Read</strong></a>(<a href="discord.ext.commands.cog.html#Cog">discord.ext.commands.cog.Cog</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#Read-__cog_name__">Read</a>(bot)<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>Method resolution order:</dt>
+<dd><a href="read.html#Read">Read</a></dd>
+<dd><a href="discord.ext.commands.cog.html#Cog">discord.ext.commands.cog.Cog</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="Read-__init__"><strong>__init__</strong></a>(self, bot)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__cog_app_commands__</strong> = []</dl>
+
+<dl><dt><strong>__cog_commands__</strong> = [&lt;discord.ext.commands.core.Command object&gt;]</dl>
+
+<dl><dt><strong>__cog_description__</strong> = ''</dl>
+
+<dl><dt><strong>__cog_group_auto_locale_strings__</strong> = True</dl>
+
+<dl><dt><strong>__cog_group_description__</strong> = '…'</dl>
+
+<dl><dt><strong>__cog_group_extras__</strong> = {}</dl>
+
+<dl><dt><strong>__cog_group_name__</strong> = 'read'</dl>
+
+<dl><dt><strong>__cog_group_nsfw__</strong> = False</dl>
+
+<dl><dt><strong>__cog_listeners__</strong> = []</dl>
+
+<dl><dt><strong>__cog_name__</strong> = 'Read'</dl>
+
+<dl><dt><strong>__cog_settings__</strong> = {}</dl>
+
+<dl><dt><strong>read_server</strong> = &lt;discord.ext.commands.core.Command object&gt;</dl>
+
+<hr>
+Methods inherited from <a href="discord.ext.commands.cog.html#Cog">discord.ext.commands.cog.Cog</a>:<br>
+<dl><dt><a name="Read-bot_check"><strong>bot_check</strong></a>(self, ctx: 'Context[BotT]') -&gt; 'bool'</dt><dd><span class="code">A&nbsp;special&nbsp;method&nbsp;that&nbsp;registers&nbsp;as&nbsp;a&nbsp;:meth:`.Bot.check`<br>
+check.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;**can**&nbsp;be&nbsp;a&nbsp;coroutine&nbsp;and&nbsp;must&nbsp;take&nbsp;a&nbsp;sole&nbsp;parameter,<br>
+``ctx``,&nbsp;to&nbsp;represent&nbsp;the&nbsp;:class:`.Context`.</span></dd></dl>
+
+<dl><dt><a name="Read-bot_check_once"><strong>bot_check_once</strong></a>(self, ctx: 'Context[BotT]') -&gt; 'bool'</dt><dd><span class="code">A&nbsp;special&nbsp;method&nbsp;that&nbsp;registers&nbsp;as&nbsp;a&nbsp;:meth:`.Bot.check_once`<br>
+check.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;**can**&nbsp;be&nbsp;a&nbsp;coroutine&nbsp;and&nbsp;must&nbsp;take&nbsp;a&nbsp;sole&nbsp;parameter,<br>
+``ctx``,&nbsp;to&nbsp;represent&nbsp;the&nbsp;:class:`.Context`.</span></dd></dl>
+
+<dl><dt>async <a name="Read-cog_after_invoke"><strong>cog_after_invoke</strong></a>(self, ctx: 'Context[BotT]') -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+A&nbsp;special&nbsp;method&nbsp;that&nbsp;acts&nbsp;as&nbsp;a&nbsp;cog&nbsp;local&nbsp;post-invoke&nbsp;hook.<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;similar&nbsp;to&nbsp;:meth:`.Command.after_invoke`.<br>
+&nbsp;<br>
+This&nbsp;**must**&nbsp;be&nbsp;a&nbsp;coroutine.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+ctx:&nbsp;:class:`.Context`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;invocation&nbsp;context.</span></dd></dl>
+
+<dl><dt>async <a name="Read-cog_app_command_error"><strong>cog_app_command_error</strong></a>(self, interaction: 'discord.Interaction', error: 'app_commands.AppCommandError') -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+A&nbsp;special&nbsp;method&nbsp;that&nbsp;is&nbsp;called&nbsp;whenever&nbsp;an&nbsp;error&nbsp;within<br>
+an&nbsp;application&nbsp;command&nbsp;is&nbsp;dispatched&nbsp;inside&nbsp;this&nbsp;cog.<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;similar&nbsp;to&nbsp;:func:`discord.app_commands.CommandTree.on_error`&nbsp;except<br>
+only&nbsp;applying&nbsp;to&nbsp;the&nbsp;application&nbsp;commands&nbsp;inside&nbsp;this&nbsp;cog.<br>
+&nbsp;<br>
+This&nbsp;**must**&nbsp;be&nbsp;a&nbsp;coroutine.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+interaction:&nbsp;:class:`~discord.Interaction`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;interaction&nbsp;that&nbsp;is&nbsp;being&nbsp;handled.<br>
+error:&nbsp;:exc:`~discord.app_commands.AppCommandError`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;exception&nbsp;that&nbsp;was&nbsp;raised.</span></dd></dl>
+
+<dl><dt>async <a name="Read-cog_before_invoke"><strong>cog_before_invoke</strong></a>(self, ctx: 'Context[BotT]') -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+A&nbsp;special&nbsp;method&nbsp;that&nbsp;acts&nbsp;as&nbsp;a&nbsp;cog&nbsp;local&nbsp;pre-invoke&nbsp;hook.<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;similar&nbsp;to&nbsp;:meth:`.Command.before_invoke`.<br>
+&nbsp;<br>
+This&nbsp;**must**&nbsp;be&nbsp;a&nbsp;coroutine.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+ctx:&nbsp;:class:`.Context`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;invocation&nbsp;context.</span></dd></dl>
+
+<dl><dt><a name="Read-cog_check"><strong>cog_check</strong></a>(self, ctx: 'Context[BotT]') -&gt; 'bool'</dt><dd><span class="code">A&nbsp;special&nbsp;method&nbsp;that&nbsp;registers&nbsp;as&nbsp;a&nbsp;:func:`~discord.ext.commands.check`<br>
+for&nbsp;every&nbsp;command&nbsp;and&nbsp;subcommand&nbsp;in&nbsp;this&nbsp;cog.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;**can**&nbsp;be&nbsp;a&nbsp;coroutine&nbsp;and&nbsp;must&nbsp;take&nbsp;a&nbsp;sole&nbsp;parameter,<br>
+``ctx``,&nbsp;to&nbsp;represent&nbsp;the&nbsp;:class:`.Context`.</span></dd></dl>
+
+<dl><dt>async <a name="Read-cog_command_error"><strong>cog_command_error</strong></a>(self, ctx: 'Context[BotT]', error: 'Exception') -&gt; 'None'</dt><dd><span class="code">|coro|<br>
+&nbsp;<br>
+A&nbsp;special&nbsp;method&nbsp;that&nbsp;is&nbsp;called&nbsp;whenever&nbsp;an&nbsp;error<br>
+is&nbsp;dispatched&nbsp;inside&nbsp;this&nbsp;cog.<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;similar&nbsp;to&nbsp;:func:`.on_command_error`&nbsp;except&nbsp;only&nbsp;applying<br>
+to&nbsp;the&nbsp;commands&nbsp;inside&nbsp;this&nbsp;cog.<br>
+&nbsp;<br>
+This&nbsp;**must**&nbsp;be&nbsp;a&nbsp;coroutine.<br>
+&nbsp;<br>
+Parameters<br>
+-----------<br>
+ctx:&nbsp;:class:`.Context`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;invocation&nbsp;context&nbsp;where&nbsp;the&nbsp;error&nbsp;happened.<br>
+error:&nbsp;:class:`CommandError`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;error&nbsp;that&nbsp;happened.</span></dd></dl>
+
+<dl><dt>async <a name="Read-cog_load"><strong>cog_load</strong></a>(self) -&gt; 'None'</dt><dd><span class="code">|maybecoro|<br>
+&nbsp;<br>
+A&nbsp;special&nbsp;method&nbsp;that&nbsp;is&nbsp;called&nbsp;when&nbsp;the&nbsp;cog&nbsp;gets&nbsp;loaded.<br>
+&nbsp;<br>
+Subclasses&nbsp;must&nbsp;replace&nbsp;this&nbsp;if&nbsp;they&nbsp;want&nbsp;special&nbsp;asynchronous&nbsp;loading&nbsp;behaviour.<br>
+Note&nbsp;that&nbsp;the&nbsp;``__init__``&nbsp;special&nbsp;method&nbsp;does&nbsp;not&nbsp;allow&nbsp;asynchronous&nbsp;code&nbsp;to&nbsp;run<br>
+inside&nbsp;it,&nbsp;thus&nbsp;this&nbsp;is&nbsp;helpful&nbsp;for&nbsp;setting&nbsp;up&nbsp;code&nbsp;that&nbsp;needs&nbsp;to&nbsp;be&nbsp;asynchronous.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;2.0</span></dd></dl>
+
+<dl><dt>async <a name="Read-cog_unload"><strong>cog_unload</strong></a>(self) -&gt; 'None'</dt><dd><span class="code">|maybecoro|<br>
+&nbsp;<br>
+A&nbsp;special&nbsp;method&nbsp;that&nbsp;is&nbsp;called&nbsp;when&nbsp;the&nbsp;cog&nbsp;gets&nbsp;removed.<br>
+&nbsp;<br>
+Subclasses&nbsp;must&nbsp;replace&nbsp;this&nbsp;if&nbsp;they&nbsp;want&nbsp;special&nbsp;unloading&nbsp;behaviour.<br>
+&nbsp;<br>
+Exceptions&nbsp;raised&nbsp;in&nbsp;this&nbsp;method&nbsp;are&nbsp;ignored&nbsp;during&nbsp;extension&nbsp;unloading.<br>
+&nbsp;<br>
+..&nbsp;versionchanged::&nbsp;2.0<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;method&nbsp;can&nbsp;now&nbsp;be&nbsp;a&nbsp;:term:`coroutine`.</span></dd></dl>
+
+<dl><dt><a name="Read-get_app_commands"><strong>get_app_commands</strong></a>(self) -&gt; 'List[Union[app_commands.Command[Self, ..., Any], app_commands.Group]]'</dt><dd><span class="code">Returns&nbsp;the&nbsp;app&nbsp;commands&nbsp;that&nbsp;are&nbsp;defined&nbsp;inside&nbsp;this&nbsp;cog.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+List[Union[:class:`discord.app_commands.Command`,&nbsp;:class:`discord.app_commands.Group`]]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;:class:`list`&nbsp;of&nbsp;:class:`discord.app_commands.Command`\s&nbsp;and&nbsp;:class:`discord.app_commands.Group`\s&nbsp;that&nbsp;are<br>
+&nbsp;&nbsp;&nbsp;&nbsp;defined&nbsp;inside&nbsp;this&nbsp;cog,&nbsp;not&nbsp;including&nbsp;subcommands.</span></dd></dl>
+
+<dl><dt><a name="Read-get_commands"><strong>get_commands</strong></a>(self) -&gt; 'List[Command[Self, ..., Any]]'</dt><dd><span class="code">Returns&nbsp;the&nbsp;commands&nbsp;that&nbsp;are&nbsp;defined&nbsp;inside&nbsp;this&nbsp;cog.<br>
+&nbsp;<br>
+This&nbsp;does&nbsp;*not*&nbsp;include&nbsp;:class:`discord.app_commands.Command`&nbsp;or&nbsp;:class:`discord.app_commands.Group`<br>
+instances.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+List[:class:`.Command`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;:class:`list`&nbsp;of&nbsp;:class:`.Command`\s&nbsp;that&nbsp;are<br>
+&nbsp;&nbsp;&nbsp;&nbsp;defined&nbsp;inside&nbsp;this&nbsp;cog,&nbsp;not&nbsp;including&nbsp;subcommands.</span></dd></dl>
+
+<dl><dt><a name="Read-get_listeners"><strong>get_listeners</strong></a>(self) -&gt; 'List[Tuple[str, Callable[..., Any]]]'</dt><dd><span class="code">Returns&nbsp;a&nbsp;:class:`list`&nbsp;of&nbsp;(name,&nbsp;function)&nbsp;listener&nbsp;pairs&nbsp;that&nbsp;are&nbsp;defined&nbsp;in&nbsp;this&nbsp;cog.<br>
+&nbsp;<br>
+Returns<br>
+--------<br>
+List[Tuple[:class:`str`,&nbsp;:ref:`coroutine&nbsp;&lt;coroutine&gt;`]]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;listeners&nbsp;defined&nbsp;in&nbsp;this&nbsp;cog.</span></dd></dl>
+
+<dl><dt><a name="Read-has_app_command_error_handler"><strong>has_app_command_error_handler</strong></a>(self) -&gt; 'bool'</dt><dd><span class="code">:class:`bool`:&nbsp;Checks&nbsp;whether&nbsp;the&nbsp;cog&nbsp;has&nbsp;an&nbsp;app&nbsp;error&nbsp;handler.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;2.1</span></dd></dl>
+
+<dl><dt><a name="Read-has_error_handler"><strong>has_error_handler</strong></a>(self) -&gt; 'bool'</dt><dd><span class="code">:class:`bool`:&nbsp;Checks&nbsp;whether&nbsp;the&nbsp;cog&nbsp;has&nbsp;an&nbsp;error&nbsp;handler.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;1.7</span></dd></dl>
+
+<dl><dt><a name="Read-interaction_check"><strong>interaction_check</strong></a>(self, interaction: 'discord.Interaction[ClientT]', /) -&gt; 'bool'</dt><dd><span class="code">A&nbsp;special&nbsp;method&nbsp;that&nbsp;registers&nbsp;as&nbsp;a&nbsp;:func:`discord.app_commands.check`<br>
+for&nbsp;every&nbsp;app&nbsp;command&nbsp;and&nbsp;subcommand&nbsp;in&nbsp;this&nbsp;cog.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;**can**&nbsp;be&nbsp;a&nbsp;coroutine&nbsp;and&nbsp;must&nbsp;take&nbsp;a&nbsp;sole&nbsp;parameter,<br>
+``interaction``,&nbsp;to&nbsp;represent&nbsp;the&nbsp;:class:`~discord.Interaction`.<br>
+&nbsp;<br>
+..&nbsp;versionadded::&nbsp;2.0</span></dd></dl>
+
+<dl><dt><a name="Read-walk_app_commands"><strong>walk_app_commands</strong></a>(self) -&gt; 'Generator[Union[app_commands.Command[Self, ..., Any], app_commands.Group], None, None]'</dt><dd><span class="code">An&nbsp;iterator&nbsp;that&nbsp;recursively&nbsp;walks&nbsp;through&nbsp;this&nbsp;cog's&nbsp;app&nbsp;commands&nbsp;and&nbsp;subcommands.<br>
+&nbsp;<br>
+Yields<br>
+------<br>
+Union[:class:`discord.app_commands.Command`,&nbsp;:class:`discord.app_commands.Group`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;An&nbsp;app&nbsp;command&nbsp;or&nbsp;group&nbsp;from&nbsp;the&nbsp;cog.</span></dd></dl>
+
+<dl><dt><a name="Read-walk_commands"><strong>walk_commands</strong></a>(self) -&gt; 'Generator[Command[Self, ..., Any], None, None]'</dt><dd><span class="code">An&nbsp;iterator&nbsp;that&nbsp;recursively&nbsp;walks&nbsp;through&nbsp;this&nbsp;cog's&nbsp;commands&nbsp;and&nbsp;subcommands.<br>
+&nbsp;<br>
+Yields<br>
+------<br>
+Union[:class:`.Command`,&nbsp;:class:`.Group`]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;command&nbsp;or&nbsp;group&nbsp;from&nbsp;the&nbsp;cog.</span></dd></dl>
+
+<hr>
+Class methods inherited from <a href="discord.ext.commands.cog.html#Cog">discord.ext.commands.cog.Cog</a>:<br>
+<dl><dt><a name="Read-listener"><strong>listener</strong></a>(name: 'str' = ...) -&gt; 'Callable[[FuncT], FuncT]'<span class="grey"><span class="heading-text"> from <a href="discord.ext.commands.cog.html#CogMeta">discord.ext.commands.cog.CogMeta</a></span></span></dt><dd><span class="code">A&nbsp;decorator&nbsp;that&nbsp;marks&nbsp;a&nbsp;function&nbsp;as&nbsp;a&nbsp;listener.<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;the&nbsp;cog&nbsp;equivalent&nbsp;of&nbsp;:meth:`.Bot.listen`.<br>
+&nbsp;<br>
+Parameters<br>
+------------<br>
+name:&nbsp;:class:`str`<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;event&nbsp;being&nbsp;listened&nbsp;to.&nbsp;If&nbsp;not&nbsp;provided,&nbsp;it<br>
+&nbsp;&nbsp;&nbsp;&nbsp;defaults&nbsp;to&nbsp;the&nbsp;function's&nbsp;name.<br>
+&nbsp;<br>
+Raises<br>
+--------<br>
+TypeError<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;function&nbsp;is&nbsp;not&nbsp;a&nbsp;coroutine&nbsp;function&nbsp;or&nbsp;a&nbsp;string&nbsp;was&nbsp;not&nbsp;passed&nbsp;as<br>
+&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;name.</span></dd></dl>
+
+<hr>
+Static methods inherited from <a href="discord.ext.commands.cog.html#Cog">discord.ext.commands.cog.Cog</a>:<br>
+<dl><dt><a name="Read-__new__"><strong>__new__</strong></a>(cls, *args: 'Any', **kwargs: 'Any') -&gt; 'Self'</dt><dd><span class="code">Create&nbsp;and&nbsp;return&nbsp;a&nbsp;new&nbsp;object.&nbsp;&nbsp;See&nbsp;help(type)&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<hr>
+Readonly properties inherited from <a href="discord.ext.commands.cog.html#Cog">discord.ext.commands.cog.Cog</a>:<br>
+<dl><dt><strong>app_command</strong></dt>
+<dd><span class="code">Optional[:class:`discord.app_commands.Group`]:&nbsp;Returns&nbsp;the&nbsp;associated&nbsp;group&nbsp;with&nbsp;this&nbsp;cog.<br>
+&nbsp;<br>
+This&nbsp;is&nbsp;only&nbsp;available&nbsp;if&nbsp;inheriting&nbsp;from&nbsp;:class:`GroupCog`.</span></dd>
+</dl>
+<dl><dt><strong>qualified_name</strong></dt>
+<dd><span class="code">:class:`str`:&nbsp;Returns&nbsp;the&nbsp;cog's&nbsp;specified&nbsp;name,&nbsp;not&nbsp;the&nbsp;class&nbsp;name.</span></dd>
+</dl>
+<hr>
+Data descriptors inherited from <a href="discord.ext.commands.cog.html#Cog">discord.ext.commands.cog.Cog</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>description</strong></dt>
+<dd><span class="code">:class:`str`:&nbsp;Returns&nbsp;the&nbsp;cog's&nbsp;description,&nbsp;typically&nbsp;the&nbsp;cleaned&nbsp;docstring.</span></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="discord.ext.commands.cog.html#Cog">discord.ext.commands.cog.Cog</a>:<br>
+<dl><dt><strong>__annotations__</strong> = {'__cog_app_commands__': 'List[Union[app_commands.Group, app_commands.Command[Self, ..., Any]]]', '__cog_app_commands_group__': 'Optional[app_commands.Group]', '__cog_commands__': 'List[Command[Self, ..., Any]]', '__cog_description__': 'str', '__cog_group_description__': 'Union[str, app_commands.locale_str]', '__cog_group_name__': 'Union[str, app_commands.locale_str]', '__cog_is_app_commands_group__': 'ClassVar[bool]', '__cog_listeners__': 'List[Tuple[str, str]]', '__cog_name__': 'str', '__cog_settings__': 'Dict[str, Any]', ...}</dl>
+
+<dl><dt><strong>__cog_is_app_commands_group__</strong> = False</dl>
+
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt>async <a name="-setup"><strong>setup</strong></a>(bot)</dt></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>announcement_ch_perm_names</strong> = ['add_reactions', 'attach_files', 'create_instant_invite', 'create_public_threads', 'embed_links', 'manage_channels', 'manage_messages', 'manage_threads', 'manage_webhooks', 'mention_everyone', 'read_message_history', 'send_messages', 'send_messages_in_threads', 'send_tts_messages', 'send_voice_messages', 'use_application_commands', 'use_embedded_activities', 'use_external_emojis', 'use_external_stickers', 'view_channel']<br>
+<strong>cat_perm_names</strong> = ['add_reactions', 'attach_files', 'connect', 'create_instant_invite', 'create_private_threads', 'create_public_threads', 'deafen_members', 'embed_links', 'manage_channels', 'manage_events', 'manage_messages', 'manage_permissions', 'manage_threads', 'manage_webhooks', 'mention_everyone', 'move_members', 'mute_members', 'priority_speaker', 'read_message_history', 'request_to_speak', ...]<br>
+<strong>forum_ch_perm_names</strong> = ['add_reactions', 'attach_files', 'create_instant_invite', 'embed_links', 'manage_channels', 'manage_messages', 'manage_permissions', 'manage_webhooks', 'mention_everyone', 'read_message_history', 'send_messages', 'send_messages_in_threads', 'send_tts_messages', 'send_voice_messages', 'use_application_commands', 'use_embedded_activities', 'use_external_emojis', 'use_external_stickers', 'view_channel']<br>
+<strong>role_perm_names</strong> = ['add_reactions', 'administrator', 'attach_files', 'ban_members', 'change_nickname', 'create_events', 'connect', 'create_expressions', 'create_instant_invite', 'create_private_threads', 'create_public_threads', 'deafen_members', 'embed_links', 'external_emojis', 'external_stickers', 'kick_members', 'manage_channels', 'manage_emojis', 'manage_emojis_and_stickers', 'manage_events', ...]<br>
+<strong>rules_ch_perm_names</strong> = ['add_reactions', 'attach_files', 'create_instant_invite', 'create_private_threads', 'create_public_threads', 'embed_links', 'manage_channels', 'manage_messages', 'manage_permissions', 'manage_threads', 'manage_webhooks', 'mention_everyone', 'read_message_history', 'send_messages', 'send_messages_in_threads', 'send_tts_messages', 'send_voice_messages', 'use_application_commands', 'use_embedded_activities', 'use_external_emojis', ...]<br>
+<strong>stage_ch_perm_names</strong> = ['add_reactions', 'attach_files', 'connect', 'create_instant_invite', 'embed_links', 'manage_channels', 'manage_events', 'manage_messages', 'manage_permissions', 'mention_everyone', 'move_members', 'mute_members', 'read_message_history', 'send_messages', 'send_tts_messages', 'send_voice_messages', 'stream', 'use_application_commands', 'use_external_emojis', 'use_external_stickers', ...]<br>
+<strong>text_ch_perm_names</strong> = ['add_reactions', 'attach_files', 'create_instant_invite', 'create_private_threads', 'create_public_threads', 'embed_links', 'manage_channels', 'manage_messages', 'manage_permissions', 'manage_threads', 'manage_webhooks', 'mention_everyone', 'read_message_history', 'send_messages', 'send_messages_in_threads', 'send_tts_messages', 'send_voice_messages', 'use_application_commands', 'use_embedded_activities', 'use_external_emojis', ...]<br>
+<strong>updates_ch_perm_names</strong> = ['add_reactions', 'attach_files', 'create_instant_invite', 'create_private_threads', 'create_public_threads', 'embed_links', 'manage_channels', 'manage_messages', 'manage_permissions', 'manage_threads', 'manage_webhooks', 'mention_everyone', 'read_message_history', 'send_messages', 'send_messages_in_threads', 'send_tts_messages', 'send_voice_messages', 'use_application_commands', 'use_embedded_activities', 'use_external_emojis', ...]<br>
+<strong>voice_ch_perm_names</strong> = ['add_reactions', 'attach_files', 'connect', 'create_instant_invite', 'deafen_members', 'embed_links', 'manage_channels', 'manage_events', 'manage_messages', 'manage_permissions', 'mention_everyone', 'move_members', 'mute_members', 'priority_speaker', 'read_message_history', 'send_messages', 'send_tts_messages', 'send_voice_messages', 'speak', 'stream', ...]</td></tr></table>
+</body></html>
