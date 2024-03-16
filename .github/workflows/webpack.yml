@@ -36,6 +36,7 @@ jobs:
         git checkout $BRANCH_NAME
         git add webapp/public/ -f
         git add webapp/package-lock.json
+        git add webapp/package.json
         git commit -m "Build webapp/public"
         git push origin $BRANCH_NAME
       env:
