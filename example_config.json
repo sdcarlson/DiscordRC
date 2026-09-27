@@ -1,57 +1,51 @@
 {
-    "name": "MyServer",
-    "id": 123055866,
-    "roles": [
-      {
-        "name": "role1",
-        "id": 1000000022,
-        "display_separately": true,
-        "allow_mention": false,
-        "permissions": {
-          "roleperm1": true,
-          "roleperm2": false
-        }
+  "name": "MyServer",
+  "id": null,
+  "community": false,
+  "roles": [
+    {
+      "name": "Moderator",
+      "id": null,
+      "permissions": ["kick_members", "manage_messages", "read_messages", "send_messages"]
+    },
+    {
+      "name": "Member",
+      "id": null,
+      "permissions": ["read_messages", "send_messages", "connect", "speak"]
+    }
+  ],
+  "categories": [
+    {
+      "name": "General",
+      "id": null,
+      "permissions": {
+        "Member": { "read_messages": true }
       },
-      {
-        "name": "role2",
-        "id": 1000023022,
-        "display_separately": false,
-        "allow_mention": true,
-        "permissions": {}
-      },
-      {
-        "name": "role3",
-        "id": null,
-        "display_separately": false,
-        "allow_mention": false,
-        "permissions": {}
-      }
-    ],
-    "categories": [
-      {
-        "name": "MyCategory",
-        "id": 1000000000,
-        "permissions": {
-          "perm1": { "role1": true, "role3": false }
+      "text_based_channels": [
+        {
+          "name": "general",
+          "id": null,
+          "channel_type": "TEXT",
+          "permissions": {}
         },
-        "text_channels": [
-          {
-            "name": "MyTextChannel",
-            "id": null,
-            "permissions": {
-              "perm1": { "role2": false, "role3": true }
-            }
+        {
+          "name": "mod-chat",
+          "id": null,
+          "channel_type": "TEXT",
+          "permissions": {
+            "Member": { "read_messages": false },
+            "Moderator": { "read_messages": true }
           }
-        ],
-        "voice_channels": [
-          {
-            "name": "MyVoiceChannel",
-            "id": 1111111111,
-            "permissions": {
-              "perm2": { "role2": true, "role3": false }
-            }
-          }
-        ]
-      }
-    ]
-  }
+        }
+      ],
+      "voice_based_channels": [
+        {
+          "name": "Lounge",
+          "id": null,
+          "channel_type": "VOICE",
+          "permissions": {}
+        }
+      ]
+    }
+  ]
+}

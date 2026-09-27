@@ -8,17 +8,26 @@ jobs:
   test:
     name: Run API tests
     runs-on: ubuntu-latest
+    # Throwaway credentials for the ephemeral CI database only.
+    # (The `env` context is not available in `services`, so they are repeated there.)
+    env:
+      MONGO_USERNAME: ci-user
+      MONGO_PASSWORD: ci-password
+      JWT_SECRET_KEY: ci-only-jwt-secret
     services:
       mongodb:
         image: mongo
         ports:
         - 27017:27017
-        options: -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=2BLfv2tcQnSa -e MONGO_INITDB_DATABASE=db-test
+        env:
+          MONGO_INITDB_ROOT_USERNAME: ci-user
+          MONGO_INITDB_ROOT_PASSWORD: ci-password
+          MONGO_INITDB_DATABASE: db-test
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: '3.11'
     - name: Set up venv

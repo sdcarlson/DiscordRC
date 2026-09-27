@@ -1,11 +1,13 @@
 # This is a demo of how to connect to MongoDB instance from FastAPI
 # run FastAPI application with uvicorn main:app --reload and then navigate to http://127.0.0.1:8000/ in browser to test
+import os
+
 from fastapi import FastAPI, HTTPException
 from motor.motor_asyncio import AsyncIOMotorClient
 
 app = FastAPI()
 
-MONGO_URI = "mongodb://admin:2BLfv2tcQnSa@localhost:27017"
+MONGO_URI = f"mongodb://{os.environ['MONGO_USERNAME']}:{os.environ['MONGO_PASSWORD']}@localhost:27017"
 DATABASE_NAME = "db"
 
 client = AsyncIOMotorClient(MONGO_URI)

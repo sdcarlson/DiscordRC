@@ -4,3 +4,7 @@ __pycache__
 .vscode/
 .envrc
 .pytest_cache
+
+venv/
+node_modules/
+.env
