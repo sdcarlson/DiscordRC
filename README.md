@@ -1,120 +1,127 @@
-# Repository Template
+# DiscordRC
 
-[![Build Status](https://app.travis-ci.com/melaasar/cs130-template.svg?branch=master)](https://app.travis-ci.com/github/melaasar/cs130-template)
-[![Release](https://img.shields.io/github/v/release/melaasar/cs130-template?label=release)](https://github.com/melaasar/cs130-template/releases/latest)
+DiscordRC is a web app that lets you design a Discord server (roles, categories, channels, and permissions) in a form, save it as a reusable JSON template, and have a bot create the fully configured server for you.
 
-This repo serves as a template for a repository that follows the Scrum process. The following information describes how the native features/workflows of Github can be customized to work in a scrum development process.
+**Tech stack:** Python, FastAPI, Pydantic, MongoDB (Motor async driver), JWT authentication (OAuth2 password flow, bcrypt), discord.py, React 18, React Router, Material UI (MUI), Express, Webpack, Babel, pytest, Docker, GitHub Actions CI
 
-## Issues
+## Features
 
-An issue is a unit of tracking work. Issues can be classified into different classes using `labels`. This can be used to classify issues in the scrum process as follows.
+- **Visual server designer:** a React + Material UI form for defining roles, role permissions, categories, text and voice channels, and per-role channel permission overwrites.
+- **Reusable templates:** save server configurations to your account and load them later, stored as JSON documents in MongoDB.
+- **One-click server creation:** the bot creates a new Discord server from a template, returns an invite link, transfers ownership to the first user who joins, then leaves.
+- **Community server support:** creates the rules and updates channels Discord requires and applies the configuration once the server is switched to a Community server.
+- **Account system:** sign up and log in with username and password; the API issues JWT access tokens and hashes passwords with bcrypt.
+- **Read and write existing servers:** the `ruco` bot module can export an existing server's structure to JSON and apply a JSON config to a server.
 
-### Epic
+## Architecture
 
-An [epic](https://dev.to/jorenrui/a-look-into-how-i-manage-my-personal-projects-my-git-github-workflow-1e7h#epic-issue) is an issue with the label `epic`. It represents a large story that can be broken into stories, which can be addressed over multiple sprints. An epic issue references its story issues as a task list in its description. A Github action has been added to automatically check/uncheck the story task items when they get closed/reopened.
+```mermaid
+flowchart LR
+    W["Web app<br/>React + MUI<br/>(Express, port 8001)"] -->|REST + JWT| A["API<br/>FastAPI<br/>(uvicorn, port 8000)"]
+    A -->|Motor| M[("MongoDB<br/>users, configs")]
+    A -->|DiscordInterface| B["Discord bot<br/>discord.py"]
+    B -->|Discord API| D["New Discord server"]
+```
 
-### Story
+- **Web app (`webapp/`):** React single-page app bundled with Webpack and served by a small Express server. Pages: login/sign-up, server selection (saved templates), configuration form, and a final page to create the server or save the template.
+- **API (`api/`):** FastAPI service with four routers: `/auth` (signup, login, JWT), `/users` (current user and saved templates), `/config` (import/export templates to MongoDB), and `/bot` (create a server from a config). Request and response bodies are validated with Pydantic models. Interactive docs are served at `/docs`.
+- **Discord bot (`DiscordBot/`):** `DiscordInterface` runs a `GuildCreatorBot` per request in its own thread so the blocking discord.py client does not stall the API. The `ruco` package (read, write, permissions) translates between a JSON config and Discord API calls, including permission overwrites for text, voice, forum, stage, announcement, rules, and updates channels.
 
-A [story](https://www.atlassian.com/agile/project-management/epics-stories-themes) is an issue with the label `story`. It may represents a new feature, or an enhancement to an existing feature. A story issue can be broken into sub tasks, which are added as a task list in the description of the story issue. These sub task items can be checked manually by the developer to indicate completion.
+## Server config format
 
-### Bug
+A server template is JSON with roles and categories. Channel permissions map a permission name to a role-to-boolean map:
 
-A bug is an issue with the label `bug`. It represents a problem with the existing code that needs to be fixed.
+```json
+{
+  "name": "MyServer",
+  "community": false,
+  "roles": [
+    { "name": "Moderator", "permissions": ["kick_members", "manage_messages"] }
+  ],
+  "categories": [
+    {
+      "name": "General",
+      "text_based_channels": [
+        { "name": "chat", "channel_type": "TEXT", "permissions": { "send_messages": { "Moderator": true } } }
+      ],
+      "voice_based_channels": []
+    }
+  ]
+}
+```
 
-### Question
+See `api/models.py` for the full schema and `DiscordBot/tests/default.json` and `DiscordBot/tests/community.json` for complete examples. `example_config.json` is an early draft of the format.
 
-A question is an issue with the label `question`. It represents a question raised by any one and that may get converted into other types of issues.
+## Getting started
 
-## Labels
+**Prerequisites:** Python 3.11+, Node.js, Docker, and a Discord bot token.
 
-In addition to the [standard labels](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/managing-labels#about-default-labels) above, you can add new labels to issues to classify them into different classes like `documentation`, `frontend`, etc, or to add metadata like `duplicate`, `invalid` etc.
+### 1. Database
 
-## Milestones
+```bash
+cd api
+./mongo_setup.sh   # starts a local MongoDB container on port 27017
+```
 
-A [milestone](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/tracking-the-progress-of-your-work-with-milestones) groups issues that are expected to be delivered at some point in time. It also allows ordering (prioritizing) theses issues and tracking their progress (percentage of issues completed so far). In the scrum context, a milestone can be used as a sprint. So, you can create your sprints and give them names like Sprint1, Sprint2, etc. and set their due dates respectively.
+### 2. API
 
-## Projects
+```bash
+cd api
+python3 -m venv venv
+. venv/bin/activate
+pip3 install -r requirements.txt
+export DISCORD_TOKEN="your-bot-token"
+sh -c 'cd .. && uvicorn api.main:app --reload'
+```
 
-A [project](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/tracking-the-progress-of-your-work-with-project-boards) is a kanban-style board that can aggregate a set of issues for any purpose. In the scrum context, we can create one project called `Scrum Board` and choose its template as `Automated kanban with reviews`. (This will create a set of initial notes that you can delete).
+The API must be started from the repository root (the command above does this) so that it can import `DiscordBot/`. API docs are at http://localhost:8000/docs.
 
-## Branches
+### 3. Web app
 
-The `master` branch is the main branch used for releases. Other branches can be created. For example, a branch called `gh-pages` is often used to create a website for the repository (for more information check this [link](https://pages.github.com/)). Other branches can be created to address the issues of the repository, one branch per issue (called an `issue` branch). Such branches can then be used to create pull requests, where they get peer reviewed and eventually merged into the `master` branch. For more information on branches, check this [link](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/about-branches).
+```bash
+cd webapp
+npm install
+npm run build   # bundles into webapp/public
+npm start       # serves on http://localhost:8001
+```
 
-## Pull Requests
+### Tests
 
-A [pull request](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/about-pull-requests) is a request to merge commits from one branch to another branch. This is typically used to merge commits from an `issue` branch into the `master` branch. A pull request is how the process of peer review is carried. Reviewers can comment on the code changes to show approval or request changes (which will need to be addressed by additional commits to the `issue` branch). When a CI pipeline is configured for a repository (see below), it will run on any `issue` branch that is part of a pull request. When the peer review process has concluded, the new commits can merged into the `master` branch. The recommended merge option is `Squash and merge`, (i.e., squash all commits into a single commit), since it makes the repository's history simple and linear.
+With the MongoDB container running and the API stopped:
 
-## Tags
+```bash
+api/tests/run_tests.sh
+```
 
-Tags can be used to mark release points in a repository's commit history. Typically, after some work goal has been achieved, with a set of commits, a tag (typically a version number like 1.0.0, 1.0.1, etc.) is [pushed to the respository](https://stackoverflow.com/questions/18216991/create-a-tag-in-a-github-repository) to mark this point. This results in the tag showing up in the repository's [tags page](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/viewing-your-repositorys-releases-and-tags).
+The script starts the API against a test database, runs the pytest suite (auth, users, config), and cleans up.
 
-## Workflows
+## CI/CD
 
-### Creating issues
+- **API tests** (`.github/workflows/api_tests.yml`): on every pull request to `main`, starts a MongoDB service container, installs dependencies, and runs the pytest suite.
+- **Webapp build** (`.github/workflows/webpack.yml`): on every push, runs the Webpack build and commits the updated bundle in `webapp/public` so the build output stays in sync with the source.
+- **Epics** (`.github/workflows/epics.yml`): keeps epic issue checklists in sync as story issues are closed or reopened.
 
-An issue can be created from the `issues` tab of a repository. An issue type (bug, story, epic, question) is first chosen then its corresponding template can be sufficiently filled.
+## Repository layout
 
-### Triaging issues
+```
+DiscordBot/          Discord bot: guild creation, ruco read/write/permissions engine
+api/                 FastAPI backend, MongoDB access, routes, pytest suite
+webapp/              React + MUI front end, Express server, Webpack config
+documentation/       Generated HTML reference docs for the API and bot modules
+example_config.json  Early draft of the server config format
+.github/             CI workflows, issue and pull request templates
+```
 
-The Product Owner goes frequently to the `Scrum Board` project and clicks on the `Add Cards` link to triage new issues in the repository to the board's `To do` column, which acts here as the `Product Backlog`. Product Owner can also added unbaked ideas to the `To do` column as notes, which are placeholders that can later be converted into issues. Issues and notes can then be ordered in the `To do` column to show their priority.
+## Project context and team
 
-### Planning sprints
+Built by a team of five as a course project for UCLA CS 130 (Software Engineering), January to March 2024, using a Scrum process with GitHub issues, epics, and sprint milestones.
 
-The Scrum Master creates a new milestone and gives it a suitable name (e.g., Sprint1) and a due date. Then, in the `Scrum Board`, issues from the top of the `To do` column (assuming they have been ordered based on priority) can be assigned to that milestone and to the developers who will work on them.
+- **Seth Carlson ([@sdcarlson](https://github.com/sdcarlson)):** set up the repository and Scrum workflow (issue and PR templates, epics automation), wrote the initial FastAPI entry point and MongoDB Docker setup, and built the web app's authentication and navigation: login and sign-up pages, React Router routing, JWT storage in the browser, the server selection page backed by the `/users/me` endpoint, log out, and styling.
+- **Quan Do ([@biquando](https://github.com/biquando)):** FastAPI backend (auth, users, config, and bot routes), MongoDB integration, API test suite, CI, and generated documentation.
+- **Kevin Jin ([@kevwjin](https://github.com/kevwjin)):** `ruco` bot module for reading and writing server configs and Discord permissions.
+- **[@mynusplus](https://github.com/mynusplus):** `GuildCreatorBot` and `DiscordInterface` for threaded server creation and ownership handoff.
+- **Garrick Su:** web app configuration form and permission editor components, webapp build workflow.
 
-### Working on issues
+## License
 
-Developers go to the `Scrum Board` where they can filter it for the issues assigned to them in a given milestone. They can pick ones to work on by moving them to the `In progress` column (this is important since this is not automated).
-
-### Reviewing progress
-
-In the daily standup, the `Scrum Master` can review progress by going to the `Scrum Board` and filtering it by the current milestone (sprint). Developers can then reference issues in the various columns when they answer the usual standup questions, e.g., isses they work on (`In progress`), finsihed (`Done`) or yet to work on (`To do`).
-
-### Working with issue branches
-
-Before developers can work on an issue, they should checkout and pull the `master` branch to ensure that they have all the latest commits locally. Then, they should create a new local `issue` branch and name it `issue-[number]` (replacing `[number]` by the issue number). Several `issue` branches can be created concurrently, one for each issue, but it is important to make them independent from each other by checking out the `master` branch before creating each of them. This allows them to be pushed and merged independently from each other (and with the least conflicts).
-
-Each `issue` branch can accumulate commits to address the issue. When ready, it can then be pushed to a corresponding remote branch that can then be used to create a pull request into the `master` branch. The pull request template needs to be filled at this point. Once created, a pull request can be reviewed by a peer reviewer who may request changes. These changes can be made using new commits in the local `issue` branch that can subsequently be pushed to the corresponding remote `issue` branch. When all peer reviews have concluded, the pull request can then be `squash merged` into the `master` branch ([read more here](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/about-pull-request-merges#squash-and-merge-your-pull-request-commits)), and the `issue` branch [can be deleted](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/managing-the-automatic-deletion-of-branches). If the pull request description includes the words `fixes #[number]` (where `[number]` is an issue number), the issue with that number will [automatically be closed](https://docs.github.com/en/free-pro-team@latest/github/managing-your-work-on-github/linking-a-pull-request-to-an-issue#linking-a-pull-request-to-an-issue-using-a-keyword).
-
-> it is recommeded to not push commits to the master branch directly but to always go through a peer review process using an `issue` branch.
-
-### Creating releases
-
-It is recommended to [create periodic releases](https://docs.github.com/en/free-pro-team@latest/github/administering-a-repository/managing-releases-in-a-repository#creating-a-release) from a repository, at least at the end of each sprint but can be more frequent. These releases should be working versions of the component(s) being developed in the repository. To create such releases, a new tag representing a version number (e.g., 1.0.0) is added to the local `master` branch then pushed to the remote `master` branch. A new release can then be created in Github using this tag.
-
-### Our CI/CD pipeline
-
-In order to build our project for our front-end:
-
-1. Enter the webapp folder through `cd webapp`
-2. Run an `npm install`
-3. Run an `npm run build`
-
-Our webapp uses a webpack module bundler that should be built in the `webapp/public` folder.
-
-For our FastAPI back-end, we can test it:
-
-1. Enter the api folder through `cd api`
-2. Create virtual environment: `python3 -m venv venv`
-3. Activate virtual environment: `. venv/bin/activate` (if you're using bash)
-4. Install dependencies: `pip3 install -r requirements.txt`
-5. Set up database in docker: `./mongo_setup.sh`
-6. Start the database in docker.
-7. Run `tests/run_tests.sh`.
-
-For our CI/CD process, we trigger both the webapp build and the api tests automatically. 
-
-Our webapp workflow can be found [here](https://github.com/sdcarlson/DiscordRC/blob/main/.github/workflows/webpack.yml) and is run on every push to any branch. In it, we perform the above build actions, then we commit and push the webpack build results if there were any changes. This allows us to automatically generate our webpack and keep it up to date. This also makes sure our webpack and code are always in sync.
-
-Our api testing workflow can be found [here](https://github.com/sdcarlson/DiscordRC/blob/main/.github/workflows/api_tests.yml) and is run on every pull request. In it, we perform the above FastAPI back-end operations. This workflow allows us to make sure that none of the api tests break when creating pull requests into main.
-
-### Using a CI/CD pipeline
-
-Every repository needs to have a way to build its artifacts headlessly. It is a good idea to run tests as part of such build. Instructions on how to build the components in a repository needs to be documented in the repository's README.md.
-
-A repository can also be setup to build continuously whenever a commit is pushed to the `master` branch by setting up a CI script (e.g., [Travis CI](https://www.travis-ci.com/)) in its root folder. Such script will configure the build environment (as a virtual machine) and invoke the build script on the `master` branch. If the script fails for some reason, the committer will be notified to fix it. It is a good practice to add a build [badge](https://shields.io/category/version) to the README.md file to visibly indicate the status of the last CI build (Travis CI provides such badges). 
-
-The CI script will also be run when a new pull request is created or when more commits are pushed to its linked `issue` branch. Such build assures peer reviewers that the new commits when accepted will not break the build. In fact, a successful CI build can be a prerequisute for peer reviewers to look at the changes.
-
-When a tag is pushed to the `master` branch, the CI script will additionally deliver and/or deploy the built artifact(s). The script can also be configured to create a Github release based on the tag.
+Apache License 2.0. See [LICENSE](LICENSE).
