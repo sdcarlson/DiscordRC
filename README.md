@@ -50,33 +50,43 @@ A server template is JSON with roles and categories. Channel permissions map a p
 }
 ```
 
-See `api/models.py` for the full schema and `DiscordBot/tests/default.json` and `DiscordBot/tests/community.json` for complete examples. `example_config.json` is an early draft of the format.
+See `api/models.py` for the full schema and `DiscordBot/tests/default.json` and `DiscordBot/tests/community.json` for complete examples. `example_config.json` is a minimal example that validates against `ServerConfig`.
 
 ## Getting started
 
 **Prerequisites:** Python 3.11+, Node.js, Docker, and a Discord bot token.
 
-### 1. Database
+### 1. Environment
+
+Configuration is read from environment variables. Copy the template, fill in values, and load it into your shell:
+
+```bash
+cp .env.example .env    # set MONGO_USERNAME, MONGO_PASSWORD, JWT_SECRET_KEY, DISCORD_TOKEN
+set -a; . ./.env; set +a
+```
+
+`MONGO_USERNAME` and `MONGO_PASSWORD` are required. If `JWT_SECRET_KEY` is unset, the API generates a random key at startup (fine for local development, but tokens stop working after a restart).
+
+### 2. Database
 
 ```bash
 cd api
-./mongo_setup.sh   # starts a local MongoDB container on port 27017
+./mongo_setup.sh   # starts a local MongoDB container on port 27017 using MONGO_USERNAME / MONGO_PASSWORD
 ```
 
-### 2. API
+### 3. API
 
 ```bash
 cd api
 python3 -m venv venv
 . venv/bin/activate
 pip3 install -r requirements.txt
-export DISCORD_TOKEN="your-bot-token"
 sh -c 'cd .. && uvicorn api.main:app --reload'
 ```
 
 The API must be started from the repository root (the command above does this) so that it can import `DiscordBot/`. API docs are at http://localhost:8000/docs.
 
-### 3. Web app
+### 4. Web app
 
 ```bash
 cd webapp
@@ -87,7 +97,7 @@ npm start       # serves on http://localhost:8001
 
 ### Tests
 
-With the MongoDB container running and the API stopped:
+With the environment variables loaded, the MongoDB container running, and the API stopped:
 
 ```bash
 api/tests/run_tests.sh
@@ -97,7 +107,7 @@ The script starts the API against a test database, runs the pytest suite (auth, 
 
 ## CI/CD
 
-- **API tests** (`.github/workflows/api_tests.yml`): on every pull request to `main`, starts a MongoDB service container, installs dependencies, and runs the pytest suite.
+- **API tests** (`.github/workflows/api_tests.yml`): on every pull request to `main`, starts a MongoDB service container with throwaway CI credentials, installs dependencies, and runs the pytest suite.
 - **Webapp build** (`.github/workflows/webpack.yml`): on every push, runs the Webpack build and commits the updated bundle in `webapp/public` so the build output stays in sync with the source.
 - **Epics** (`.github/workflows/epics.yml`): keeps epic issue checklists in sync as story issues are closed or reopened.
 
@@ -108,7 +118,7 @@ DiscordBot/          Discord bot: guild creation, ruco read/write/permissions en
 api/                 FastAPI backend, MongoDB access, routes, pytest suite
 webapp/              React + MUI front end, Express server, Webpack config
 documentation/       Generated HTML reference docs for the API and bot modules
-example_config.json  Early draft of the server config format
+example_config.json  Minimal example server config
 .github/             CI workflows, issue and pull request templates
 ```
 

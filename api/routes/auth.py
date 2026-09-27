@@ -2,6 +2,9 @@
 This file contains the `/auth` endpoints, which handle user authentication.
 '''
 
+import os
+import secrets
+import warnings
 from datetime import datetime, timedelta, timezone
 from typing import Annotated
 
@@ -12,7 +15,12 @@ from passlib.context import CryptContext
 
 from api import db, models
 
-SECRET_KEY = 'ac000a43df3fddd51817ea851e864b9a4b30888c27d0d47b32281ad751aec53f'
+SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
+if not SECRET_KEY:
+    # Local development fallback: a random key means tokens are invalidated
+    # whenever the server restarts. Set JWT_SECRET_KEY in any real deployment.
+    SECRET_KEY = secrets.token_hex(32)
+    warnings.warn('JWT_SECRET_KEY is not set; using a random key for this process.')
 ALGORITHM = 'HS256'
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
